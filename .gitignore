@@ -1,0 +1,8 @@
+.env
+*.log
+logs/
+__pycache__/
+*.pyc
+.DS_Store
+output/data_*.json
+output/push_*.json
