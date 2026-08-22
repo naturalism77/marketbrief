@@ -91,7 +91,16 @@ jobs:
       - name: Push to repository
         run: git push
 
-      # 8. 실패 시 Slack 오류 알림
+      # 8. GitHub Pages 배포 (output/ 폴더 → gh-pages 브랜치)
+      #    공개 URL: https://naturalism77.github.io/marketbrief/
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./output
+          publish_branch: gh-pages
+
+      # 9. 실패 시 Slack 오류 알림
       - name: Notify failure to Slack
         if: failure()
         env:
