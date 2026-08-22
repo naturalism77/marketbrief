@@ -7,10 +7,10 @@ pytz>=2024.1
 finviz>=1.4.5
 pdfplumber>=0.11.0
 
-# System tray app
-pystray>=0.19.5
-Pillow>=10.0.0
-pywin32>=306
+# System tray app (Windows only - skipped on Linux CI)
+pystray>=0.19.5; sys_platform == "win32"
+Pillow>=10.0.0; sys_platform == "win32"
+pywin32>=306; sys_platform == "win32"
 
 # Testing
 pytest>=8.0.0
