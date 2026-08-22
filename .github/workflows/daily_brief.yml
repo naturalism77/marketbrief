@@ -24,6 +24,11 @@ concurrency:
   group: marketbrief-daily
   cancel-in-progress: false
 
+# 저장소 기본 GITHUB_TOKEN 권한이 read-only라, master 커밋 push와
+# gh-pages(GitHub Pages) 배포에 필요한 쓰기 권한을 워크플로우 단위로 명시.
+permissions:
+  contents: write
+
 jobs:
   generate-brief:
     name: 📊 시황 브리핑 생성
