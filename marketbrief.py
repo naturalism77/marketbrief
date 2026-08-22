@@ -13,6 +13,7 @@ MarketBrief — Daily US Market Brief Generator
 import io
 import os
 import re
+import csv
 import sys
 import json
 import math
@@ -266,6 +267,54 @@ _LS_ETF_TICKERS_FALLBACK = [
     ("SKHX", "2x Long SKHY Daily ETF", "2x"),
 ]
 _LS_PDF_URL = "https://leverageshares.com/us/storage/all-products-pdf/all-products.pdf"
+_LS_CSV_PATH = Path(__file__).parent / "config" / "leverageshares_us_tickers.csv"
+
+
+def _load_ls_etf_tickers_from_csv(csv_path: Path | None = None) -> list[tuple[str, str, str]]:
+    """config/leverageshares_us_tickers.csv에서 LeverageShares 상장 ETF 전체를 읽는다.
+
+    CSV 컬럼: BBG 티커, 영어 명칭, ISIN, CUSIP, SEDOLS, WKNs, RIC,
+              Listing Date, Currency, Exchange, Management Fee
+    - BOM 포함 UTF-8로 저장돼 있어 utf-8-sig로 읽는다.
+    - BBG 티커가 비어있거나 "Website"인 행(빈 줄·푸터)은 스킵.
+    - 영어 명칭 앞의 "Leverage Shares " 접두사는 표시용으로 제거.
+    - 배율/방향은 이름에서 "Nx Long|Short" 패턴으로 추출(대소문자 무관).
+      콤보 상품 등 패턴이 안 맞으면 기본값 "2x"로 채운다(표시용이라 랭킹에는 영향 없음).
+
+    파일이 없거나 읽기 실패하면 빈 리스트 반환 — 호출부에서 PDF/하드코딩으로 대체.
+    """
+    path = csv_path or _LS_CSV_PATH
+    if not path.exists():
+        return []
+
+    try:
+        with path.open(encoding="utf-8-sig", newline="") as f:
+            rows = list(csv.DictReader(f))
+    except Exception as exc:
+        print(f"  [CSV 읽기 실패] {exc}")
+        return []
+
+    leverage_re = re.compile(r"(\d+)\s*[xX]\s+(Long|Short)", re.IGNORECASE)
+
+    results: list[tuple[str, str, str]] = []
+    for row in rows:
+        ticker = (row.get("BBG 티커") or "").strip()
+        if not ticker or ticker == "Website":
+            continue
+
+        raw_name = (row.get("영어 명칭") or "").strip()
+        name = re.sub(r"^Leverage Shares\s+", "", raw_name)
+
+        m = leverage_re.search(raw_name)
+        if m:
+            n, direction = m.group(1), m.group(2).lower()
+            leverage = f"{n}x" if direction == "long" else f"-{n}x"
+        else:
+            leverage = "2x"
+
+        results.append((ticker, name, leverage))
+
+    return results
 
 
 def _load_ls_etf_tickers_from_pdf() -> list[tuple[str, str, str]]:
@@ -340,18 +389,52 @@ def _load_ls_etf_tickers_from_pdf() -> list[tuple[str, str, str]]:
 
 
 def _get_ls_etf_tickers() -> list[tuple[str, str, str]]:
-    """실행 시점마다 PDF에서 티커를 가져오고, 실패 시 하드코딩 fallback을 사용한다."""
-    print("  (LeverageShares PDF에서 ETF 티커 로딩 중...)")
+    """LeverageShares 상장 ETF 티커 목록을 가져온다.
+
+    우선순위: CSV(config/leverageshares_us_tickers.csv, 실제 소스) →
+              PDF 동적 파싱(CSV 없거나 읽기 실패 시 대체) →
+              하드코딩 fallback(둘 다 실패한 최후 안전장치).
+    """
+    print("  (LeverageShares CSV에서 ETF 티커 로딩 중...)")
+    from_csv = _load_ls_etf_tickers_from_csv()
+    if from_csv:
+        print(f"  → CSV에서 {len(from_csv)}개 ETF 티커 로드 완료")
+        return from_csv
+
+    print("  → CSV 로드 실패, PDF에서 ETF 티커 로딩 중...")
     dynamic = _load_ls_etf_tickers_from_pdf()
     if dynamic:
         print(f"  → PDF에서 {len(dynamic)}개 2x Long ETF 티커 로드 완료")
         return dynamic
-    print("  → PDF 로드 실패, 하드코딩 fallback 사용")
+
+    print("  → PDF 로드도 실패, 하드코딩 fallback 사용")
     return _LS_ETF_TICKERS_FALLBACK
 
 
-# 모듈 로드 시점에는 정의만 해두고, 실제 로딩은 fetch_ls_etf_top20() 내부에서 수행
-ETF_UNDERLYING = {t: t.replace("G", "") for t, _, _ in _LS_ETF_TICKERS_FALLBACK}
+_UNDERLYING_FROM_NAME_RE = re.compile(r"\b(?:Long|Short)\s+([A-Z0-9]+)\b")
+
+
+def _underlying_ticker(ticker: str, name: str) -> str:
+    """ETF 상품명에서 실제 기초자산 티커를 추출한다.
+
+    예: "2x Long NVDA Daily ETF" → "NVDA".
+    기존에는 ETF 티커에서 "G"를 제거하는 방식(NVDG → NVD)을 썼는데, 이 방식은
+    다수 상품에서 실제 기초자산과 다른 문자열을 만들어냈다(NVDG → NVD, 실제는 NVDA).
+    상품명에 기초자산이 명시돼 있으므로 그걸 우선 사용하고, 콤보 상품처럼
+    "Long"/"Short" 패턴이 없는 경우에만 기존 방식으로 대체한다.
+    """
+    m = _UNDERLYING_FROM_NAME_RE.search(name)
+    if m:
+        return m.group(1)
+    return ticker.replace("G", "")
+
+
+# CSV는 로컬 파일이라 PDF와 달리 모듈 로드 시점에 바로 읽어도 안전(네트워크 I/O 아님).
+# CSV가 없거나 읽기 실패하면 하드코딩 fallback으로 대체.
+_LS_ETF_TICKERS_FOR_UNDERLYING = _load_ls_etf_tickers_from_csv() or _LS_ETF_TICKERS_FALLBACK
+ETF_UNDERLYING = {
+    t: _underlying_ticker(t, name) for t, name, _ in _LS_ETF_TICKERS_FOR_UNDERLYING
+}
 
 NEWS_RSS_FEEDS = [
     "https://feeds.marketwatch.com/marketwatch/topstories/",
@@ -1417,6 +1500,46 @@ def render_hot_topics_section(hot_topics: list[dict]) -> str:
     """
 
 
+def load_latest_hot_topics(out_dir: Path, date: str) -> list[dict]:
+    """
+    output/hot_topics_{date}.json을 우선 찾고, 없으면(예: 화제 검색이
+    AM 실행에서만 도는데 오늘은 PM만 실행된 경우) output/ 폴더에서
+    가장 최근 hot_topics_*.json으로 대체 — 단 date 기준 1일 이내로
+    생성된 파일만 인정. 그보다 오래된(며칠~몇 년 전) 파일은 무시하고
+    빈 리스트를 반환.
+    """
+    exact = out_dir / f"hot_topics_{date}.json"
+    if exact.exists():
+        try:
+            return json.loads(exact.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+
+    try:
+        target = datetime.datetime.strptime(date, "%Y-%m-%d").date()
+    except (ValueError, TypeError):
+        return []
+
+    candidates = sorted(out_dir.glob("hot_topics_*.json"), reverse=True)
+    if not candidates:
+        return []
+
+    m = re.match(r"hot_topics_(\d{4}-\d{2}-\d{2})\.json$", candidates[0].name)
+    if not m:
+        return []
+    try:
+        file_date = datetime.datetime.strptime(m.group(1), "%Y-%m-%d").date()
+    except ValueError:
+        return []
+    if not (0 <= (target - file_date).days <= 1):
+        return []
+
+    try:
+        return json.loads(candidates[0].read_text(encoding="utf-8"))
+    except Exception:
+        return []
+
+
 def build_prompt(data: dict) -> str:
     issues_text = "\n".join(f"• {_issue_title(i)}" for i in data["key_issues"])
     geo_text    = "\n".join(f"• {_issue_title(i)}" for i in data.get("geo_issues",  []))
@@ -1612,10 +1735,12 @@ def _return_color(ret: str) -> str:
         return "#94a3b8"
 
 
-def build_html_report(market_data: dict, brief_md: str) -> str:
+def build_html_report(market_data: dict, brief_md: str, hot_topics: list | None = None) -> str:
     """
     시황 데이터 + Claude 브리핑 텍스트를 받아 HTML 리포트 반환.
     brief_md는 마크다운 텍스트 → 섹션별로 파싱해 렌더링.
+    hot_topics가 있으면 "오늘의 화제 TOP 10" 섹션을 최상단(헤더 바로 다음,
+    주요 지수 섹션 앞)에 추가로 렌더링.
     """
     date           = market_data["date"]
     close_date     = market_data.get("close_date", date)
@@ -2175,6 +2300,28 @@ def build_html_report(market_data: dict, brief_md: str) -> str:
   .data-src-table tbody tr:hover td {{ background: #f8f9ff; }}
   .data-src-table tbody tr:last-child td {{ border-bottom: none; }}
 
+  /* ── 오늘의 화제 TOP 10 (숏츠/카드뉴스 소재) ── */
+  .hot-topics-section {{ margin-bottom: 24px; }}
+  .hot-topics-section h2 {{ font-size: 17px; font-weight: 800; color: #111; margin-bottom: 4px; }}
+  .hot-topics-sub {{ color: #888; font-size: 12px; margin-bottom: 14px; }}
+  .hot-topics-grid {{ display: grid; grid-template-columns: 1fr; gap: 10px; }}
+  .hot-topic-card {{
+    background: #fff; border: 1px solid #e4e6ea; border-radius: 10px;
+    padding: 14px 16px; position: relative;
+  }}
+  .hot-topic-rank {{ color: #888; font-size: 12px; font-weight: 700; margin-right: 6px; }}
+  .hot-topic-format {{
+    color: #fff; font-size: 11px; padding: 2px 9px; border-radius: 4px; float: right;
+  }}
+  .hot-topic-title {{ font-weight: 700; color: #111; margin-top: 4px; }}
+  .hot-topic-reason {{ color: #666; font-size: 12.5px; margin-top: 4px; }}
+  .hot-topic-src-btn {{
+    display: inline-block; margin-left: 8px; padding: 1px 8px;
+    background: #eef2ff; color: #1a56db !important; font-size: 11px; font-weight: 700;
+    border-radius: 4px; text-decoration: none !important; white-space: nowrap;
+  }}
+  .hot-topic-src-btn:hover {{ background: #dbe4ff; }}
+
   @media (max-width: 600px) {{
     .fg-layout {{ grid-template-columns: 1fr; }}
     .sector-grid {{ grid-template-columns: 1fr; }}
@@ -2211,6 +2358,8 @@ def build_html_report(market_data: dict, brief_md: str) -> str:
     </tbody>
   </table>
 </div>
+
+{render_hot_topics_section(hot_topics or [])}
 
 <!-- ── 주요 지수 ── -->
 <div class="section">
@@ -2839,14 +2988,13 @@ def generate_archive_index(out_dir: Path) -> None:
     if not data_files:
         return
 
-    # 가장 최근 날짜의 오늘의 화제 TOP 10 (AM 브리핑에서만 생성됨) — 있으면 표시, 없으면 생략
+    # 가장 최근 날짜의 오늘의 화제 TOP 10 (AM 브리핑에서만 생성됨) — 있으면 표시, 없으면 생략.
+    # 화제 검색은 AM 실행에서만 도므로, 오늘 PM만 실행된 날은 정확히 오늘 날짜의
+    # 파일이 없을 수 있음 — load_latest_hot_topics가 가장 최근 파일로 대체.
     hot_topics_html = ""
     try:
-        latest_date = json.loads(data_files[0].read_text(encoding="utf-8")).get("date", "")
-        hot_topics_path = out_dir / f"hot_topics_{latest_date}.json"
-        if latest_date and hot_topics_path.exists():
-            hot_topics = json.loads(hot_topics_path.read_text(encoding="utf-8"))
-            hot_topics_html = render_hot_topics_section(hot_topics)
+        latest_date     = json.loads(data_files[0].read_text(encoding="utf-8")).get("date", "")
+        hot_topics_html = render_hot_topics_section(load_latest_hot_topics(out_dir, latest_date))
     except Exception:
         hot_topics_html = ""
 
@@ -3082,7 +3230,8 @@ def generate_daily_brief(
 
     # Step 6 — HTML 생성
     print("🎨 HTML 리포트 생성 중...")
-    html_report = build_html_report(market_data, response)
+    hot_topics_for_html = load_latest_hot_topics(Path("output"), market_data["date"])
+    html_report = build_html_report(market_data, response, hot_topics=hot_topics_for_html)
 
     # Step 7 — 파일 저장
     if save_output:
