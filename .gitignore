@@ -6,3 +6,4 @@ __pycache__/
 .DS_Store
 output/data_*.json
 output/push_*.json
+.claude/settings.local.json

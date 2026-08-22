@@ -1,0 +1,127 @@
+name: MarketBrief Daily Generation
+
+# ── 트리거 ───────────────────────────────────────────────────
+on:
+  schedule:
+    # 매일 21:00 UTC = 06:00 KST (월~금, 미국 시장 마감 후)
+    - cron: '0 21 * * 1-5'
+  workflow_dispatch:
+    # GitHub Actions 탭에서 수동 실행 가능
+    inputs:
+      notify_slack:
+        description: 'Slack 알림 전송'
+        required: false
+        default: 'true'
+        type: boolean
+      notify_email:
+        description: '이메일 발송'
+        required: false
+        default: 'false'
+        type: boolean
+
+# ── 동시 실행 방지 ────────────────────────────────────────────
+concurrency:
+  group: marketbrief-daily
+  cancel-in-progress: false
+
+jobs:
+  generate-brief:
+    name: 📊 시황 브리핑 생성
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      # 1. 저장소 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2. Python 설치
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      # 3. 의존성 설치
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # 4. 단위 테스트 (mock 데이터, API 불필요)
+      - name: Run unit tests
+        run: pytest test_marketbrief.py -v --tb=short
+
+      # 5. 시황 브리핑 생성
+      - name: Generate daily brief
+        env:
+          GOOGLE_API_KEY:     ${{ secrets.GOOGLE_API_KEY }}
+          SLACK_WEBHOOK_URL:  ${{ secrets.SLACK_WEBHOOK_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+          EMAIL_SENDER:       ${{ secrets.EMAIL_SENDER }}
+          EMAIL_PASSWORD:     ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_RECIPIENTS:   ${{ secrets.EMAIL_RECIPIENTS }}
+        run: |
+          ARGS="--log-file"
+          if [ "${{ github.event_name }}" = "schedule" ] || \
+             [ "${{ inputs.notify_slack }}" = "true" ]; then
+            ARGS="$ARGS --slack"
+          fi
+          # Telegram은 항상 전송 (토큰이 있는 경우 자동 활성화)
+          if [ -n "$TELEGRAM_BOT_TOKEN" ]; then
+            ARGS="$ARGS --telegram"
+          fi
+          if [ "${{ inputs.notify_email }}" = "true" ]; then
+            ARGS="$ARGS --email"
+          fi
+          python marketbrief.py $ARGS
+
+      # 6. output 폴더 변경사항 커밋
+      - name: Commit generated files
+        run: |
+          git config user.name  "MarketBrief Bot"
+          git config user.email "bot@marketbrief.local"
+          git add output/
+          # 변경사항 없으면 커밋 건너뜀
+          git diff --cached --quiet && echo "변경사항 없음" || \
+            git commit -m "📊 $(date -u +'%Y-%m-%d') 시황 브리핑 자동 생성 [skip ci]"
+
+      # 7. 원격 저장소에 푸시
+      - name: Push to repository
+        run: git push
+
+      # 8. 실패 시 Slack 오류 알림
+      - name: Notify failure to Slack
+        if: failure()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ -n "$SLACK_WEBHOOK_URL" ]; then
+            curl -s -X POST "$SLACK_WEBHOOK_URL" \
+              -H 'Content-Type: application/json' \
+              -d "{\"text\":\"🚨 MarketBrief 생성 실패 — $(date -u +'%Y-%m-%d') GitHub Actions 로그를 확인하세요.\"}"
+          fi
+
+
+  # ── 주말 테스트 실행 (데이터 수집 없이 파이프라인 검증) ──────
+  weekend-test:
+    name: 🧪 주말 파이프라인 검증
+    runs-on: ubuntu-latest
+    # 토·일 UTC 21:00 실행
+    if: github.event_name == 'schedule'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests only (no API call)
+        run: pytest test_marketbrief.py -v
