@@ -1,0 +1,98 @@
+[
+  {
+    "rank": 1,
+    "title": "트럼프, 엔비디아 기록 분기 축하",
+    "tickers": [
+      "NVDA"
+    ],
+    "summary": "트럼프 대통령이 엔비디아의 기록적인 분기를 축하하며 “오직 미국에서만”이라고 언급. 엔비디아 주가 관련 논의 급증.",
+    "why_trending": "KobeissiLetter 게시물이 2121 좋아요로 가장 높은 반응 기록",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2093125812488704238",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 2,
+    "title": "엔비디아, AI 클라우드 수익 공유 중단",
+    "tickers": [
+      "NVDA"
+    ],
+    "summary": "엔비디아가 AI 클라우드 제공사와의 수익 공유 계약을 중단한 것으로 WSJ 보도. 여러 계정 동시 인용.",
+    "why_trending": "FirstSquawk와 StockMKTNewz 게시물이 229·132 좋아요로 다수 공유",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/FirstSquawk/status/2093093476045074455",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 3,
+    "title": "앤스로픽, 2조 달러 밸류에이션 전망",
+    "tickers": [
+      "NVDA"
+    ],
+    "summary": "앤스로픽 밸류에이션이 12월 31일까지 2조 달러를 초과할 확률 71%로 전망. AI 혁명 가속화 논의.",
+    "why_trending": "KobeissiLetter 게시물이 1068 좋아요로 AI 인프라 관련 최대 반응",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2093043090403602460",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 4,
+    "title": "브렌트유 88.58달러로 3.9% 하락",
+    "tickers": [],
+    "summary": "호르무즈 해협 긴장 완화로 브렌트유가 88.58달러까지 떨어짐. 에너지 인플레이션 우려 감소.",
+    "why_trending": "DeItaone 게시물이 315 좋아요로 원자재 섹션 최대 공유",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2092957251900227589",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 5,
+    "title": "미 재무부, 장기 채권 수익률 하락 전망",
+    "tickers": [],
+    "summary": "미 재무부 관리가 인플레이션 완화로 채권 수익률이 하락할 것이라고 발언. 트럼프 행정부가 장기 수익률 인하에 집중.",
+    "why_trending": "DeItaone과 FirstSquawk 게시물이 425·55 좋아요로 금리 관련 동시 화제",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2093086681528144168",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 6,
+    "title": "베네수엘라, OPEC 탈퇴 논의",
+    "tickers": [],
+    "summary": "베네수엘라가 미국과 OPEC 탈퇴를 논의 중이며, 미국이 베네수엘라 유전 지분 인수 협상 중. OPEC 영향력 약화 전망.",
+    "why_trending": "KobeissiLetter 게시물이 6654 좋아요로 에너지·원자재 최대 반응",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2093120571382890908",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 7,
+    "title": "폴란드, 메타에 2.5억 유로 벌금 요구",
+    "tickers": [
+      "META"
+    ],
+    "summary": "폴란드가 EU에 메타에 2.5억 유로 벌금을 부과하고 사기·허위 광고 대응을 촉구. 규제 이슈 확산.",
+    "why_trending": "Reuters 게시물이 682 좋아요로 빅테크 규제 관련 다수 인용",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/Reuters/status/2092900208711467084",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 8,
+    "title": "헤지펀드, 에너지 주식 4년 만에 최대 매수",
+    "tickers": [],
+    "summary": "헤지펀드가 지난주 글로벌 에너지 주식을 4년 만에 가장 많이 매수. 13주 중 12주 연속 매수 기록.",
+    "why_trending": "KobeissiLetter 게시물이 830 좋아요로 에너지 섹터 집중 논의",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2093064758161215661",
+    "window": "12h",
+    "link_verified": true
+  }
+]
