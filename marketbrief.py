@@ -3198,7 +3198,7 @@ def generate_daily_brief(
     # Step 2.5 — 오늘의 화제 TOP 10 (숏츠/카드뉴스 소재, AM 브리핑에서만 실행)
     # google_search grounding으로 실시간 검색 — 실패해도 브리핑 생성 자체에는 영향 없음
     # (실패 시 output/index.html 섹션만 생략됨)
-    if save_output and not test_mode and time_suffix == "AM":
+    if save_output and not test_mode:
         try:
             print("🔥 오늘의 화제 TOP10 검색 중 (숏츠/카드뉴스 소재)...")
             hot_topics = fetch_hot_topics(market_data)
