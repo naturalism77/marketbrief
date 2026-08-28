@@ -27,6 +27,10 @@ import requests
 import yfinance as yf
 import feedparser
 from dotenv import load_dotenv
+from x_topics import (
+    fetch_x_topics, save_x_topics,
+    load_latest_x_topics, render_x_topics_section,
+)
 
 load_dotenv()
 
@@ -1735,7 +1739,7 @@ def _return_color(ret: str) -> str:
         return "#94a3b8"
 
 
-def build_html_report(market_data: dict, brief_md: str, hot_topics: list | None = None) -> str:
+def build_html_report(market_data: dict, brief_md: str, hot_topics: list | None = None, x_topics: list | None = None) -> str:
     """
     시황 데이터 + Claude 브리핑 텍스트를 받아 HTML 리포트 반환.
     brief_md는 마크다운 텍스트 → 섹션별로 파싱해 렌더링.
@@ -2360,6 +2364,7 @@ def build_html_report(market_data: dict, brief_md: str, hot_topics: list | None 
 </div>
 
 {render_hot_topics_section(hot_topics or [])}
+{render_x_topics_section(x_topics or [])}
 
 <!-- ── 주요 지수 ── -->
 <div class="section">
@@ -3206,7 +3211,15 @@ def generate_daily_brief(
             print(f"✅ 화제 TOP10 저장: {hot_topics_path}")
         except Exception as e:
             print(f"⚠️  화제 TOP10 추출 실패 (index.html 섹션 생략): {e}")
-
+    # Step 2.6 — X 화제 토픽 수집
+    if save_output and not test_mode:
+        try:
+            print("🐦 X 화제 토픽 수집 중...")
+            _x = fetch_x_topics()
+            if _x:
+                print(f"✅ X 토픽 저장: {save_x_topics(Path('output'), market_data['date'], _x)}")
+        except Exception as e:
+            print(f"⚠️  X 토픽 수집 실패 (섹션 생략): {e}")
     # Step 3 — 프롬프트 빌드
     print("\n📝 프롬프트 생성 중...")
     prompt = build_prompt(market_data)
@@ -3231,7 +3244,8 @@ def generate_daily_brief(
     # Step 6 — HTML 생성
     print("🎨 HTML 리포트 생성 중...")
     hot_topics_for_html = load_latest_hot_topics(Path("output"), market_data["date"])
-    html_report = build_html_report(market_data, response, hot_topics=hot_topics_for_html)
+    x_topics_for_html   = load_latest_x_topics(Path("output"), market_data["date"])
+    html_report = build_html_report(market_data, response, hot_topics=hot_topics_for_html, x_topics=x_topics_for_html)
 
     # Step 7 — 파일 저장
     if save_output:
