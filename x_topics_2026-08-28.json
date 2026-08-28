@@ -1,97 +1,58 @@
 [
   {
     "rank": 1,
-    "title": "AI 인프라 투자 2027년 1.3조 달러 전망",
+    "title": "엔비디아 실적 후 주가 8% 상승",
     "tickers": [
       "NVDA"
     ],
-    "summary": "S&P 글로벌은 AI 인프라 투자 규모가 2027년까지 1.3조 달러를 넘어설 것으로 전망. 2026~2027년 주요 하이퍼스케일러 6곳은 운영 현금 흐름 적자 예상.",
-    "why_trending": "FinancialJuice와 S&P 보도 공유로 3만+ 조회, 다수 계정 인용",
+    "summary": "엔비디아 주가가 실적 발표 후 8% 이상 상승하며 4000억 달러 이상 시가총액 증가.",
+    "why_trending": "AI 성장 가속 확인으로 다수 계정 동시 언급",
     "buzz_level": "high",
-    "sample_post_url": "https://x.com/financialjuice/status/2092946353429065783",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2092898937627660503",
     "window": "12h",
     "link_verified": true
   },
   {
     "rank": 2,
-    "title": "엔비디아 AI 클라우드 금융 프로그램 중단",
-    "tickers": [
-      "NVDA"
-    ],
-    "summary": "엔비디아가 AI 클라우드 제공사에 신용 지원 대신 수익 공유 조건으로 제공하던 새 금융 프로그램을 일시 중단. WSJ 보도.",
-    "why_trending": "StockMKTNewz 게시물 3만+ 조회, 134 좋아요",
-    "buzz_level": "high",
-    "sample_post_url": "https://x.com/StockMKTNewz/status/2093096915286065396",
-    "window": "12h",
-    "link_verified": true
-  },
-  {
-    "rank": 3,
-    "title": "연준 워시 잭슨홀 연설 인플레이션 초점",
+    "title": "베네수엘라 OPEC 탈퇴 논의",
     "tickers": [],
-    "summary": "케빈 워시 연준 의장 잭슨홀 기조연설 내일 예정. 인플레이션 여전히 높고 금리 추가 인상 가능성 논의.",
-    "why_trending": "FirstSquawk 3건 게시물 2만~6만 조회, 37~57 좋아요",
-    "buzz_level": "high",
-    "sample_post_url": "https://x.com/FirstSquawk/status/2093118746575671805",
-    "window": "12h",
-    "link_verified": true
-  },
-  {
-    "rank": 4,
-    "title": "트럼프 행정부 장기 국채 수익률 하락 유도",
-    "tickers": [],
-    "summary": "미 재무부 관리 “인플레이션 완화로 국채 수익률 하락” 전망. 트럼프 행정부 장기채 수익률 낮추기 집중.",
-    "why_trending": "DeItaone 44만+ 조회, 441 좋아요, FinancialJuice·FirstSquawk 동시 보도",
-    "buzz_level": "high",
-    "sample_post_url": "https://x.com/DeItaone/status/2093086681528144168",
-    "window": "12h",
-    "link_verified": true
-  },
-  {
-    "rank": 5,
-    "title": "달러 옵션 57% 매수 포지션, Fed 연설 대기",
-    "tickers": [
-      "DXY"
-    ],
-    "summary": "통화 트레이더들 Fed 워시 연설 앞두고 달러 강세 헤지 비중 57%로 상승. 변동성 낮아 서프라이즈 시 급변동 가능.",
-    "why_trending": "DeItaone 14만+ 조회, 515 좋아요",
-    "buzz_level": "high",
-    "sample_post_url": "https://x.com/DeItaone/status/2092929495615357059",
-    "window": "12h",
-    "link_verified": true
-  },
-  {
-    "rank": 6,
-    "title": "달러제너럴 Q2 실적 상회·가이던스 상향",
-    "tickers": [
-      "DG"
-    ],
-    "summary": "달러제너럴 Q2 EPS 2.48달러(예상 2.00), 매출 113억 달러(예상 111.9억). FY26 EPS 가이던스 7.80~8.00달러로 상향.",
-    "why_trending": "StockMKTNewz 4만+ 조회, DeItaone·FinancialJuice 동시 보도",
-    "buzz_level": "medium",
-    "sample_post_url": "https://x.com/StockMKTNewz/status/2092941970469429346",
-    "window": "12h",
-    "link_verified": true
-  },
-  {
-    "rank": 7,
-    "title": "베네수엘라 OPEC 탈퇴 논의, 미-베네수엘라 유전 협상",
-    "tickers": [],
-    "summary": "베네수엘라가 미 관리들과 OPEC 탈퇴 논의 중. 미-베네수엘라 유전 지분 협상으로 OPEC 영향력 축소 전망.",
-    "why_trending": "KobeissiLetter 47만+ 조회, 6944 좋아요, Bloomberg 인용",
+    "summary": "베네수엘라가 미국과 석유 지분 협상 중이며 OPEC 탈퇴 논의 중.",
+    "why_trending": "7045 좋아요 붙은 게시물로 OPEC 영향력 약화 화제",
     "buzz_level": "high",
     "sample_post_url": "https://x.com/KobeissiLetter/status/2093120571382890908",
     "window": "12h",
     "link_verified": true
   },
   {
-    "rank": 8,
-    "title": "UBS 구리·금·농산물 AI 인프라 수혜 전망",
+    "rank": 3,
+    "title": "미 재무부 장기채 수익률 하락 전망",
     "tickers": [],
-    "summary": "UBS, AI 인프라·전기화로 구리, 중앙은행 매수로 금, 엘니뇨 공급 리스크로 밀·옥수수 기회 강조.",
-    "why_trending": "DeItaone 12만+ 조회, 238 좋아요",
+    "summary": "미 재무부 관리, 인플레이션 둔화로 장기채 수익률 하락 예상하며 트럼프 행정부 장기채 수익률 인하 집중.",
+    "why_trending": "444 좋아요 붙은 게시물 다수 인용",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2093086681528144168",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 4,
+    "title": "연준 워시 잭슨홀 연설 주목",
+    "tickers": [],
+    "summary": "케빈 워시 연준 의장 잭슨홀 기조연설에서 인플레이션 대응 명확한 가이드라인 기대.",
+    "why_trending": "다수 계정에서 연준 정책 전망으로 동시 다룸",
     "buzz_level": "medium",
-    "sample_post_url": "https://x.com/DeItaone/status/2092951384966537312",
+    "sample_post_url": "https://x.com/FirstSquawk/status/2093118709581991966",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 5,
+    "title": "도쿄 8월 CPI 1.9% 상승",
+    "tickers": [],
+    "summary": "도쿄 8월 CPI 전년비 1.9% 상승, 예상치와 일치하며 핵심 CPI 1.8%.",
+    "why_trending": "FinancialJuice 등 실시간 데이터 계정 연속 게시",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/financialjuice/status/2093119035256840288",
     "window": "12h",
     "link_verified": true
   }

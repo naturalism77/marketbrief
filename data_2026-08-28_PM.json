@@ -1,8 +1,8 @@
 {
   "date": "2026-08-28",
   "close_date": "2026-08-27",
-  "update_time": "13:58 KST",
-  "etf_fetch_time": "2026-08-28 13:58 KST",
+  "update_time": "14:10 KST",
+  "etf_fetch_time": "2026-08-28 14:10 KST",
   "indices": {
     "SP500": {
       "close": "7,730.99",
@@ -56,8 +56,8 @@
   },
   "macro": {
     "DXY": "99.18 (+0.02%)",
-    "Gold": "4633.70 $/oz (+0.52%)",
-    "Oil": "83.23 $/bbl (-0.36%)"
+    "Gold": "4636.00 $/oz (+0.57%)",
+    "Oil": "83.28 $/bbl (-0.30%)"
   },
   "fear_greed": {
     "score": 58,
@@ -76,38 +76,38 @@
     {
       "name": "금",
       "flag": "🥇",
-      "d1": "+0.52%",
-      "w1": "+0.21%",
-      "m1": "+13.01%",
-      "ytd": "+7.40%",
-      "y1": "+35.02%"
+      "d1": "+0.57%",
+      "w1": "+0.26%",
+      "m1": "+13.07%",
+      "ytd": "+7.45%",
+      "y1": "+35.09%"
     },
     {
       "name": "은",
       "flag": "🥈",
-      "d1": "+0.27%",
-      "w1": "+0.21%",
-      "m1": "+18.36%",
-      "ytd": "-1.33%",
-      "y1": "+77.63%"
+      "d1": "+0.42%",
+      "w1": "+0.37%",
+      "m1": "+18.54%",
+      "ytd": "-1.18%",
+      "y1": "+77.90%"
     },
     {
       "name": "구리",
       "flag": "🇺🇸",
-      "d1": "+1.59%",
-      "w1": "+1.71%",
-      "m1": "+3.84%",
-      "ytd": "+18.65%",
-      "y1": "+49.93%"
+      "d1": "+1.63%",
+      "w1": "+1.75%",
+      "m1": "+3.88%",
+      "ytd": "+18.70%",
+      "y1": "+49.98%"
     },
     {
       "name": "백금",
       "flag": "⬜",
-      "d1": "+0.29%",
-      "w1": "-1.94%",
-      "m1": "+12.03%",
-      "ytd": "-12.94%",
-      "y1": "+36.44%"
+      "d1": "+0.48%",
+      "w1": "-1.75%",
+      "m1": "+12.25%",
+      "ytd": "-12.77%",
+      "y1": "+36.70%"
     },
     {
       "name": "브렌트유",
@@ -121,29 +121,29 @@
     {
       "name": "WTI유",
       "flag": "🇺🇸",
-      "d1": "-0.38%",
-      "w1": "-4.42%",
-      "m1": "-0.45%",
-      "ytd": "+45.17%",
-      "y1": "+28.81%"
+      "d1": "-0.30%",
+      "w1": "-4.34%",
+      "m1": "-0.37%",
+      "ytd": "+45.29%",
+      "y1": "+28.92%"
     },
     {
       "name": "천연가스",
       "flag": "🇺🇸",
-      "d1": "+0.45%",
-      "w1": "+5.30%",
-      "m1": "+5.87%",
-      "ytd": "-19.29%",
-      "y1": "-0.82%"
+      "d1": "+0.52%",
+      "w1": "+5.37%",
+      "m1": "+5.95%",
+      "ytd": "-19.24%",
+      "y1": "-0.75%"
     },
     {
       "name": "난방유",
       "flag": "🇺🇸",
-      "d1": "-2.48%",
-      "w1": "-7.17%",
-      "m1": "-0.88%",
-      "ytd": "+97.27%",
-      "y1": "+80.64%"
+      "d1": "-2.43%",
+      "w1": "-7.12%",
+      "m1": "-0.82%",
+      "ytd": "+97.38%",
+      "y1": "+80.74%"
     },
     {
       "name": "커피 C",
@@ -157,51 +157,46 @@
     {
       "name": "옥수수",
       "flag": "🇺🇸",
-      "d1": "+5.00%",
-      "w1": "+10.75%",
-      "m1": "+20.19%",
-      "ytd": "+22.46%",
-      "y1": "+38.98%"
+      "d1": "+5.05%",
+      "w1": "+10.80%",
+      "m1": "+20.25%",
+      "ytd": "+22.51%",
+      "y1": "+39.04%"
     },
     {
       "name": "소맥",
       "flag": "🇺🇸",
-      "d1": "+2.49%",
-      "w1": "+11.70%",
-      "m1": "+14.73%",
-      "ytd": "+50.30%",
-      "y1": "+49.19%"
+      "d1": "+2.63%",
+      "w1": "+11.85%",
+      "m1": "+14.88%",
+      "ytd": "+50.49%",
+      "y1": "+49.39%"
     },
     {
       "name": "대두",
       "flag": "🇺🇸",
-      "d1": "+1.23%",
-      "w1": "+3.84%",
-      "m1": "+8.05%",
-      "ytd": "+23.56%",
-      "y1": "+23.71%"
+      "d1": "+1.29%",
+      "w1": "+3.90%",
+      "m1": "+8.11%",
+      "ytd": "+23.63%",
+      "y1": "+23.78%"
     }
   ],
   "underlying_stocks": {
+    "XYZ": {
+      "price": "84.85",
+      "change": "-",
+      "volume": "5,764,850"
+    },
     "TSLA": {
       "price": "354.81",
       "change": "-",
       "volume": "30,136,164"
     },
-    "AVGO": {
-      "price": "371.54",
+    "PANW": {
+      "price": "382.85",
       "change": "-",
-      "volume": "21,329,954"
-    },
-    "RTX": {
-      "price": "212.08",
-      "change": "-",
-      "volume": "3,849,929"
-    },
-    "XYZ": {
-      "price": "84.85",
-      "change": "-",
-      "volume": "5,764,850"
+      "volume": "7,308,818"
     },
     "PYPL": {
       "price": "61.47",
@@ -213,72 +208,77 @@
       "change": "-",
       "volume": "6,525,257"
     },
+    "RTX": {
+      "price": "212.08",
+      "change": "-",
+      "volume": "3,849,929"
+    },
     "HOOD": {
       "price": "109.76",
       "change": "-",
       "volume": "13,757,874"
-    },
-    "PANW": {
-      "price": "382.85",
-      "change": "-",
-      "volume": "7,308,818"
-    },
-    "TSM": {
-      "price": "427.30",
-      "change": "-",
-      "volume": "12,749,943"
-    },
-    "AAL": {
-      "price": "13.72",
-      "change": "-",
-      "volume": "65,530,974"
-    },
-    "CRCL": {
-      "price": "94.24",
-      "change": "-",
-      "volume": "14,319,064"
-    },
-    "NVDA": {
-      "price": "227.98",
-      "change": "-",
-      "volume": "298,909,822"
-    },
-    "PLTR": {
-      "price": "185.93",
-      "change": "-",
-      "volume": "40,739,283"
-    },
-    "BA": {
-      "price": "-",
-      "change": "-",
-      "volume": "-"
-    },
-    "AMD": {
-      "price": "-",
-      "change": "-",
-      "volume": "-"
-    },
-    "ASML": {
-      "price": "-",
-      "change": "-",
-      "volume": "-"
-    },
-    "COIN": {
-      "price": "190.72",
-      "change": "-",
-      "volume": "9,240,928"
     },
     "CRM": {
       "price": "252.05",
       "change": "-",
       "volume": "55,517,575"
     },
-    "ARM": {
-      "price": "255.21",
+    "NVDA": {
+      "price": "227.98",
       "change": "-",
-      "volume": "4,879,951"
+      "volume": "298,909,822"
+    },
+    "CRCL": {
+      "price": "94.24",
+      "change": "-",
+      "volume": "14,319,064"
+    },
+    "AAL": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "TSM": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "BA": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "AVGO": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
     },
     "UNH": {
+      "price": "395.05",
+      "change": "-",
+      "volume": "3,670,829"
+    },
+    "AMD": {
+      "price": "476.67",
+      "change": "-",
+      "volume": "16,441,821"
+    },
+    "COIN": {
+      "price": "190.72",
+      "change": "-",
+      "volume": "9,240,928"
+    },
+    "ASML": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "PLTR": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "ARM": {
       "price": "-",
       "change": "-",
       "volume": "-"
@@ -490,69 +490,69 @@
   ],
   "geo_issues": [
     {
-      "title": "과학자들, 네팔-티베트 대홍수 원인 '빙하 붕괴' 지목",
-      "url": "https://www.bbc.co.uk/news/articles/cly464k252yo?at_medium=RSS&at_campaign=rss"
+      "title": "네팔-티베트 급류 홍수, 그 치명적 경로 추적",
+      "url": "https://www.bbc.co.uk/news/videos/cp80m87pez3o?at_medium=RSS&at_campaign=rss"
     },
     {
-      "title": "네팔-티베트 치명적 홍수, 현재까지 알려진 내용은?",
-      "url": "https://www.bbc.co.uk/news/articles/cd948kn02e5o?at_medium=RSS&at_campaign=rss"
+      "title": "법원, \"트럼프 행정부, 앤트로픽에 불법 보복\" 판결",
+      "url": "https://www.bbc.co.uk/news/articles/cm2q7z5mlrmo?at_medium=RSS&at_campaign=rss"
     },
     {
-      "title": "유죄 판결 보스니아 세르비아계 전범 믈라디치, 84세로 사망",
-      "url": "https://www.bbc.co.uk/news/articles/c5ywxpryj95o?at_medium=RSS&at_campaign=rss"
+      "title": "영국 송환 맞서는 테이트 형제, 보석 신청하며 미국 교도소 환경 맹비난",
+      "url": "https://www.bbc.co.uk/news/articles/c9v9nndjznvo?at_medium=RSS&at_campaign=rss"
     },
     {
-      "title": "자녀 살해 혐의 미국 여성 린지 클랜시 재판, 배심원단 평결 심의 중",
+      "title": "GTA 6 대규모 미리보기 후 밝혀진 것들",
+      "url": "https://www.bbc.co.uk/news/articles/c3d7exngd5no?at_medium=RSS&at_campaign=rss"
+    },
+    {
+      "title": "자녀 살해 혐의 린제이 클랜시 재판, 배심원단 심의 돌입",
       "url": "https://www.bbc.co.uk/news/articles/c33keeyyv70o?at_medium=RSS&at_campaign=rss"
     },
     {
-      "title": "하랄드 국왕 병세 악화에 노르웨이 국민들, 왕궁에 헌화",
-      "url": "https://www.bbc.co.uk/news/articles/cqxvrnvrr5do?at_medium=RSS&at_campaign=rss"
-    },
-    {
-      "title": "평화 이사회 가자 특사, 이스라엘 공습 및 하마스 행동 비판",
-      "url": "https://www.bbc.co.uk/news/articles/cew92l07kwzo?at_medium=RSS&at_campaign=rss"
+      "title": "'옵티머스 프라임' '이요르' 성우 피터 컬렌 별세",
+      "url": "https://www.bbc.co.uk/news/articles/c15844gwe0wo?at_medium=RSS&at_campaign=rss"
     }
   ],
   "corp_issues": [
     {
+      "ticker": "CRM",
+      "title": "매튜 맥커너히, 세일즈포스 판매 재개…이번엔 앤트로픽의 클로드와 공동 출연",
+      "url": "https://finance.yahoo.com/m/5510ba68-c290-3700-a2cd-b91d34205a97/matthew-mcconaughey-is-back.html",
+      "date": "2026-08-28 00:51",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "CRWD",
+      "title": "CRWD, OKTA, ZETA 주가, 52주 최고가로 급등한 이유",
+      "url": "https://finance.yahoo.com/m/5e314708-559a-3236-8a77-b05a0202750f/why-did-crwd%2C-okta%2C-zeta.html",
+      "date": "2026-08-28 00:49",
+      "source": "FinViz"
+    },
+    {
       "ticker": "NVDA",
-      "title": "엔비디아, 워싱턴 로비 활동 확대를 위해 PAC 결성",
-      "url": "https://www.digitimes.com/news/a20260828PD223/nvidia-market-policy-bloomberg-regulation.html",
-      "date": "2026-08-28 00:13",
+      "title": "화웨이 어센드 910C 중국서 품절…엔비디아 H200 공급난은 지속",
+      "url": "https://www.digitimes.com/news/a20260828PD207/huawei-ascend-nvidia-chips-china-2026.html",
+      "date": "2026-08-28 00:45",
       "source": "FinViz"
     },
     {
       "ticker": "PYPL",
-      "title": "워시 연준 의장 잭슨홀 연설 앞두고 나스닥 선물 하락, S&P 500·다우 선물 상승: PYPL, MRVL, IREN, AFRM 주식 주목",
+      "title": "연준 의장 워시의 잭슨홀 연설 앞두고 나스닥 선물 하락, S&P 500·다우 선물 상승: PYPL, MRVL, IREN, AFRM 주식 주목",
       "url": "https://finance.yahoo.com/m/e1b4f00c-76e4-3bef-8d99-f18a2a473cab/nasdaq-futures-sink-while-s%26p.html",
       "date": "2026-08-28 00:08",
       "source": "FinViz"
     },
     {
-      "ticker": "NIO",
-      "title": "NKE, NIO, MCD 주식, 오늘 왜 52주 신저가로 폭락했나?",
-      "url": "https://finance.yahoo.com/m/330d1fb4-1f8c-3db3-80d9-f246db91e7fa/why-did-nke%2C-nio%2C-mcd-stocks.html",
-      "date": "2026-08-27 23:15",
-      "source": "FinViz"
-    },
-    {
-      "ticker": "NVDA",
-      "title": "리뷰 및 전망: 엔비디아를 믿는다",
-      "url": "https://www.barrons.com/articles/stocks-today-nvidia-salesforce-boost-chips-software-indexes-2a3c33ac?mod=bar_FV",
-      "date": "2026-08-27 19:55",
-      "source": "FinViz"
-    },
-    {
       "ticker": "PLTR",
-      "title": "최근 실적 가이던스를 상향한 소프트웨어 주식 3가지",
+      "title": "최근 실적 전망 상향 조정한 소프트웨어 주식 3가지",
       "url": "https://finviz.com/news/386499/3-software-stocks-recently-raising-guidance",
       "date": "2026-08-27 19:42",
       "source": "FinViz"
     },
     {
       "ticker": "UNH",
-      "title": "680억 달러의 지급이 UNH 주식을 살릴 수 있을까?",
+      "title": "680억 달러 배당금, UNH 주식을 살릴 수 있을까?",
       "url": "https://finance.yahoo.com/m/71a40cf2-60ed-3db8-a4dd-edb2e0200746/can-a-%2468-billion-payout-save.html",
       "date": "2026-08-27 19:26",
       "source": "FinViz"
@@ -566,147 +566,126 @@
     },
     {
       "ticker": "AVGO",
-      "title": "애널리스트들이 지금 매수 추천하는 S&P 500 최고 주식들",
+      "title": "애널리스트 선정, 지금 매수해야 할 S&P 500 최고 주식들",
       "url": "https://finance.yahoo.com/m/e9c76bf1-e609-37c2-a180-ded6380a141c/analysts%27-top-s%26p-500-stocks.html",
       "date": "2026-08-27 17:47",
       "source": "FinViz"
     },
     {
       "ticker": "TSLA",
-      "title": "S&P 500, '특히 긍정적인' 가격에 근접...옵션 시장은 급등 가능성 시사",
+      "title": "S&P 500, '특히 긍정적인' 가격에 근접…옵션 시장은 급등 가능성 시사",
       "url": "https://www.marketwatch.com/story/the-s-p-500-is-nearing-an-especially-positive-price-and-the-options-market-suggests-a-surge-is-likely-a54d866d?mod=mw_FV",
       "date": "2026-08-27 17:31",
       "source": "FinViz"
     },
     {
       "ticker": "NEM",
-      "title": "지금 당장 금 관련 주식과 ETF에 투자하는 방법",
+      "title": "지금 당장 금 주식과 ETF에 투자하는 방법",
       "url": "https://finviz.com/news/386492/how-to-invest-in-gold-stocks-and-etfs-right-now",
       "date": "2026-08-27 17:30",
       "source": "FinViz"
     },
     {
       "ticker": "GOOG",
-      "title": "앤트로픽, 대규모 IPO에서 주주 매각 고려...스페이스X와는 다른 행보 보여: 보도",
+      "title": "앤트로픽, 스페이스X와 달리 메가 IPO 시 주주 지분 매각 고려 중: 보도",
       "url": "https://finance.yahoo.com/m/c7003b1b-597d-3e0a-bde4-9a4be521d8f3/anthropic-weighs-shareholder.html",
       "date": "2026-08-27 17:23",
       "source": "FinViz"
     },
     {
-      "ticker": "APH",
-      "title": "제너락 홀딩스 주식, 목요일 경쟁사 대비 부진한 실적 기록",
-      "url": "https://www.marketwatch.com/data-news/generac-holdings-inc-stock-underperforms-thursday-when-compared-to-competitors-aa38ba72-4185f538a8fd?mod=mw_FV",
-      "date": "2026-08-27 16:30",
-      "source": "FinViz"
-    },
-    {
-      "ticker": "AMAT",
-      "title": "어플라이드 머티어리얼즈, 아카시 팔키왈라를 이사회 이사로 임명",
-      "url": "https://finviz.com/news/386394/applied-materials-appoints-akash-palkhiwala-to-board-of-directors",
-      "date": "2026-08-27 16:05",
-      "source": "FinViz"
-    },
-    {
       "ticker": "TSM",
-      "title": "AI 주식에 투자하는 ETF들 급등",
+      "title": "AI 주식 투자 ETF, 급등세",
       "url": "https://www.marketwatch.com/livecoverage/stock-market-today-dow-s-p-500-nasdaq-nvidia-beat-expectations-earnings-jackson-hole-marvell-results/card/etfs-that-invest-in-ai-stocks-rise-sharply-cWhQUpKw8rxvpO5prXSZ?mod=mw_FV",
       "date": "2026-08-27 15:46",
       "source": "FinViz"
     },
     {
       "ticker": "NBIS",
-      "title": "목요일 네비우스 주식에 무슨 일이?",
+      "title": "목요일, 네비우스 주식에 무슨 일이?",
       "url": "https://finance.yahoo.com/markets/stocks/articles/whats-going-nebius-stock-thursday-194003440.html",
       "date": "2026-08-27 15:40",
       "source": "FinViz"
     },
     {
-      "ticker": "NVDA",
-      "title": "SK하이닉스, 엔비디아 핵심 공급망 전략 위한 착공 시작",
-      "url": "https://finance.yahoo.com/technology/ai/articles/sk-hynix-breaks-ground-critical-193618012.html",
-      "date": "2026-08-27 15:36",
-      "source": "FinViz"
-    },
-    {
       "ticker": "ASML",
-      "title": "메모리 칩 부족 현상으로 당신의 포트폴리오가 이익을 얻는 방법",
+      "title": "메모리 반도체 부족 현상이 당신의 포트폴리오에 이점을 주는 방법",
       "url": "https://finance.yahoo.com/m/90fb1d7f-0bd1-39db-8090-2bd588ec5237/how-your-portfolio-can.html",
       "date": "2026-08-27 15:27",
       "source": "FinViz"
     },
     {
       "ticker": "AVGO",
-      "title": "캐시 우드, 브로드컴 주식에 2천만 달러 규모의 신호 보내",
+      "title": "캐시 우드, 브로드컴 주식에 2천만 달러 투자 신호",
       "url": "https://finance.yahoo.com/markets/stocks/articles/cathie-wood-sends-20-million-191855720.html",
       "date": "2026-08-27 15:18",
       "source": "FinViz"
     },
     {
       "ticker": "COST",
-      "title": "월마트 주가를 끌어올릴 것은 진열대에 없다",
+      "title": "월마트 주가를 끌어올릴 요인은 매장 선반에 없다",
       "url": "https://finance.yahoo.com/m/067e2a37-5967-3c92-8f41-367336be5409/what-could-lift-walmart-stock.html",
       "date": "2026-08-27 15:00",
       "source": "FinViz"
     },
     {
       "ticker": "HOOD",
-      "title": "주요 기술 기업들, AI 기반 해킹 격퇴 위한 방어력 강화 촉구",
+      "title": "주요 기술 기업들, AI 기반 해킹 방어 위한 보안 강화 촉구",
       "url": "https://finance.yahoo.com/news/major-tech-companies-call-defensive-170210641.html",
       "date": "2026-08-27 13:02",
       "source": "FinViz"
     },
     {
       "ticker": "CRM",
-      "title": "AI 수익화, MSFT 및 CRM 대비 ADBE의 성장 전망 높여",
+      "title": "AI 수익화, MSFT 및 CRM에 비해 ADBE의 성장 전망을 높이다",
       "url": "https://qz.com/ai-monetization-boosts-adbe-s-growth-prospects-against-msft-crm",
       "date": "2026-08-27 12:35",
       "source": "FinViz"
     },
     {
       "ticker": "TER",
-      "title": "강력한 데이터센터 성장, CSCO 및 VRT 대비 TER의 전망 높여",
+      "title": "강력한 데이터센터 성장, CSCO 및 VRT에 비해 TER의 전망을 높이다",
       "url": "https://qz.com/strong-datacenter-growth-boosts-ter-s-prospects-against-csco-vrt",
       "date": "2026-08-27 12:34",
       "source": "FinViz"
     },
     {
       "ticker": "COIN",
-      "title": "비트코인 담보 모기지, 주택 구매자들을 위해 시장에 출시",
+      "title": "비트코인 담보 주택 대출, 주택 구매자들에게 제공",
       "url": "https://finance.yahoo.com/video/bitcoin-backed-mortgages-come-market-162000465.html",
       "date": "2026-08-27 12:20",
       "source": "FinViz"
     },
     {
       "ticker": "BA",
-      "title": "보잉 주식, 눈에 띄게 숨어있는 마진 문제가 있을까?",
+      "title": "보잉 주식, 눈에 띄게 숨겨진 마진 문제가 있는가?",
       "url": "https://finance.yahoo.com/m/b39d99e0-cf80-3089-81f8-6d462e4748dc/does-boeing-stock-have-a.html",
       "date": "2026-08-27 10:57",
       "source": "FinViz"
     },
     {
       "ticker": "AAL",
-      "title": "아메리칸 항공, 2027년 비엔나 및 6개 신규 국제 노선 취항 예정",
+      "title": "아메리칸 항공, 2027년 비엔나 포함 7개 신규 국제 노선 취항 예정",
       "url": "https://qz.com/american-airlines-new-international-routes-summer-2027-082726",
       "date": "2026-08-27 10:30",
       "source": "FinViz"
     },
     {
       "ticker": "FUTU",
-      "title": "무무, LPGA와 제휴하여 2027년 푸투 레이디스 월드 챔피언십 개최",
+      "title": "무무, LPGA와 손잡고 2027년 푸투 레이디스 월드 챔피언십 개최",
       "url": "https://finviz.com/news/386273/moomoo-partners-with-lpga-to-launch-futu-ladies-world-championship-in-2027",
       "date": "2026-08-27 09:22",
       "source": "FinViz"
     },
     {
       "ticker": "AAPL",
-      "title": "애플, AI 개편 속 이례적인 베이 지역 정리해고...비전 프로 및 시리 팀 타격",
+      "title": "애플, AI 조직 개편 속 비전 프로·시리 팀 드물게 베이 에어리어 해고 단행",
       "url": "https://finance.yahoo.com/technology/ai/articles/apples-rare-bay-area-layoffs-100000588.html",
       "date": "2026-08-27 06:00",
       "source": "FinViz"
     },
     {
       "ticker": "LULU",
-      "title": "NKE, LULU 주식 주간 하락세...월스트리트 경계심 돌변, \"소비자 회복 아직 아니다\"",
+      "title": "NKE, LULU 주식 주간 손실 전망: 월스트리트, 소비자 회복 아직이라며 경계심 표명",
       "url": "https://finance.yahoo.com/m/e0abaa32-1327-3dc6-9e00-8abca2d6c747/nke%2C-lulu-stocks-head-for.html",
       "date": "2026-08-27 03:52",
       "source": "FinViz"
@@ -719,22 +698,22 @@
       "source": "FinViz"
     },
     {
-      "ticker": "NVDA",
-      "title": "오늘 증시, 엔비디아 실적에서 방향 찾는다",
-      "url": "https://finance.yahoo.com/m/6bf24480-24b0-3cf2-9729-6efe2645928c/stocks-look-to-nvidia.html",
-      "date": "2026-08-26 16:09",
+      "ticker": "KEYS",
+      "title": "키사이트, 신임 이사회 멤버 발표",
+      "url": "https://finviz.com/news/385900/keysight-announces-new-board-member",
+      "date": "2026-08-26 16:05",
       "source": "FinViz"
     },
     {
       "ticker": "META",
-      "title": "에볼루션 메탈스, 주요 방산업체들이 여전히 조달 못하는 자석 개발 중 (NASDAQ: EMAT)",
+      "title": "에볼루션 메탈스, 방산 기업들이 조달 못하는 자석 생산 중",
       "url": "https://finviz.com/news/385832/evolution-metals-is-making-the-magnet-every-defense-prime-still-cant-source-nasdaq-emat",
       "date": "2026-08-26 11:44",
       "source": "FinViz"
     },
     {
       "ticker": "BMNR",
-      "title": "톰 리가 이끄는 빗마인, AI 연관 암호화폐 시장 흐름 속 이더리움 4,889만 달러 매입 보도",
+      "title": "톰 리 이끄는 비트마인, 암호화폐 AI 하류 스토리 기간 중 이더리움 4889만 달러 매수 보도",
       "url": "https://finance.yahoo.com/m/5924b4f8-731f-3357-92b9-8129c4f59468/tom-lee-led-bitmine.html",
       "date": "2026-08-26 09:11",
       "source": "FinViz"
@@ -747,22 +726,29 @@
       "source": "FinViz"
     },
     {
+      "ticker": "ALB",
+      "title": "알버말 코퍼레이션 주가, 화요일 경쟁사 대비 저조한 성과",
+      "url": "https://www.marketwatch.com/data-news/albemarle-corp-stock-underperforms-tuesday-when-compared-to-competitors-dead2f0d-144bda80a3ef?mod=mw_FV",
+      "date": "2026-08-25 16:30",
+      "source": "FinViz"
+    },
+    {
       "ticker": "ARM",
-      "title": "ARM 2.8% 상승, CPU 톨부스 가치 272달러로 평가",
+      "title": "ARM, CPU 톨게이트 272달러 목표가에 2.8% 상승",
       "url": "https://finance.yahoo.com/technology/articles/arm-rises-2-8-272-195205428.html",
       "date": "2026-08-25 15:52",
       "source": "FinViz"
     },
     {
       "ticker": "GLXY",
-      "title": "갤럭시, 갤럭시원 플랫폼에서 BTC, ETH, SOL 담보 신용 한도 출시",
+      "title": "갤럭시, 갤럭시원(GalaxyOne)에서 BTC, ETH, SOL 담보 신용 대출 출시",
       "url": "https://finance.yahoo.com/m/b0b85844-7542-31e3-8b44-536648d54ff5/galaxy-launches-btc%2C-eth-and.html",
       "date": "2026-08-25 13:40",
       "source": "FinViz"
     },
     {
       "ticker": "GEMI",
-      "title": "ZEC 일주일 만에 60% 이상 급등: 타일러 윙클보스 \"전 세계 백만장자 수가 전체 지캐시 단위보다 많다\"",
+      "title": "ZEC, 일주일 만에 60% 이상 급등…타일러 윙클보스 \"세상에 Zcash 총량보다 백만장자가 더 많다\"",
       "url": "https://finance.yahoo.com/m/9bc64b0d-cee0-3a7f-9239-3e1fa45b6570/zec-soars-over-60%25-in-one.html",
       "date": "2026-08-25 06:13",
       "source": "FinViz"
