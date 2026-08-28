@@ -1219,6 +1219,45 @@ HOT_TOPIC_CATEGORIES = [
 # 기사 제목이 아니라 도메인 문자열이 담겨 오므로 이 값들과 substring 매칭에 사용)
 PREFERRED_SOURCE_DOMAINS = ["bloomberg", "reuters", "marketwatch", "wsj", "cnbc"]
 
+# 근거(출처) 있는 토픽을 목표로 하는 개수와, 부족할 때 보충 검색을 시도할 최대 횟수
+# (최초 1회 + 부족분 보충 1회). 그래도 못 채우면 억지로 채우지 않고 있는 만큼만 반환한다.
+HOT_TOPICS_TARGET_COUNT = 10
+HOT_TOPICS_MAX_FETCH_ATTEMPTS = 2
+
+# 토픽 제목에서 핵심 키워드(티커)를 뽑기 위한 패턴 — 괄호 안 알파벳 티커, 예: "(MRNA)"
+_TICKER_IN_PARENS_RE = re.compile(r"\(([A-Za-z]{1,6}(?:\.[A-Za-z]+)?)\)")
+
+# 마크다운 강조 기호(**굵게**, __밑줄__) 제거용
+_MARKDOWN_EMPHASIS_RE = re.compile(r"\*\*(.+?)\*\*|__(.+?)__")
+
+
+def _strip_markdown_emphasis(s: str) -> str:
+    """title/reason에 섞여 들어온 마크다운 강조 기호(**, __)를 제거하고 내용만 남긴다."""
+    if not s:
+        return s
+    return _MARKDOWN_EMPHASIS_RE.sub(lambda m: m.group(1) or m.group(2) or "", s)
+
+
+def _title_keywords(title: str) -> set[str]:
+    """
+    토픽 제목에서 관련성 검증에 쓸 핵심 키워드를 뽑는다.
+    - 괄호 안 티커(예: "(MRNA)")
+    - 2글자 이상의 토큰(한글/영문/숫자 연속 구간)
+    키워드를 하나도 못 뽑으면 빈 집합을 반환하고, 호출부는 이를 "판단 보류"로 취급한다.
+    """
+    tickers = {t.upper() for t in _TICKER_IN_PARENS_RE.findall(title)}
+    tokens = {w for w in re.split(r"[^0-9A-Za-z가-힣]+", title) if len(w) >= 2}
+    return tickers | tokens
+
+
+def _shares_keyword(title: str, snippet: str) -> bool:
+    """제목의 핵심 키워드가 snippet 안에 하나라도 등장하면 관련 있다고 판단.
+    키워드를 못 뽑은 경우(너무 짧은 제목 등)는 판단을 보류하고 통과시킨다."""
+    keywords = _title_keywords(title)
+    if not keywords:
+        return True
+    return any(kw in snippet for kw in keywords)
+
 
 def build_hot_topics_prompt(market_data: dict, watchlist: list[str] | None = None) -> str:
     """
@@ -1324,6 +1363,8 @@ def parse_hot_topics_response(text: str) -> list[dict]:
             continue
 
         title, reason, fmt_part = parts[0], parts[1], parts[2]
+        title  = _strip_markdown_emphasis(title).strip()
+        reason = _strip_markdown_emphasis(reason).strip()
         if not title or not reason:
             continue
 
@@ -1350,31 +1391,48 @@ def attach_hot_topic_sources(
     """
     Gemini google_search grounding 결과(chunks/supports)를 파싱된 hot topics에 매칭.
 
-    각 토픽의 title이 text(모델 원문) 안에서 몇 번째 글자에 있는지 찾고,
+    각 토픽의 title이 text(모델 원문) 안에서 몇 번째 "바이트"에 있는지 찾고,
     그 구간과 겹치는 grounding support들을 모아 후보 URL 목록을 만든다.
+    (주의: Gemini grounding_supports의 start_index/end_index는 응답 텍스트를
+    UTF-8로 인코딩했을 때의 "바이트 오프셋"이다. Python 문자열의 문자(코드포인트)
+    인덱스가 아니므로, 한글처럼 멀티바이트 문자가 섞인 텍스트에서 text.find()의
+    결과를 그대로 비교하면 위치가 어긋나 완전히 다른 토픽에 근거가 잘못 붙는다.
+    그래서 반드시 UTF-8 바이트 기준으로 좌표를 맞춰서 비교한다.)
+
+    겹치는 support를 찾더라도, 그 구간이 실제로 담고 있는 텍스트가 제목의
+    핵심 키워드(티커/고유명사 등)를 하나도 공유하지 않으면 근거로 채택하지 않는다
+    — 세그먼트 경계가 살짝 어긋나 다른 토픽의 문장까지 걸친 경우를 걸러내기 위함.
+
     rank 순서대로 처리하며:
       - 후보 중 아직 다른 토픽에 쓰이지 않은 URL이 있으면, 그중에서도
         PREFERRED_SOURCE_DOMAINS와 매칭되는 후보를 우선 채택 (없으면 첫 후보)
-      - 후보가 원래 하나도 없으면 (근거 없음) 출처 없이 유지
-      - 후보는 있었지만 전부 이미 앞선 토픽이 선점한 URL뿐이면
-        같은 사건을 다루는 중복 토픽으로 간주해 결과에서 제외
+      - 유효한 후보가 하나도 없으면(근거 없음, 또는 전부 이미 앞선 토픽이
+        선점한 URL) 그 토픽은 결과에서 완전히 제외한다 — 출처 없는 토픽은
+        화면에 아예 나오지 않아야 하기 때문.
     병합으로 빠진 자리는 rank를 1..N으로 다시 채운다.
 
     chunks:   [{"uri": str, "title": str}, ...]  — title에는 기사 제목이 아니라
               실측상 도메인 문자열(예: "reuters.com")이 담겨 오는 경우가 많음
     supports: [{"start_index": int, "end_index": int, "chunk_indices": [int, ...]}, ...]
+              (start_index/end_index는 UTF-8 바이트 오프셋)
     """
+    text_bytes = text.encode("utf-8")
+
     def _candidate_sources(topic):
-        start = text.find(topic["title"])
+        title_bytes = topic["title"].encode("utf-8")
+        start = text_bytes.find(title_bytes)
         if start == -1:
             return []
-        end = start + len(topic["title"])
+        end = start + len(title_bytes)
 
         candidates = []
         for support in supports:
             s_start = support.get("start_index", 0)
             s_end   = support.get("end_index", 0)
-            if s_start < end and s_end > start:   # 구간 겹침
+            if s_start < end and s_end > start:   # 바이트 구간 겹침
+                snippet = text_bytes[s_start:s_end].decode("utf-8", errors="ignore")
+                if not _shares_keyword(topic["title"], snippet):
+                    continue  # 겹치긴 했지만 내용이 무관 → 버림
                 for idx in (support.get("chunk_indices") or []):
                     if 0 <= idx < len(chunks):
                         chunk = chunks[idx]
@@ -1401,12 +1459,9 @@ def attach_hot_topic_sources(
             topic["source_url"], topic["source_title"] = assigned
             used_urls.add(assigned[0])
             result.append(topic)
-        elif not candidates:
-            # 근거가 전혀 없음 — 링크 없이 유지
-            topic["source_url"]   = None
-            topic["source_title"] = None
-            result.append(topic)
-        # else: 근거는 있었지만 전부 이미 다른(앞선) 토픽이 쓴 URL → 중복으로 판단, 제외
+        # else: 근거가 전혀 없거나(후보 0개), 후보는 있었지만 전부 이미
+        # 다른(앞선) 토픽이 쓴 URL이거나(중복 판단) — 어느 쪽이든 이 토픽은
+        # "출처 없음"으로 간주해 결과에서 제외한다.
 
     for i, topic in enumerate(result, 1):
         topic["rank"] = i
@@ -1449,10 +1504,13 @@ def fetch_hot_topics(market_data: dict) -> list[dict]:
     Gemini + google_search grounding으로 오늘의 화제 TOP 10을 검색·생성하고
     각 토픽에 출처 링크(source_url/source_title)를 매칭해서 반환.
 
-    grounding이 완전히 비어 있으면(모델이 이번 호출에서 검색 인용을 하나도
-    기록하지 않은 경우) 1회만 재시도한다 — Gemini google_search grounding은
-    호출마다 인용 메타데이터를 줄지 여부가 비결정적이라, 완전히 없앨 수는
-    없지만 빈도는 줄일 수 있다.
+    근거(출처)가 없는 토픽은 attach_hot_topic_sources에서 이미 제외되므로,
+    1차 시도만으로 HOT_TOPICS_TARGET_COUNT(기본 10개)를 못 채우면 부족분을
+    보충하기 위해 재검색한다 — Gemini google_search grounding은 호출마다
+    인용 메타데이터를 얼마나 남길지가 비결정적이라, 완전히 없앨 수는 없지만
+    재시도로 빈도는 줄일 수 있다. 새로 얻은 토픽은 제목/URL 기준으로
+    중복 제거하며 병합하고, HOT_TOPICS_MAX_FETCH_ATTEMPTS번을 다 써도 목표에
+    못 미치면 억지로 채우지 않고 있는 개수 그대로(0개 포함) 반환한다.
     """
     from google.genai import types as genai_types
 
@@ -1460,16 +1518,33 @@ def fetch_hot_topics(market_data: dict) -> list[dict]:
     system = "You are a content planner for a Korean finance YouTube channel."
     tools  = [genai_types.Tool(google_search=genai_types.GoogleSearch())]
 
-    response          = _generate_content(prompt=prompt, system=system, tools=tools)
-    chunks, supports  = _extract_grounding(response)
+    merged      = []
+    seen_urls   = set()
+    seen_titles = set()
 
-    if not chunks:
+    for _ in range(HOT_TOPICS_MAX_FETCH_ATTEMPTS):
+        if len(merged) >= HOT_TOPICS_TARGET_COUNT:
+            break
+
         response         = _generate_content(prompt=prompt, system=system, tools=tools)
         chunks, supports = _extract_grounding(response)
+        text             = response.text
+        topics           = parse_hot_topics_response(text)
+        attached         = attach_hot_topic_sources(text, topics, chunks, supports)
 
-    text   = response.text
-    topics = parse_hot_topics_response(text)
-    return attach_hot_topic_sources(text, topics, chunks, supports)
+        for topic in attached:
+            if topic["source_url"] in seen_urls or topic["title"] in seen_titles:
+                continue
+            seen_urls.add(topic["source_url"])
+            seen_titles.add(topic["title"])
+            merged.append(topic)
+            if len(merged) >= HOT_TOPICS_TARGET_COUNT:
+                break
+
+    for i, topic in enumerate(merged, 1):
+        topic["rank"] = i
+
+    return merged
 
 
 def render_hot_topics_section(hot_topics: list[dict]) -> str:
@@ -1486,12 +1561,15 @@ def render_hot_topics_section(hot_topics: list[dict]) -> str:
             f'<a class="hot-topic-src-btn" href="{source_url}" target="_blank" rel="noopener">🔗 출처</a>'
             if source_url else ""
         )
+        # 과거에 저장된 JSON에 마크다운 강조 기호(**, __)가 남아있을 수 있어 방어적으로 한 번 더 제거
+        title  = _strip_markdown_emphasis(t.get("title", ""))
+        reason = _strip_markdown_emphasis(t.get("reason", ""))
         cards_html += f"""
         <div class="hot-topic-card">
           <span class="hot-topic-rank">#{t.get('rank', '-')}</span>
           <span class="hot-topic-format" style="background:{color}">{fmt}</span>
-          <div class="hot-topic-title">{t.get('title', '')}{src_btn}</div>
-          <div class="hot-topic-reason">{t.get('reason', '')}</div>
+          <div class="hot-topic-title">{title}{src_btn}</div>
+          <div class="hot-topic-reason">{reason}</div>
         </div>"""
 
     return f"""

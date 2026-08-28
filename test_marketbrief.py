@@ -547,6 +547,18 @@ class TestParseHotTopicsResponse:
         result = parse_hot_topics_response(text)
         assert [t["rank"] for t in result] == [1, 2]
 
+    def test_strips_markdown_bold_from_title_and_reason(self):
+        """모델이 **강조** 마크다운을 섞어 보내도 렌더링용 텍스트엔 기호가 남지 않아야 한다"""
+        text = "1. **모더나(MRNA) 임상 3상 성공** | **강력한** 데이터 발표 | 포맷:숏츠"
+        result = parse_hot_topics_response(text)
+        assert result[0]["title"] == "모더나(MRNA) 임상 3상 성공"
+        assert result[0]["reason"] == "강력한 데이터 발표"
+
+    def test_strips_markdown_underscore_emphasis(self):
+        text = "1. __연준 금리 동결__ | 이유 | 포맷:숏츠"
+        result = parse_hot_topics_response(text)
+        assert result[0]["title"] == "연준 금리 동결"
+
 
 # ============================================================
 # 11. build_hot_topics_prompt
@@ -722,6 +734,16 @@ class TestRenderHotTopicsSection:
 # 13. attach_hot_topic_sources
 # ============================================================
 
+def _byte_span(text: str, substr: str) -> tuple[int, int]:
+    """support의 start_index/end_index를 만들 때 쓰는 테스트 헬퍼.
+    실제 Gemini는 UTF-8 바이트 오프셋을 주므로, 한글이 섞인 텍스트에서
+    str.index()(문자 인덱스)를 그대로 쓰면 안 되고 이 헬퍼로 바이트 오프셋을 구해야 한다."""
+    text_bytes = text.encode("utf-8")
+    start = text_bytes.find(substr.encode("utf-8"))
+    assert start != -1, f"{substr!r} not found in text"
+    return start, start + len(substr.encode("utf-8"))
+
+
 class TestAttachHotTopicSources:
     """
     Gemini google_search grounding 결과(grounding_chunks/grounding_supports)를
@@ -741,7 +763,8 @@ class TestAttachHotTopicSources:
         assert result[0]["source_url"] == "https://example.com/a"
         assert result[0]["source_title"] == "출처 A"
 
-    def test_no_source_when_no_overlap(self):
+    def test_no_overlap_means_topic_is_dropped(self):
+        """세그먼트가 제목 위치와 전혀 겹치지 않으면(=근거 없음) 토픽 자체가 결과에서 빠진다"""
         text = "1. 연준 금리 동결 | 이유 | 포맷:숏츠"
         topics = [{"rank": 1, "title": "연준 금리 동결", "reason": "이유", "format": "숏츠"}]
         chunks = [{"uri": "https://example.com/a", "title": "출처 A"}]
@@ -750,17 +773,16 @@ class TestAttachHotTopicSources:
 
         result = attach_hot_topic_sources(text, topics, chunks, supports)
 
-        assert result[0]["source_url"] is None
-        assert result[0]["source_title"] is None
+        assert result == []
 
-    def test_title_not_found_in_text_gets_no_source(self):
+    def test_title_not_found_in_text_gets_dropped(self):
         text = "전혀 다른 내용"
         topics = [{"rank": 1, "title": "연준 금리 동결", "reason": "이유", "format": "숏츠"}]
         chunks = [{"uri": "https://example.com/a", "title": "출처 A"}]
         supports = [{"start_index": 0, "end_index": 5, "chunk_indices": [0]}]
 
         result = attach_hot_topic_sources(text, topics, chunks, supports)
-        assert result[0]["source_url"] is None
+        assert result == []
 
     def test_multiple_topics_matched_independently(self):
         text = "1. 첫번째 토픽 | 이유1 | 포맷:숏츠\n2. 두번째 토픽 | 이유2 | 포맷:카드뉴스"
@@ -768,15 +790,15 @@ class TestAttachHotTopicSources:
             {"rank": 1, "title": "첫번째 토픽", "reason": "이유1", "format": "숏츠"},
             {"rank": 2, "title": "두번째 토픽", "reason": "이유2", "format": "카드뉴스"},
         ]
-        start1 = text.index("첫번째 토픽")
-        start2 = text.index("두번째 토픽")
+        start1, end1 = _byte_span(text, "첫번째 토픽")
+        start2, end2 = _byte_span(text, "두번째 토픽")
         chunks = [
             {"uri": "https://example.com/1", "title": "출처1"},
             {"uri": "https://example.com/2", "title": "출처2"},
         ]
         supports = [
-            {"start_index": start1, "end_index": start1 + 5, "chunk_indices": [0]},
-            {"start_index": start2, "end_index": start2 + 5, "chunk_indices": [1]},
+            {"start_index": start1, "end_index": end1, "chunk_indices": [0]},
+            {"start_index": start2, "end_index": end2, "chunk_indices": [1]},
         ]
 
         result = attach_hot_topic_sources(text, topics, chunks, supports)
@@ -784,14 +806,13 @@ class TestAttachHotTopicSources:
         assert result[0]["source_url"] == "https://example.com/1"
         assert result[1]["source_url"] == "https://example.com/2"
 
-    def test_empty_chunks_and_supports_returns_topics_with_no_source(self):
+    def test_empty_chunks_and_supports_drops_all_topics(self):
         text = "1. 연준 금리 동결 | 이유 | 포맷:숏츠"
         topics = [{"rank": 1, "title": "연준 금리 동결", "reason": "이유", "format": "숏츠"}]
 
         result = attach_hot_topic_sources(text, topics, [], [])
 
-        assert result[0]["source_url"] is None
-        assert result[0]["source_title"] is None
+        assert result == []
 
     # ── 중복 URL 제거 / 중복 토픽 병합 ──────────────────────────
 
@@ -802,12 +823,12 @@ class TestAttachHotTopicSources:
             {"rank": 1, "title": "첫번째 토픽", "reason": "이유1", "format": "숏츠"},
             {"rank": 2, "title": "두번째 토픽", "reason": "이유2", "format": "카드뉴스"},
         ]
-        start1 = text.index("첫번째 토픽")
-        start2 = text.index("두번째 토픽")
+        start1, end1 = _byte_span(text, "첫번째 토픽")
+        start2, end2 = _byte_span(text, "두번째 토픽")
         chunks = [{"uri": "https://example.com/same", "title": "출처"}]
         supports = [
-            {"start_index": start1, "end_index": start1 + 5, "chunk_indices": [0]},
-            {"start_index": start2, "end_index": start2 + 5, "chunk_indices": [0]},
+            {"start_index": start1, "end_index": end1, "chunk_indices": [0]},
+            {"start_index": start2, "end_index": end2, "chunk_indices": [0]},
         ]
 
         result = attach_hot_topic_sources(text, topics, chunks, supports)
@@ -824,12 +845,14 @@ class TestAttachHotTopicSources:
             {"rank": 2, "title": "B", "reason": "이유", "format": "숏츠"},
             {"rank": 3, "title": "C", "reason": "이유", "format": "숏츠"},
         ]
-        start_a, start_b, start_c = text.index("A"), text.index("B"), text.index("C")
+        start_a, end_a = _byte_span(text, "A")
+        start_b, end_b = _byte_span(text, "B")
+        start_c, end_c = _byte_span(text, "C")
         chunks = [{"uri": "https://example.com/same", "title": "출처"}]
         supports = [
-            {"start_index": start_a, "end_index": start_a + 1, "chunk_indices": [0]},
-            {"start_index": start_b, "end_index": start_b + 1, "chunk_indices": [0]},  # A와 중복 → 제외
-            {"start_index": start_c, "end_index": start_c + 1, "chunk_indices": [0]},  # 역시 중복 → 제외
+            {"start_index": start_a, "end_index": end_a, "chunk_indices": [0]},
+            {"start_index": start_b, "end_index": end_b, "chunk_indices": [0]},  # A와 중복 → 제외
+            {"start_index": start_c, "end_index": end_c, "chunk_indices": [0]},  # 역시 중복 → 제외
         ]
 
         result = attach_hot_topic_sources(text, topics, chunks, supports)
@@ -844,16 +867,16 @@ class TestAttachHotTopicSources:
             {"rank": 1, "title": "첫번째 토픽", "reason": "이유1", "format": "숏츠"},
             {"rank": 2, "title": "두번째 토픽", "reason": "이유2", "format": "카드뉴스"},
         ]
-        start1 = text.index("첫번째 토픽")
-        start2 = text.index("두번째 토픽")
+        start1, end1 = _byte_span(text, "첫번째 토픽")
+        start2, end2 = _byte_span(text, "두번째 토픽")
         chunks = [
             {"uri": "https://example.com/shared", "title": "공용 출처"},
             {"uri": "https://example.com/alt",    "title": "대체 출처"},
         ]
         supports = [
-            {"start_index": start1, "end_index": start1 + 5, "chunk_indices": [0]},
+            {"start_index": start1, "end_index": end1, "chunk_indices": [0]},
             # 두번째 토픽은 공용 출처 + 대체 출처 둘 다 겹침
-            {"start_index": start2, "end_index": start2 + 5, "chunk_indices": [0, 1]},
+            {"start_index": start2, "end_index": end2, "chunk_indices": [0, 1]},
         ]
 
         result = attach_hot_topic_sources(text, topics, chunks, supports)
@@ -861,28 +884,25 @@ class TestAttachHotTopicSources:
         assert len(result) == 2
         assert result[1]["source_url"] == "https://example.com/alt"
 
-    def test_topic_with_no_evidence_kept_even_when_duplicate_exists(self):
-        """근거가 전혀 없는 토픽은 다른 토픽의 중복 판정과 무관하게 유지된다"""
+    def test_topic_with_no_evidence_is_dropped_even_without_duplicate(self):
+        """근거가 전혀 없는 토픽은 다른 토픽의 중복 여부와 무관하게 결과에서 빠진다"""
         text = "1. 첫번째 토픽 | 이유1 | 포맷:숏츠\n2. 두번째 토픽 | 이유2 | 포맷:숏츠\n3. 세번째 토픽 | 이유3 | 포맷:숏츠"
         topics = [
             {"rank": 1, "title": "첫번째 토픽", "reason": "이유1", "format": "숏츠"},
-            {"rank": 2, "title": "두번째 토픽", "reason": "이유2", "format": "숏츠"},  # 첫번째와 URL 중복 → 제외 대상
-            {"rank": 3, "title": "세번째 토픽", "reason": "이유3", "format": "숏츠"},  # 근거 없음 → 유지
+            {"rank": 2, "title": "두번째 토픽", "reason": "이유2", "format": "숏츠"},  # 첫번째와 URL 중복 → 제외
+            {"rank": 3, "title": "세번째 토픽", "reason": "이유3", "format": "숏츠"},  # 근거 없음 → 제외
         ]
-        start1 = text.index("첫번째 토픽")
-        start2 = text.index("두번째 토픽")
+        start1, end1 = _byte_span(text, "첫번째 토픽")
+        start2, end2 = _byte_span(text, "두번째 토픽")
         chunks = [{"uri": "https://example.com/same", "title": "출처"}]
         supports = [
-            {"start_index": start1, "end_index": start1 + 5, "chunk_indices": [0]},
-            {"start_index": start2, "end_index": start2 + 5, "chunk_indices": [0]},
+            {"start_index": start1, "end_index": end1, "chunk_indices": [0]},
+            {"start_index": start2, "end_index": end2, "chunk_indices": [0]},
         ]
 
         result = attach_hot_topic_sources(text, topics, chunks, supports)
 
-        titles = [t["title"] for t in result]
-        assert "첫번째 토픽" in titles
-        assert "두번째 토픽" not in titles
-        assert "세번째 토픽" in titles
+        assert [t["title"] for t in result] == ["첫번째 토픽"]
 
     def test_no_duplicate_urls_in_final_result(self):
         """결과에 동일한 source_url이 두 번 이상 등장하지 않아야 한다 (불변식)"""
@@ -892,15 +912,17 @@ class TestAttachHotTopicSources:
             {"rank": 2, "title": "B", "reason": "이유", "format": "숏츠"},
             {"rank": 3, "title": "C", "reason": "이유", "format": "숏츠"},
         ]
-        start_a, start_b, start_c = text.index("A"), text.index("B"), text.index("C")
+        start_a, end_a = _byte_span(text, "A")
+        start_b, end_b = _byte_span(text, "B")
+        start_c, end_c = _byte_span(text, "C")
         chunks = [
             {"uri": "https://example.com/1", "title": "출처1"},
             {"uri": "https://example.com/2", "title": "출처2"},
         ]
         supports = [
-            {"start_index": start_a, "end_index": start_a + 1, "chunk_indices": [0]},
-            {"start_index": start_b, "end_index": start_b + 1, "chunk_indices": [1]},
-            {"start_index": start_c, "end_index": start_c + 1, "chunk_indices": [0, 1]},
+            {"start_index": start_a, "end_index": end_a, "chunk_indices": [0]},
+            {"start_index": start_b, "end_index": end_b, "chunk_indices": [1]},
+            {"start_index": start_c, "end_index": end_c, "chunk_indices": [0, 1]},
         ]
 
         result = attach_hot_topic_sources(text, topics, chunks, supports)
@@ -958,12 +980,12 @@ class TestAttachHotTopicSources:
             {"rank": 1, "title": "첫번째 토픽", "reason": "이유1", "format": "숏츠"},
             {"rank": 2, "title": "두번째 토픽", "reason": "이유2", "format": "카드뉴스"},
         ]
-        start1 = text.index("첫번째 토픽")
-        start2 = text.index("두번째 토픽")
+        start1, end1 = _byte_span(text, "첫번째 토픽")
+        start2, end2 = _byte_span(text, "두번째 토픽")
         chunks = [{"uri": "https://example.com/reuters", "title": "reuters.com"}]
         supports = [
-            {"start_index": start1, "end_index": start1 + 5, "chunk_indices": [0]},
-            {"start_index": start2, "end_index": start2 + 5, "chunk_indices": [0]},
+            {"start_index": start1, "end_index": end1, "chunk_indices": [0]},
+            {"start_index": start2, "end_index": end2, "chunk_indices": [0]},
         ]
 
         result = attach_hot_topic_sources(text, topics, chunks, supports)
@@ -972,14 +994,85 @@ class TestAttachHotTopicSources:
         assert len(result) == 1
         assert result[0]["title"] == "첫번째 토픽"
 
-    def test_returns_same_number_of_topics(self):
+    def test_returns_same_number_of_topics_when_all_have_evidence(self):
         text = "1. A | 이유 | 포맷:숏츠\n2. B | 이유 | 포맷:숏츠"
         topics = [
             {"rank": 1, "title": "A", "reason": "이유", "format": "숏츠"},
             {"rank": 2, "title": "B", "reason": "이유", "format": "숏츠"},
         ]
-        result = attach_hot_topic_sources(text, topics, [], [])
+        start_a, end_a = _byte_span(text, "A")
+        start_b, end_b = _byte_span(text, "B")
+        chunks = [
+            {"uri": "https://example.com/1", "title": "출처1"},
+            {"uri": "https://example.com/2", "title": "출처2"},
+        ]
+        supports = [
+            {"start_index": start_a, "end_index": end_a, "chunk_indices": [0]},
+            {"start_index": start_b, "end_index": end_b, "chunk_indices": [1]},
+        ]
+        result = attach_hot_topic_sources(text, topics, chunks, supports)
         assert len(result) == 2
+
+    # ── UTF-8 바이트 오프셋 정합성 (grounding_supports는 char index가 아니라
+    #    UTF-8 바이트 오프셋 기준이라, 한글처럼 멀티바이트 텍스트에서
+    #    문자 인덱스로 비교하면 위치가 어긋난다) ───────────────────
+
+    def test_matches_by_utf8_byte_offset_not_python_char_index(self):
+        """한글 등 멀티바이트 문자가 앞에 있으면 문자 인덱스와 바이트 오프셋이 달라진다.
+        실제 Gemini가 주는 바이트 오프셋 기준으로 겹침을 판단해야, 뒤쪽 토픽도
+        엉뚱한 토픽에 근거가 잘못 붙지 않고 자기 자신의 근거를 정확히 찾는다."""
+        text = (
+            "1. 모더나(MRNA) 개인 맞춤형 암 백신 임상 3상 성공 | 이유 | 포맷:숏츠\n"
+            "2. Exascale Labs 나스닥 상장 | 이유2 | 포맷:카드뉴스"
+        )
+        topics = [
+            {"rank": 1, "title": "모더나(MRNA) 개인 맞춤형 암 백신 임상 3상 성공", "reason": "이유", "format": "숏츠"},
+            {"rank": 2, "title": "Exascale Labs 나스닥 상장", "reason": "이유2", "format": "카드뉴스"},
+        ]
+
+        title2 = topics[1]["title"]
+        char_start2 = text.find(title2)          # 버그가 있던 코드가 쓰던 좌표계
+        byte_start2 = len(text[:char_start2].encode("utf-8"))  # 실제 Gemini가 주는 좌표계
+        assert byte_start2 != char_start2  # 전제조건: 한글 때문에 실제로 어긋남
+
+        byte_end2 = byte_start2 + len(title2.encode("utf-8"))
+        chunks = [{"uri": "https://example.com/exascale", "title": "globenewswire.com"}]
+        supports = [{"start_index": byte_start2, "end_index": byte_end2, "chunk_indices": [0]}]
+
+        result = attach_hot_topic_sources(text, topics, chunks, supports)
+
+        matched = {t["title"]: t.get("source_url") for t in result}
+        assert matched.get("Exascale Labs 나스닥 상장") == "https://example.com/exascale"
+        assert "모더나(MRNA) 개인 맞춤형 암 백신 임상 3상 성공" not in matched
+
+    # ── 겹침은 있어도 내용이 무관하면 채택하지 않음 (키워드 관련성 검증) ──
+
+    def test_discards_overlap_when_segment_text_shares_no_keyword_with_title(self):
+        """겹치는 support 구간이 있어도, 그 구간이 실제로 담고 있는 텍스트가
+        제목의 핵심 키워드(티커/고유명사)를 하나도 공유하지 않으면
+        (세그먼트 경계가 살짝 어긋나 다른 토픽 문장을 걸친 경우 등) 그 근거는 버린다."""
+        text = (
+            "1. 모더나(MRNA) 임상 3상 성공 | 이유 | 포맷:숏츠\n"
+            "2. Exascale Labs 나스닥 상장 및 스팩 합병 완료 소식 | 이유2 | 포맷:카드뉴스"
+        )
+        topics = [
+            {"rank": 1, "title": "모더나(MRNA) 임상 3상 성공", "reason": "이유", "format": "숏츠"},
+        ]
+        title1 = topics[0]["title"]
+        text_bytes = text.encode("utf-8")
+        title1_bytes = title1.encode("utf-8")
+        title1_start = text_bytes.find(title1_bytes)
+        title1_end   = title1_start + len(title1_bytes)
+
+        # 세그먼트가 제목 끝자락에 1바이트만 살짝 걸치고, 나머지는 전부
+        # 다음 줄(Exascale Labs 관련 문장)을 담고 있는 상황을 시뮬레이션
+        bad_end = len(text_bytes)  # 텍스트 끝까지 (Exascale 문장 전체 포함)
+        chunks = [{"uri": "https://example.com/exascale", "title": "globenewswire.com"}]
+        supports = [{"start_index": title1_end - 1, "end_index": bad_end, "chunk_indices": [0]}]
+
+        result = attach_hot_topic_sources(text, topics, chunks, supports)
+
+        assert result == []
 
 
 # ============================================================
@@ -1066,13 +1159,14 @@ def _fake_response(text, chunks=None, supports=None):
 class TestFetchHotTopicsRetry:
     RESPONSE_TEXT = "1. A | 이유 | 포맷:숏츠"
 
-    def test_retries_once_when_first_grounding_is_empty(self, monkeypatch, mock_data):
+    def test_retries_when_first_attempt_yields_no_sourced_topics(self, monkeypatch, mock_data):
+        """1차 시도에서 근거 있는 토픽을 하나도 못 얻으면(목표 개수 미달) 재시도한다"""
         calls = []
 
         def fake_generate_content(prompt, system, max_retries=None, tools=None):
             calls.append(1)
             if len(calls) == 1:
-                return _fake_response(self.RESPONSE_TEXT)  # grounding 없음
+                return _fake_response(self.RESPONSE_TEXT)  # grounding 없음 → 근거 있는 토픽 0개
             return _fake_response(
                 self.RESPONSE_TEXT,
                 chunks=[{"uri": "https://example.com/a", "title": "reuters.com"}],
@@ -1086,7 +1180,9 @@ class TestFetchHotTopicsRetry:
         assert len(calls) == 2
         assert result[0]["source_url"] == "https://example.com/a"
 
-    def test_does_not_retry_when_grounding_present_on_first_try(self, monkeypatch, mock_data):
+    def test_does_not_retry_once_target_count_is_reached(self, monkeypatch, mock_data):
+        """목표 개수를 이미 채웠으면(테스트 편의상 목표를 1개로 낮춤) 더 재시도하지 않는다"""
+        monkeypatch.setattr("marketbrief.HOT_TOPICS_TARGET_COUNT", 1)
         calls = []
 
         def fake_generate_content(prompt, system, max_retries=None, tools=None):
@@ -1103,7 +1199,8 @@ class TestFetchHotTopicsRetry:
 
         assert len(calls) == 1
 
-    def test_gives_up_gracefully_when_still_empty_after_retry(self, monkeypatch, mock_data):
+    def test_returns_fewer_than_target_when_still_short_after_retries(self, monkeypatch, mock_data):
+        """재시도해도 근거 있는 토픽을 못 채우면, 억지로 채우지 않고 있는 만큼(0개 포함)만 반환한다"""
         def fake_generate_content(prompt, system, max_retries=None, tools=None):
             return _fake_response(self.RESPONSE_TEXT)  # 매번 grounding 없음
 
@@ -1111,7 +1208,34 @@ class TestFetchHotTopicsRetry:
 
         result = fetch_hot_topics(mock_data)
 
-        assert result[0]["source_url"] is None
+        assert result == []
+
+    def test_backfills_additional_topics_from_second_attempt(self, monkeypatch, mock_data):
+        """1차 시도에서 목표 개수를 못 채우면, 2차 시도에서 새로 얻은 토픽으로 부족분을 채운다"""
+        monkeypatch.setattr("marketbrief.HOT_TOPICS_TARGET_COUNT", 2)
+        calls = []
+
+        def fake_generate_content(prompt, system, max_retries=None, tools=None):
+            calls.append(1)
+            if len(calls) == 1:
+                return _fake_response(
+                    "1. A | 이유 | 포맷:숏츠",
+                    chunks=[{"uri": "https://example.com/a", "title": "reuters.com"}],
+                    supports=[{"start_index": 3, "end_index": 4, "chunk_indices": [0]}],
+                )
+            return _fake_response(
+                "1. B | 이유 | 포맷:숏츠",
+                chunks=[{"uri": "https://example.com/b", "title": "bloomberg.com"}],
+                supports=[{"start_index": 3, "end_index": 4, "chunk_indices": [0]}],
+            )
+
+        monkeypatch.setattr("marketbrief._generate_content", fake_generate_content)
+
+        result = fetch_hot_topics(mock_data)
+
+        assert len(calls) == 2
+        assert [t["title"] for t in result] == ["A", "B"]
+        assert [t["rank"] for t in result] == [1, 2]
 
 
 # ============================================================
