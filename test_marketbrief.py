@@ -1266,7 +1266,7 @@ class TestFetchCorpNewsFiltering:
 
     def test_deduplicates_same_article_across_tickers(self, monkeypatch):
         """여러 종목에 걸친 기사가 각 종목 피드에 중복으로 잡혀도 한 번만 남아야 한다"""
-        shared_article = ("2026-08-20 16:07",
+        shared_article = (self._fresh(),
                            "Top Stock Reports for Salesforce, Seagate Technology & AT&T",
                            "/news/384399/top-stock-reports", "Zacks")
 
