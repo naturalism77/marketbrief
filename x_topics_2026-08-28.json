@@ -1,97 +1,97 @@
 [
   {
     "rank": 1,
-    "title": "트럼프, 엔비디아 기록 분기 축하",
+    "title": "AI 인프라 투자 2027년 1.3조 달러 전망",
     "tickers": [
       "NVDA"
     ],
-    "summary": "트럼프 대통령이 엔비디아의 기록적인 분기를 축하하며 “오직 미국에서만”이라고 언급. 엔비디아 주가 관련 논의 급증.",
-    "why_trending": "KobeissiLetter 게시물이 2121 좋아요로 가장 높은 반응 기록",
+    "summary": "S&P 글로벌은 AI 인프라 투자 규모가 2027년까지 1.3조 달러를 넘어설 것으로 전망. 2026~2027년 주요 하이퍼스케일러 6곳은 운영 현금 흐름 적자 예상.",
+    "why_trending": "FinancialJuice와 S&P 보도 공유로 3만+ 조회, 다수 계정 인용",
     "buzz_level": "high",
-    "sample_post_url": "https://x.com/KobeissiLetter/status/2093125812488704238",
+    "sample_post_url": "https://x.com/financialjuice/status/2092946353429065783",
     "window": "12h",
     "link_verified": true
   },
   {
     "rank": 2,
-    "title": "엔비디아, AI 클라우드 수익 공유 중단",
+    "title": "엔비디아 AI 클라우드 금융 프로그램 중단",
     "tickers": [
       "NVDA"
     ],
-    "summary": "엔비디아가 AI 클라우드 제공사와의 수익 공유 계약을 중단한 것으로 WSJ 보도. 여러 계정 동시 인용.",
-    "why_trending": "FirstSquawk와 StockMKTNewz 게시물이 229·132 좋아요로 다수 공유",
+    "summary": "엔비디아가 AI 클라우드 제공사에 신용 지원 대신 수익 공유 조건으로 제공하던 새 금융 프로그램을 일시 중단. WSJ 보도.",
+    "why_trending": "StockMKTNewz 게시물 3만+ 조회, 134 좋아요",
     "buzz_level": "high",
-    "sample_post_url": "https://x.com/FirstSquawk/status/2093093476045074455",
+    "sample_post_url": "https://x.com/StockMKTNewz/status/2093096915286065396",
     "window": "12h",
     "link_verified": true
   },
   {
     "rank": 3,
-    "title": "앤스로픽, 2조 달러 밸류에이션 전망",
-    "tickers": [
-      "NVDA"
-    ],
-    "summary": "앤스로픽 밸류에이션이 12월 31일까지 2조 달러를 초과할 확률 71%로 전망. AI 혁명 가속화 논의.",
-    "why_trending": "KobeissiLetter 게시물이 1068 좋아요로 AI 인프라 관련 최대 반응",
+    "title": "연준 워시 잭슨홀 연설 인플레이션 초점",
+    "tickers": [],
+    "summary": "케빈 워시 연준 의장 잭슨홀 기조연설 내일 예정. 인플레이션 여전히 높고 금리 추가 인상 가능성 논의.",
+    "why_trending": "FirstSquawk 3건 게시물 2만~6만 조회, 37~57 좋아요",
     "buzz_level": "high",
-    "sample_post_url": "https://x.com/KobeissiLetter/status/2093043090403602460",
+    "sample_post_url": "https://x.com/FirstSquawk/status/2093118746575671805",
     "window": "12h",
     "link_verified": true
   },
   {
     "rank": 4,
-    "title": "브렌트유 88.58달러로 3.9% 하락",
+    "title": "트럼프 행정부 장기 국채 수익률 하락 유도",
     "tickers": [],
-    "summary": "호르무즈 해협 긴장 완화로 브렌트유가 88.58달러까지 떨어짐. 에너지 인플레이션 우려 감소.",
-    "why_trending": "DeItaone 게시물이 315 좋아요로 원자재 섹션 최대 공유",
-    "buzz_level": "high",
-    "sample_post_url": "https://x.com/DeItaone/status/2092957251900227589",
-    "window": "12h",
-    "link_verified": true
-  },
-  {
-    "rank": 5,
-    "title": "미 재무부, 장기 채권 수익률 하락 전망",
-    "tickers": [],
-    "summary": "미 재무부 관리가 인플레이션 완화로 채권 수익률이 하락할 것이라고 발언. 트럼프 행정부가 장기 수익률 인하에 집중.",
-    "why_trending": "DeItaone과 FirstSquawk 게시물이 425·55 좋아요로 금리 관련 동시 화제",
+    "summary": "미 재무부 관리 “인플레이션 완화로 국채 수익률 하락” 전망. 트럼프 행정부 장기채 수익률 낮추기 집중.",
+    "why_trending": "DeItaone 44만+ 조회, 441 좋아요, FinancialJuice·FirstSquawk 동시 보도",
     "buzz_level": "high",
     "sample_post_url": "https://x.com/DeItaone/status/2093086681528144168",
     "window": "12h",
     "link_verified": true
   },
   {
+    "rank": 5,
+    "title": "달러 옵션 57% 매수 포지션, Fed 연설 대기",
+    "tickers": [
+      "DXY"
+    ],
+    "summary": "통화 트레이더들 Fed 워시 연설 앞두고 달러 강세 헤지 비중 57%로 상승. 변동성 낮아 서프라이즈 시 급변동 가능.",
+    "why_trending": "DeItaone 14만+ 조회, 515 좋아요",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2092929495615357059",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
     "rank": 6,
-    "title": "베네수엘라, OPEC 탈퇴 논의",
+    "title": "달러제너럴 Q2 실적 상회·가이던스 상향",
+    "tickers": [
+      "DG"
+    ],
+    "summary": "달러제너럴 Q2 EPS 2.48달러(예상 2.00), 매출 113억 달러(예상 111.9억). FY26 EPS 가이던스 7.80~8.00달러로 상향.",
+    "why_trending": "StockMKTNewz 4만+ 조회, DeItaone·FinancialJuice 동시 보도",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/StockMKTNewz/status/2092941970469429346",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 7,
+    "title": "베네수엘라 OPEC 탈퇴 논의, 미-베네수엘라 유전 협상",
     "tickers": [],
-    "summary": "베네수엘라가 미국과 OPEC 탈퇴를 논의 중이며, 미국이 베네수엘라 유전 지분 인수 협상 중. OPEC 영향력 약화 전망.",
-    "why_trending": "KobeissiLetter 게시물이 6654 좋아요로 에너지·원자재 최대 반응",
+    "summary": "베네수엘라가 미 관리들과 OPEC 탈퇴 논의 중. 미-베네수엘라 유전 지분 협상으로 OPEC 영향력 축소 전망.",
+    "why_trending": "KobeissiLetter 47만+ 조회, 6944 좋아요, Bloomberg 인용",
     "buzz_level": "high",
     "sample_post_url": "https://x.com/KobeissiLetter/status/2093120571382890908",
     "window": "12h",
     "link_verified": true
   },
   {
-    "rank": 7,
-    "title": "폴란드, 메타에 2.5억 유로 벌금 요구",
-    "tickers": [
-      "META"
-    ],
-    "summary": "폴란드가 EU에 메타에 2.5억 유로 벌금을 부과하고 사기·허위 광고 대응을 촉구. 규제 이슈 확산.",
-    "why_trending": "Reuters 게시물이 682 좋아요로 빅테크 규제 관련 다수 인용",
-    "buzz_level": "medium",
-    "sample_post_url": "https://x.com/Reuters/status/2092900208711467084",
-    "window": "12h",
-    "link_verified": true
-  },
-  {
     "rank": 8,
-    "title": "헤지펀드, 에너지 주식 4년 만에 최대 매수",
+    "title": "UBS 구리·금·농산물 AI 인프라 수혜 전망",
     "tickers": [],
-    "summary": "헤지펀드가 지난주 글로벌 에너지 주식을 4년 만에 가장 많이 매수. 13주 중 12주 연속 매수 기록.",
-    "why_trending": "KobeissiLetter 게시물이 830 좋아요로 에너지 섹터 집중 논의",
+    "summary": "UBS, AI 인프라·전기화로 구리, 중앙은행 매수로 금, 엘니뇨 공급 리스크로 밀·옥수수 기회 강조.",
+    "why_trending": "DeItaone 12만+ 조회, 238 좋아요",
     "buzz_level": "medium",
-    "sample_post_url": "https://x.com/KobeissiLetter/status/2093064758161215661",
+    "sample_post_url": "https://x.com/DeItaone/status/2092951384966537312",
     "window": "12h",
     "link_verified": true
   }
