@@ -23,6 +23,22 @@
     "SpaceX, Tesla 관련 뉴스"
   ],
 
+  "_comment_hot_topics_source_domains": "출처 도메인 3등급. tier1=우선 채택. blocked=무조건 제외(SNS/포럼/거래소 자체 블로그/로펌 홈페이지 + 실측으로 걸린 저품질/미분류 도메인, 화이트리스트가 아니므로 새로 걸리면 계속 추가). 그 외 전부 tier2(채택은 허용하되 화면에 '2차 출처' 배지 표시)",
+  "hot_topics_source_domains": {
+    "tier1": [
+      "reuters.com", "bloomberg.com", "wsj.com", "cnbc.com", "ft.com",
+      "marketwatch.com", "apnews.com", "theinformation.com", "techcrunch.com", "fortune.com"
+    ],
+    "blocked": [
+      "facebook.com", "twitter.com", "x.com", "reddit.com", "instagram.com",
+      "linkedin.com", "tiktok.com", "threads.net", "quora.com",
+      "binance.com", "coinbase.com", "kucoin.com", "okx.com", "kraken.com",
+      "bybit.com", "upbit.com", "bithumb.com", "gate.io", "huobi.com", "bitget.com",
+      "paulhastings.com", "lw.com",
+      "shattered.io", "arinsider.co", "whtc.com", "ua.news"
+    ]
+  },
+
   "corp_news_max_age_days": 3,
 
     "x_topics": {

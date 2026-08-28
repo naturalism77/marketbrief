@@ -11,6 +11,7 @@ MarketBrief 단위 테스트
 import datetime
 import json
 import re
+import time
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -34,7 +35,13 @@ from marketbrief import (
     render_hot_topics_section,
     attach_hot_topic_sources,
     HOT_TOPIC_CATEGORIES,
-    PREFERRED_SOURCE_DOMAINS,
+    TIER1_SOURCE_DOMAINS,
+    BLOCKED_SOURCE_DOMAINS,
+    _domain_tier,
+    _company_key,
+    _resolve_final_url,
+    _looks_like_roundup,
+    _flag_roundup_risk,
     CFG,
     fetch_hot_topics,
     _is_personal_advice_column,
@@ -613,10 +620,21 @@ class TestBuildHotTopicsPrompt:
         assert "독점" in prompt
 
     def test_instructs_preferred_source_domains(self, mock_data):
-        """영어권 1차 소스를 우선 참고하도록 지시해야 한다"""
+        """영어권 1차 소스(tier1)를 우선 참고하도록 지시해야 한다"""
         prompt = build_hot_topics_prompt(mock_data)
-        for domain in PREFERRED_SOURCE_DOMAINS:
+        for domain in TIER1_SOURCE_DOMAINS:
             assert domain in prompt
+
+    def test_instructs_excluding_sns_and_low_quality_sources(self, mock_data):
+        """SNS/포럼/거래소 블로그/로펌 홈페이지는 출처로 참고하지 말라고 지시해야 한다"""
+        prompt = build_hot_topics_prompt(mock_data)
+        assert "SNS" in prompt or "포럼" in prompt
+
+    def test_instructs_not_reversing_deal_outcomes(self, mock_data):
+        """무산·철회·부인된 사안을 진행 중인 것처럼 쓰지 말라고 지시해야 한다"""
+        prompt = build_hot_topics_prompt(mock_data)
+        assert "무산" in prompt
+        assert "진행 중인 것처럼" in prompt
 
     # ── 숏츠 vs 카드뉴스 분류 기준 ───────────────────────────────
 
@@ -728,6 +746,59 @@ class TestRenderHotTopicsSection:
         topics = [{**self.SAMPLE[0], "source_url": None}]
         html = render_hot_topics_section(topics)
         assert "🔗 출처" not in html
+
+    def test_secondary_source_badge_shown_for_tier2(self):
+        """source_tier가 tier2면 화면에 '2차 출처' 배지가 붙어야 한다"""
+        topics = [{
+            **self.SAMPLE[0],
+            "source_url": "https://example.com/news/1",
+            "source_tier": "tier2",
+        }]
+        html = render_hot_topics_section(topics)
+        assert "2차 출처" in html
+
+    def test_no_secondary_badge_for_tier1(self):
+        """source_tier가 tier1이면 '2차 출처' 배지가 붙지 않아야 한다"""
+        topics = [{
+            **self.SAMPLE[0],
+            "source_url": "https://example.com/news/1",
+            "source_tier": "tier1",
+        }]
+        html = render_hot_topics_section(topics)
+        assert "2차 출처" not in html
+
+    def test_no_secondary_badge_when_tier_missing(self):
+        """source_tier 필드 자체가 없는(과거 저장분) 경우에도 배지가 붙으면 안 된다"""
+        topics = [{**self.SAMPLE[0], "source_url": "https://example.com/news/1"}]
+        html = render_hot_topics_section(topics)
+        assert "2차 출처" not in html
+
+    def test_roundup_risk_badge_shown_when_flagged(self):
+        """source_roundup_risk가 True면 '종합기사 가능성' 경고 배지가 붙어야 한다"""
+        topics = [{
+            **self.SAMPLE[0],
+            "source_url": "https://example.com/news/1",
+            "source_roundup_risk": True,
+        }]
+        html = render_hot_topics_section(topics)
+        assert "종합기사 가능성" in html
+
+    def test_no_roundup_risk_badge_when_not_flagged(self):
+        topics = [{**self.SAMPLE[0], "source_url": "https://example.com/news/1"}]
+        html = render_hot_topics_section(topics)
+        assert "종합기사 가능성" not in html
+
+    def test_secondary_badge_and_roundup_badge_can_both_appear(self):
+        """2차 출처 배지와 종합기사 경고 배지는 서로 독립적으로, 동시에 뜰 수 있어야 한다"""
+        topics = [{
+            **self.SAMPLE[0],
+            "source_url": "https://example.com/news/1",
+            "source_tier": "tier2",
+            "source_roundup_risk": True,
+        }]
+        html = render_hot_topics_section(topics)
+        assert "2차 출처" in html
+        assert "종합기사 가능성" in html
 
 
 # ============================================================
@@ -930,26 +1001,27 @@ class TestAttachHotTopicSources:
         urls = [t["source_url"] for t in result if t.get("source_url")]
         assert len(urls) == len(set(urls))
 
-    # ── 영어권 1차 소스 우선 채택 ────────────────────────────────
+    # ── 도메인 3등급(tier1/tier2/blocked) 채택 우선순위 ──────────────
 
-    def test_prefers_preferred_domain_over_other_candidate(self):
-        """후보가 여러 개면 PREFERRED_SOURCE_DOMAINS와 매칭되는 쪽을 우선 채택한다"""
+    def test_prefers_tier1_domain_over_tier2_candidate(self):
+        """후보가 여러 개면 tier1과 매칭되는 쪽을 우선 채택하고 source_tier를 tier1로 표시한다"""
         text = "1. 연준 금리 동결 | 이유 | 포맷:숏츠"
         topics = [{"rank": 1, "title": "연준 금리 동결", "reason": "이유", "format": "숏츠"}]
         start = text.index("연준 금리 동결")
         end   = start + len("연준 금리 동결")
         chunks = [
-            {"uri": "https://example.com/kr", "title": "yna.co.kr"},
-            {"uri": "https://example.com/reuters", "title": "reuters.com"},
+            {"uri": "https://example.com/kr", "title": "yna.co.kr"},        # tier2(미분류)
+            {"uri": "https://example.com/reuters", "title": "reuters.com"},  # tier1
         ]
         supports = [{"start_index": start, "end_index": end, "chunk_indices": [0, 1]}]
 
         result = attach_hot_topic_sources(text, topics, chunks, supports)
 
         assert result[0]["source_url"] == "https://example.com/reuters"
+        assert result[0]["source_tier"] == "tier1"
 
-    def test_falls_back_to_non_preferred_when_no_preferred_available(self):
-        """선호 도메인 후보가 없으면 기존처럼 첫 번째 미사용 후보를 채택한다"""
+    def test_falls_back_to_tier2_when_no_tier1_available(self):
+        """tier1 후보가 없으면 tier2(미분류) 후보를 채택하고 source_tier를 tier2로 표시한다"""
         text = "1. 연준 금리 동결 | 이유 | 포맷:숏츠"
         topics = [{"rank": 1, "title": "연준 금리 동결", "reason": "이유", "format": "숏츠"}]
         start = text.index("연준 금리 동결")
@@ -960,8 +1032,9 @@ class TestAttachHotTopicSources:
         result = attach_hot_topic_sources(text, topics, chunks, supports)
 
         assert result[0]["source_url"] == "https://example.com/kr"
+        assert result[0]["source_tier"] == "tier2"
 
-    def test_preferred_domain_matching_is_case_insensitive(self):
+    def test_tier1_domain_matching_is_case_insensitive(self):
         text = "1. 연준 금리 동결 | 이유 | 포맷:숏츠"
         topics = [{"rank": 1, "title": "연준 금리 동결", "reason": "이유", "format": "숏츠"}]
         start = text.index("연준 금리 동결")
@@ -972,9 +1045,10 @@ class TestAttachHotTopicSources:
         result = attach_hot_topic_sources(text, topics, chunks, supports)
 
         assert result[0]["source_url"] == "https://example.com/bb"
+        assert result[0]["source_tier"] == "tier1"
 
-    def test_preferred_domain_still_respects_used_urls_dedup(self):
-        """선호 도메인이라도 이미 앞선 토픽이 쓴 URL이면 재사용하지 않는다"""
+    def test_tier1_domain_still_respects_used_urls_dedup(self):
+        """tier1 도메인이라도 이미 앞선 토픽이 쓴 URL이면 재사용하지 않는다"""
         text = "1. 첫번째 토픽 | 이유1 | 포맷:숏츠\n2. 두번째 토픽 | 이유2 | 포맷:카드뉴스"
         topics = [
             {"rank": 1, "title": "첫번째 토픽", "reason": "이유1", "format": "숏츠"},
@@ -993,6 +1067,56 @@ class TestAttachHotTopicSources:
         # 두번째 토픽은 유일한 근거(reuters)가 이미 선점됐으므로 중복으로 제외
         assert len(result) == 1
         assert result[0]["title"] == "첫번째 토픽"
+
+    def test_blocked_only_candidate_means_topic_is_dropped(self):
+        """후보가 blocked 도메인뿐이면 근거 없음으로 간주해 토픽을 제외한다"""
+        text = "1. 연준 금리 동결 | 이유 | 포맷:숏츠"
+        topics = [{"rank": 1, "title": "연준 금리 동결", "reason": "이유", "format": "숏츠"}]
+        start = text.index("연준 금리 동결")
+        end   = start + len("연준 금리 동결")
+        chunks = [{"uri": "https://example.com/fb", "title": "facebook.com"}]
+        supports = [{"start_index": start, "end_index": end, "chunk_indices": [0]}]
+
+        result = attach_hot_topic_sources(text, topics, chunks, supports)
+
+        assert result == []
+
+    def test_blocked_candidate_never_selected_even_with_tier2_alternative(self):
+        """blocked 후보와 tier2 후보가 함께 있으면 blocked는 버리고 tier2를 채택한다"""
+        text = "1. 연준 금리 동결 | 이유 | 포맷:숏츠"
+        topics = [{"rank": 1, "title": "연준 금리 동결", "reason": "이유", "format": "숏츠"}]
+        start = text.index("연준 금리 동결")
+        end   = start + len("연준 금리 동결")
+        chunks = [
+            {"uri": "https://example.com/fb", "title": "facebook.com"},   # blocked
+            {"uri": "https://example.com/kr", "title": "yna.co.kr"},      # tier2
+        ]
+        supports = [{"start_index": start, "end_index": end, "chunk_indices": [0, 1]}]
+
+        result = attach_hot_topic_sources(text, topics, chunks, supports)
+
+        assert result[0]["source_url"] == "https://example.com/kr"
+        assert result[0]["source_tier"] == "tier2"
+
+    def test_blocked_candidate_does_not_occupy_used_urls_slot(self):
+        """blocked 후보는 애초에 채택 대상이 아니므로, 다른 토픽의 중복 판정에도 영향을 주지 않는다"""
+        text = "1. 첫번째 토픽 | 이유1 | 포맷:숏츠\n2. 두번째 토픽 | 이유2 | 포맷:카드뉴스"
+        topics = [
+            {"rank": 1, "title": "첫번째 토픽", "reason": "이유1", "format": "숏츠"},
+            {"rank": 2, "title": "두번째 토픽", "reason": "이유2", "format": "카드뉴스"},
+        ]
+        start1, end1 = _byte_span(text, "첫번째 토픽")
+        start2, end2 = _byte_span(text, "두번째 토픽")
+        chunks = [{"uri": "https://example.com/fb", "title": "facebook.com"}]
+        supports = [
+            {"start_index": start1, "end_index": end1, "chunk_indices": [0]},
+            {"start_index": start2, "end_index": end2, "chunk_indices": [0]},
+        ]
+
+        result = attach_hot_topic_sources(text, topics, chunks, supports)
+
+        # 둘 다 blocked 도메인만 근거였으므로 둘 다 제외 — "중복"으로 취급되면 안 됨
+        assert result == []
 
     def test_returns_same_number_of_topics_when_all_have_evidence(self):
         text = "1. A | 이유 | 포맷:숏츠\n2. B | 이유 | 포맷:숏츠"
@@ -1073,6 +1197,192 @@ class TestAttachHotTopicSources:
         result = attach_hot_topic_sources(text, topics, chunks, supports)
 
         assert result == []
+
+
+# ============================================================
+# 13.5. _domain_tier / _company_key
+# ============================================================
+
+class TestDomainTier:
+    def test_tier1_domain_returns_tier1(self):
+        assert _domain_tier("reuters.com") == "tier1"
+
+    def test_blocked_domain_returns_blocked(self):
+        assert _domain_tier("facebook.com") == "blocked"
+
+    def test_unclassified_domain_returns_tier2(self):
+        """tier1도 blocked도 아닌 도메인은 안전장치로 tier2(미분류)로 취급된다"""
+        assert _domain_tier("yna.co.kr") == "tier2"
+
+    def test_none_or_empty_returns_tier2(self):
+        assert _domain_tier(None) == "tier2"
+        assert _domain_tier("") == "tier2"
+
+    def test_matching_is_case_insensitive(self):
+        assert _domain_tier("Reuters.COM") == "tier1"
+        assert _domain_tier("Facebook.com") == "blocked"
+
+    def test_known_low_quality_domains_are_blocked(self):
+        """실측으로 걸린 미분류 저품질 도메인들은 화이트리스트가 아니어도 선제 차단한다"""
+        for domain in ("shattered.io", "arinsider.co", "whtc.com", "ua.news"):
+            assert _domain_tier(domain) == "blocked"
+
+    def test_known_exchange_and_law_firm_domains_are_blocked(self):
+        assert _domain_tier("kucoin.com") == "blocked"
+        assert _domain_tier("paulhastings.com") == "blocked"
+        assert _domain_tier("lw.com") == "blocked"  # Latham & Watkins — 실측으로 걸린 로펌 홈페이지
+
+
+class TestCompanyKey:
+    def test_uses_ticker_when_present(self):
+        assert _company_key("모더나(MRNA) 주가 7% 급락") == "MRNA"
+
+    def test_ticker_matching_is_case_normalized(self):
+        assert _company_key("엔비디아(nvda) 실적 발표") == "NVDA"
+
+    def test_falls_back_to_leading_segment_before_comma_when_no_ticker(self):
+        assert _company_key("Anthropic, 70억 달러 규모 AI 칩 스타트업 인수") == "ANTHROPIC"
+
+    def test_same_company_without_ticker_produces_same_key(self):
+        """티커가 없는 두 토픽이 같은 기업으로 시작하면 같은 키를 반환해야 한다"""
+        key1 = _company_key("Anthropic, 70억 달러 규모 AI 칩 스타트업 MatX 인수 논의")
+        key2 = _company_key("Anthropic, 영국 AI 인프라 기업 Nscale에 450억 달러 임대 계약")
+        assert key1 == key2
+
+    def test_different_companies_produce_different_keys(self):
+        key1 = _company_key("Anthropic, IPO 기대감 고조")
+        key2 = _company_key("모더나(MRNA) 주가 급락")
+        assert key1 != key2
+
+    def test_matches_english_in_parens_even_with_korean_prefix(self):
+        """"앤트로픽(Anthropic)"처럼 한글 표기 뒤에 영문 고유명사가 괄호로 붙은
+        경우, 괄호 안 영문을 키로 써야 한다 (티커 길이 제한과 무관)"""
+        assert _company_key("앤트로픽(Anthropic), 2026년 IPO 추진") == "ANTHROPIC"
+
+    def test_korean_prefixed_and_plain_english_form_produce_same_key(self):
+        """실측 재현: "앤트로픽(Anthropic), ..."과 "Anthropic, ..."이 같은
+        회사를 가리키면 같은 키로 매칭돼야 한다 (dedup의 핵심 조건)"""
+        key1 = _company_key("앤트로픽(Anthropic), 2026년 IPO 추진 및 3천억 달러 이상 기업 가치 평가")
+        key2 = _company_key("Anthropic, 2026년 10월 IPO 목표로 초기 투자자 미팅 진행 중")
+        assert key1 == key2
+
+    def test_english_in_parens_takes_priority_over_ticker_length_limit(self):
+        """티커용 정규식(1~6자 제한)과 무관하게, 괄호 안 영문이면 길이 제한 없이 잡아야 한다"""
+        assert _company_key("스페이스X(SpaceX), 위성 발사 계획 공개") == "SPACEX"
+
+
+# ============================================================
+# 13.6. 종합기사(라운드업) 위험 배지 —
+#       _resolve_final_url / _looks_like_roundup / _flag_roundup_risk
+# ============================================================
+
+class TestResolveFinalUrl:
+    def test_returns_resolved_url_on_success(self, monkeypatch):
+        monkeypatch.setattr(
+            "marketbrief.requests.head",
+            lambda url, allow_redirects, timeout: SimpleNamespace(url="https://real-site.com/article/abc"),
+        )
+        assert _resolve_final_url("https://redirect.example.com/x") == "https://real-site.com/article/abc"
+
+    def test_returns_none_on_exception(self, monkeypatch):
+        def raising_head(url, allow_redirects, timeout):
+            raise Exception("boom")
+
+        monkeypatch.setattr("marketbrief.requests.head", raising_head)
+        assert _resolve_final_url("https://redirect.example.com/x") is None
+
+
+class TestLooksLikeRoundup:
+    def test_false_when_resolved_url_is_none(self):
+        """해석 실패(None)면 판단을 보류한다 — 종합기사로 단정하지 않는다"""
+        topic = {"title": "모더나(MRNA) 주가 급락"}
+        assert _looks_like_roundup(topic, None) is False
+
+    def test_false_when_slug_overlaps_keyword(self):
+        topic = {"title": "모더나(MRNA) 주가 급락"}
+        assert _looks_like_roundup(topic, "https://fool.com/article/moderna-mrna-stock-drop") is False
+
+    def test_true_when_slug_has_no_overlap_with_keywords(self):
+        """실측 재현: AP News의 다중 키워드 나열형 슬러그(연준/GDP 언급이 없음)"""
+        topic = {"title": "연준 인사들, 고금리 장기화 시사"}
+        url = "https://apnews.com/article/stocks-markets-ai-oil-nvidia-abc123"
+        assert _looks_like_roundup(topic, url) is True
+
+    def test_false_when_slug_tokens_are_empty(self):
+        topic = {"title": "모더나(MRNA) 주가 급락"}
+        assert _looks_like_roundup(topic, "https://example.com/") is False
+
+    def test_false_when_title_has_no_extractable_keywords(self):
+        """제목에서 키워드를 못 뽑으면(너무 짧음 등) 판단을 보류한다"""
+        topic = {"title": "A"}
+        assert _looks_like_roundup(topic, "https://example.com/some-random-page") is False
+
+
+class TestFlagRoundupRisk:
+    def test_sets_flag_when_looks_like_roundup(self, monkeypatch):
+        monkeypatch.setattr(
+            "marketbrief._resolve_final_url",
+            lambda url: "https://apnews.com/article/stocks-markets-ai-oil-nvidia-abc",
+        )
+        topics = [{"title": "연준 인사들, 고금리 장기화 시사", "source_url": "https://redirect.example.com/x"}]
+
+        _flag_roundup_risk(topics)
+
+        assert topics[0]["source_roundup_risk"] is True
+
+    def test_does_not_set_flag_when_not_roundup(self, monkeypatch):
+        monkeypatch.setattr(
+            "marketbrief._resolve_final_url",
+            lambda url: "https://fool.com/article/moderna-mrna-stock-drop",
+        )
+        topics = [{"title": "모더나(MRNA) 주가 급락", "source_url": "https://redirect.example.com/x"}]
+
+        _flag_roundup_risk(topics)
+
+        assert "source_roundup_risk" not in topics[0]
+
+    def test_fail_open_when_resolve_raises(self, monkeypatch):
+        """해석이 예외를 던져도 조용히 넘어가야 한다 — tier/최종 선정에 영향 없음"""
+        def raising_resolve(url):
+            raise Exception("boom")
+
+        monkeypatch.setattr("marketbrief._resolve_final_url", raising_resolve)
+        topics = [{"title": "연준 인사들, 고금리 장기화 시사", "source_url": "https://redirect.example.com/x"}]
+
+        _flag_roundup_risk(topics)  # 예외가 여기서 새어나오면 안 됨
+
+        assert "source_roundup_risk" not in topics[0]
+
+    def test_skips_topics_without_source_url(self, monkeypatch):
+        called = []
+        monkeypatch.setattr(
+            "marketbrief._resolve_final_url",
+            lambda url: called.append(url),
+        )
+        topics = [{"title": "제목", "source_url": None}]
+
+        _flag_roundup_risk(topics)
+
+        assert called == []
+
+    def test_overall_wait_is_bounded_even_if_resolution_hangs(self, monkeypatch):
+        """전체 예산을 짧게 설정하면, 개별 해석이 오래 걸려도 그 예산만큼만
+        기다리고 리턴해야 한다 — fetch_hot_topics 전체가 무한정 늘어지면 안 됨"""
+        monkeypatch.setattr("marketbrief.HOT_TOPICS_ROUNDUP_CHECK_TOTAL_BUDGET", 0.05)
+
+        def slow_resolve(url):
+            time.sleep(2)
+            return "https://example.com/whatever"
+
+        monkeypatch.setattr("marketbrief._resolve_final_url", slow_resolve)
+        topics = [{"title": "연준 인사들, 고금리 장기화 시사", "source_url": "https://redirect.example.com/x"}]
+
+        start = time.monotonic()
+        _flag_roundup_risk(topics)
+        elapsed = time.monotonic() - start
+
+        assert elapsed < 1.0  # 2초 sleep을 기다리지 않고 예산(0.05초) 근처에서 리턴돼야 함
+        assert "source_roundup_risk" not in topics[0]  # 결과를 못 받았으니 배지 없음(fail-open)
 
 
 # ============================================================
@@ -1236,6 +1546,114 @@ class TestFetchHotTopicsRetry:
         assert len(calls) == 2
         assert [t["title"] for t in result] == ["A", "B"]
         assert [t["rank"] for t in result] == [1, 2]
+
+    def test_drops_duplicate_topic_for_same_company_without_ticker(self, monkeypatch, mock_data):
+        """같은 기업(티커 없이도)이 두 토픽의 주인공이면 상위 1개만 남기고 나머지는 뺀다"""
+        text = (
+            "1. Anthropic, MatX 인수 논의 | 이유1 | 포맷:숏츠\n"
+            "2. Anthropic, Nscale 임대 계약 | 이유2 | 포맷:카드뉴스"
+        )
+        start1, end1 = _byte_span(text, "Anthropic, MatX 인수 논의")
+        start2, end2 = _byte_span(text, "Anthropic, Nscale 임대 계약")
+
+        def fake_generate_content(prompt, system, max_retries=None, tools=None):
+            return _fake_response(
+                text,
+                chunks=[
+                    {"uri": "https://example.com/matx", "title": "reuters.com"},
+                    {"uri": "https://example.com/nscale", "title": "bloomberg.com"},
+                ],
+                supports=[
+                    {"start_index": start1, "end_index": end1, "chunk_indices": [0]},
+                    {"start_index": start2, "end_index": end2, "chunk_indices": [1]},
+                ],
+            )
+
+        monkeypatch.setattr("marketbrief._generate_content", fake_generate_content)
+
+        result = fetch_hot_topics(mock_data)
+
+        assert [t["title"] for t in result] == ["Anthropic, MatX 인수 논의"]
+
+    def test_drops_duplicate_when_one_topic_has_korean_prefix_and_other_is_plain_english(
+        self, monkeypatch, mock_data
+    ):
+        """실측 재현: "앤트로픽(Anthropic), ..."과 "Anthropic, ..."이 같은 회사를
+        가리키면 표기 형태가 달라도 dedup돼야 한다 (#2, #10 두 자리 차지 버그)"""
+        text = (
+            "1. Anthropic, 2026년 10월 IPO 목표로 초기 투자자 미팅 진행 중 | 이유1 | 포맷:숏츠\n"
+            "2. 앤트로픽(Anthropic), 2026년 IPO 추진 및 3천억 달러 기업가치 평가 | 이유2 | 포맷:숏츠"
+        )
+        title1 = "Anthropic, 2026년 10월 IPO 목표로 초기 투자자 미팅 진행 중"
+        title2 = "앤트로픽(Anthropic), 2026년 IPO 추진 및 3천억 달러 기업가치 평가"
+        start1, end1 = _byte_span(text, title1)
+        start2, end2 = _byte_span(text, title2)
+
+        def fake_generate_content(prompt, system, max_retries=None, tools=None):
+            return _fake_response(
+                text,
+                chunks=[
+                    {"uri": "https://example.com/a", "title": "bloomberg.com"},
+                    {"uri": "https://example.com/b", "title": "bloomberg.com"},
+                ],
+                supports=[
+                    {"start_index": start1, "end_index": end1, "chunk_indices": [0]},
+                    {"start_index": start2, "end_index": end2, "chunk_indices": [1]},
+                ],
+            )
+
+        monkeypatch.setattr("marketbrief._generate_content", fake_generate_content)
+
+        result = fetch_hot_topics(mock_data)
+
+        assert [t["title"] for t in result] == [title1]
+
+    def test_calls_flag_roundup_risk_on_final_result(self, monkeypatch, mock_data):
+        """최종 확정된 결과에 대해 종합기사 위험 플래그 단계가 호출돼야 한다"""
+        monkeypatch.setattr("marketbrief.HOT_TOPICS_TARGET_COUNT", 1)
+
+        def fake_generate_content(prompt, system, max_retries=None, tools=None):
+            return _fake_response(
+                self.RESPONSE_TEXT,
+                chunks=[{"uri": "https://example.com/a", "title": "reuters.com"}],
+                supports=[{"start_index": 3, "end_index": 4, "chunk_indices": [0]}],
+            )
+
+        monkeypatch.setattr("marketbrief._generate_content", fake_generate_content)
+
+        received = []
+
+        def fake_flag_roundup_risk(topics):
+            received.append([t["title"] for t in topics])
+
+        monkeypatch.setattr("marketbrief._flag_roundup_risk", fake_flag_roundup_risk)
+
+        result = fetch_hot_topics(mock_data)
+
+        assert received == [["A"]]
+        assert result[0]["title"] == "A"
+
+    def test_survives_when_flag_roundup_risk_raises(self, monkeypatch, mock_data):
+        """종합기사 위험 판정 단계가 어떤 이유로든 실패해도 결과 자체는 정상 반환돼야 한다"""
+        monkeypatch.setattr("marketbrief.HOT_TOPICS_TARGET_COUNT", 1)
+
+        def fake_generate_content(prompt, system, max_retries=None, tools=None):
+            return _fake_response(
+                self.RESPONSE_TEXT,
+                chunks=[{"uri": "https://example.com/a", "title": "reuters.com"}],
+                supports=[{"start_index": 3, "end_index": 4, "chunk_indices": [0]}],
+            )
+
+        monkeypatch.setattr("marketbrief._generate_content", fake_generate_content)
+
+        def raising_flag(topics):
+            raise Exception("boom")
+
+        monkeypatch.setattr("marketbrief._flag_roundup_risk", raising_flag)
+
+        result = fetch_hot_topics(mock_data)  # 예외가 여기서 새어나오면 안 됨
+
+        assert result[0]["title"] == "A"
 
 
 # ============================================================

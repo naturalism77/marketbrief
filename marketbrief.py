@@ -20,7 +20,9 @@ import math
 import logging
 import datetime
 import argparse
+import concurrent.futures
 from pathlib import Path
+from urllib.parse import urlparse
 
 import pytz
 import requests
@@ -75,6 +77,20 @@ def load_config() -> dict:
         "max_tokens": 2048,
         "data": {"etf_count": 20, "news_count": 5, "news_rss_feeds": []},
         "hot_topics_watchlist": [],
+        "hot_topics_source_domains": {
+            "tier1": [
+                "reuters.com", "bloomberg.com", "wsj.com", "cnbc.com", "ft.com",
+                "marketwatch.com", "apnews.com", "theinformation.com", "techcrunch.com", "fortune.com",
+            ],
+            "blocked": [
+                "facebook.com", "twitter.com", "x.com", "reddit.com", "instagram.com",
+                "linkedin.com", "tiktok.com", "threads.net", "quora.com",
+                "binance.com", "coinbase.com", "kucoin.com", "okx.com", "kraken.com",
+                "bybit.com", "upbit.com", "bithumb.com", "gate.io", "huobi.com", "bitget.com",
+                "paulhastings.com", "lw.com",
+                "shattered.io", "arinsider.co", "whtc.com", "ua.news",
+            ],
+        },
         "corp_news_max_age_days": 3,
         "output": {
             "save_markdown": True, "save_html": True,
@@ -1215,9 +1231,30 @@ HOT_TOPIC_CATEGORIES = [
     },
 ]
 
-# 출처 링크 우선순위 — 영어권 1차 소스 (실측 결과, grounding chunk의 title 필드에
-# 기사 제목이 아니라 도메인 문자열이 담겨 오므로 이 값들과 substring 매칭에 사용)
-PREFERRED_SOURCE_DOMAINS = ["bloomberg", "reuters", "marketwatch", "wsj", "cnbc"]
+# 출처 도메인 3등급 — config.json의 hot_topics_source_domains로 오버라이드 가능.
+# (실측 결과, grounding chunk의 title 필드에 기사 제목이 아니라 도메인 문자열이
+# 담겨 오므로 이 값들과 substring 매칭에 사용)
+#   tier1   : 영어권 1차 소스 — 후보 중 최우선 채택
+#   blocked : SNS/포럼/거래소 자체 블로그/로펌 홈페이지 등 무조건 제외.
+#             화이트리스트가 아니라 알려진 문제 도메인을 계속 추가하는 목록.
+#   그 외    : tier2(미분류) — 채택은 허용하되 화면에 "2차 출처"로 표시
+_HOT_TOPICS_SOURCE_DOMAINS = CFG.get("hot_topics_source_domains", {})
+TIER1_SOURCE_DOMAINS   = [d.lower() for d in _HOT_TOPICS_SOURCE_DOMAINS.get("tier1", [])]
+BLOCKED_SOURCE_DOMAINS = [d.lower() for d in _HOT_TOPICS_SOURCE_DOMAINS.get("blocked", [])]
+
+
+def _domain_tier(source_title: str | None) -> str:
+    """chunk의 title(보통 도메인 문자열)을 3등급 중 하나로 분류.
+    blocked를 tier1보다 먼저 검사한다 — 한 도메인이 이론상 양쪽에 다 걸리는
+    설정 실수가 있어도 안전한(더 배제적인) 쪽이 이기게 하기 위함.
+    tier1도 blocked도 아니면 tier2(미분류)로 취급 — 이게 안전장치다:
+    새로 나타나는 무명 도메인은 자동으로 '2차 출처' 배지가 붙은 채로만 채택된다."""
+    title_lower = (source_title or "").lower()
+    if any(domain in title_lower for domain in BLOCKED_SOURCE_DOMAINS):
+        return "blocked"
+    if any(domain in title_lower for domain in TIER1_SOURCE_DOMAINS):
+        return "tier1"
+    return "tier2"
 
 # 근거(출처) 있는 토픽을 목표로 하는 개수와, 부족할 때 보충 검색을 시도할 최대 횟수
 # (최초 1회 + 부족분 보충 1회). 그래도 못 채우면 억지로 채우지 않고 있는 만큼만 반환한다.
@@ -1226,6 +1263,10 @@ HOT_TOPICS_MAX_FETCH_ATTEMPTS = 2
 
 # 토픽 제목에서 핵심 키워드(티커)를 뽑기 위한 패턴 — 괄호 안 알파벳 티커, 예: "(MRNA)"
 _TICKER_IN_PARENS_RE = re.compile(r"\(([A-Za-z]{1,6}(?:\.[A-Za-z]+)?)\)")
+
+# _company_key 전용 — 괄호 안 영문 고유명사(길이 제한 없음). 티커뿐 아니라
+# "앤트로픽(Anthropic)"처럼 긴 회사명도 잡아야 중복 판단이 정확해진다.
+_ENGLISH_IN_PARENS_RE = re.compile(r"\(([A-Za-z][A-Za-z0-9&.\-]*)\)")
 
 # 마크다운 강조 기호(**굵게**, __밑줄__) 제거용
 _MARKDOWN_EMPHASIS_RE = re.compile(r"\*\*(.+?)\*\*|__(.+?)__")
@@ -1259,6 +1300,101 @@ def _shares_keyword(title: str, snippet: str) -> bool:
     return any(kw in snippet for kw in keywords)
 
 
+def _company_key(title: str) -> str:
+    """중복 기업/토픽 판단용 정규화 키.
+    괄호 안에 영문 고유명사(티커 포함, 길이 제한 없음)가 있으면 그 영문을
+    그대로 키로 쓴다 — "모더나(MRNA)"든 "앤트로픽(Anthropic)"이든 동일하게
+    처리해서, 한글 표기가 앞에 붙어도 영문 이름만으로 매칭되게 한다.
+    괄호 안 영문이 없는 경우(예: "Anthropic, ...")에만 첫 쉼표 앞 구간을
+    — 보통 그 토픽의 "주인공"이 여기 온다 — 정규화해서 키로 쓴다.
+    두 경로 모두 대문자로 정규화해야 "앤트로픽(Anthropic)"(괄호 경로)과
+    "Anthropic,"(폴백 경로)이 같은 키로 수렴한다."""
+    english_in_parens = _ENGLISH_IN_PARENS_RE.findall(title)
+    if english_in_parens:
+        return english_in_parens[0].upper()
+    lead = title.split(",", 1)[0]
+    return re.sub(r"\s+", " ", lead).strip().upper()
+
+
+# 종합기사(라운드업) 위험 경고 — 최종 확정된 토픽에 대해서만, best-effort로
+# 실제 목적지 URL을 해석해서 슬러그가 토픽과 무관해 보이면 경고 배지를 단다.
+# 절대 tier/최종 선정 결과에는 영향을 주지 않는다(fail-open).
+HOT_TOPICS_ROUNDUP_CHECK_PER_REQUEST_TIMEOUT = 4    # 개별 HEAD 요청 타임아웃(초)
+HOT_TOPICS_ROUNDUP_CHECK_TOTAL_BUDGET        = 8    # 전체 검사 상한(초) — 넘으면 남은 건 그냥 포기
+HOT_TOPICS_ROUNDUP_CHECK_MAX_WORKERS         = 10   # 최종 후보 수만큼 병렬 처리
+
+
+def _resolve_final_url(source_url: str) -> str | None:
+    """구글 grounding 리다이렉트를 HEAD로 한 번만 따라가 실제 목적지 URL을
+    얻는다 (본문은 받지 않음 — 느리고 봇 차단에도 걸리기 쉬워서 최소한만 확인).
+    실패/타임아웃이면 None — 호출부는 이를 무조건 '판단 보류'로 취급한다."""
+    try:
+        return requests.head(
+            source_url, allow_redirects=True,
+            timeout=HOT_TOPICS_ROUNDUP_CHECK_PER_REQUEST_TIMEOUT,
+        ).url
+    except Exception:
+        return None
+
+
+def _looks_like_roundup(topic: dict, resolved_url: str | None) -> bool:
+    """실제 목적지 URL의 경로(슬러그)를 토큰화해서 토픽 제목의 핵심 키워드와
+    하나도 안 겹치면, "이 사건 전용 기사가 아니라 여러 이슈를 나열한 종합
+    기사(예: apnews.com/article/stocks-markets-ai-oil-nvidia-...)일 가능성"으로
+    본다. resolved_url이 없거나(해석 실패) 키워드/슬러그 토큰을 하나도 못
+    뽑으면 항상 False — 확신 없을 땐 경고하지 않는다."""
+    if not resolved_url:
+        return False
+    path = urlparse(resolved_url).path
+    slug_tokens = {t.lower() for t in re.split(r"[/\-_]+", path) if len(t) >= 2}
+    if not slug_tokens:
+        return False
+    keywords = {k.lower() for k in _title_keywords(topic["title"])}
+    if not keywords:
+        return False
+    return not (slug_tokens & keywords)
+
+
+def _flag_roundup_risk(topics: list[dict]) -> None:
+    """최종 확정된 토픽들에 대해서만, 병렬 + 상한 타임아웃으로 실제 목적지
+    URL을 best-effort 해석해서 topic["source_roundup_risk"]를 단다(제자리 수정).
+
+    - 병렬 처리: 후보 수만큼(최대 HOT_TOPICS_ROUNDUP_CHECK_MAX_WORKERS) 동시 요청.
+    - 상한 타임아웃: concurrent.futures.wait(timeout=...)로 전체 대기 시간을
+      HOT_TOPICS_ROUNDUP_CHECK_TOTAL_BUDGET로 제한 — 그 안에 못 끝난 요청은
+      그냥 방치하고 넘어간다(fail-open). executor는 wait(False)로 종료해서
+      이 함수 자체가 못 끝난 스레드 때문에 붙잡혀 있지 않게 한다.
+    - 실패해도 무해: 개별/전체 어떤 예외가 나도 흡수하고, tier나 최종 선정
+      결과(source_tier, source_url 등)는 절대 건드리지 않는다.
+    """
+    targets = [t for t in topics if t.get("source_url")]
+    if not targets:
+        return
+
+    executor = concurrent.futures.ThreadPoolExecutor(
+        max_workers=HOT_TOPICS_ROUNDUP_CHECK_MAX_WORKERS
+    )
+    try:
+        future_to_topic = {
+            executor.submit(_resolve_final_url, t["source_url"]): t
+            for t in targets
+        }
+        done, _not_done = concurrent.futures.wait(
+            future_to_topic, timeout=HOT_TOPICS_ROUNDUP_CHECK_TOTAL_BUDGET
+        )
+        for future in done:
+            topic = future_to_topic[future]
+            try:
+                resolved_url = future.result()
+            except Exception:
+                resolved_url = None
+            if _looks_like_roundup(topic, resolved_url):
+                topic["source_roundup_risk"] = True
+        # _not_done(예산 내에 못 끝난 요청)은 그냥 방치 — 배지 없이 넘어간다.
+    finally:
+        executor.shutdown(wait=False)  # 남은 스레드를 기다리지 않고 즉시 반환
+
+
 def build_hot_topics_prompt(market_data: dict, watchlist: list[str] | None = None) -> str:
     """
     RSS 후보(key_issues/geo_issues/corp_issues)에 의존하지 않고,
@@ -1275,7 +1411,7 @@ def build_hot_topics_prompt(market_data: dict, watchlist: list[str] | None = Non
         f"{i}. {c['name']} — {c['hint']}"
         for i, c in enumerate(HOT_TOPIC_CATEGORIES, 1)
     )
-    preferred_domains_text = ", ".join(PREFERRED_SOURCE_DOMAINS)
+    preferred_domains_text = ", ".join(TIER1_SOURCE_DOMAINS)
 
     watchlist_section = ""
     if watchlist:
@@ -1302,6 +1438,14 @@ Google 검색을 활용해서 {date} 기준 미국 증시와 관련해 실제로
 {categories_text}
 {watchlist_section}
 개인 재무 상담 게시글이나 커뮤니티 잡담처럼 시황과 무관한 내용은 제외하세요.
+SNS(페이스북/트위터/레딧 등), 온라인 포럼, 거래소 자체 블로그, 로펌 홈페이지는
+출처로 참고하지 마세요.
+
+[사실 정확성 — 결과가 뒤바뀐 사건 주의]
+검색해서 찾은 사안이 "협상/계획이 진행 중"인 게 아니라 이미 결렬·무산·철회·
+보류·부인된 것이라면, 제목에 반드시 그 결과를 명시하세요.
+아직 진행 중인 것처럼 쓰지 마세요.
+예: 인수 논의가 무산됐다면 "OO, XX 인수 논의 무산" (O) — "OO, XX 인수 추진" (X)
 
 [최종 선정 규칙]
 "오늘의 화제" TOP 10을 아래 순서로 구성하세요:
@@ -1404,11 +1548,14 @@ def attach_hot_topic_sources(
     — 세그먼트 경계가 살짝 어긋나 다른 토픽의 문장까지 걸친 경우를 걸러내기 위함.
 
     rank 순서대로 처리하며:
-      - 후보 중 아직 다른 토픽에 쓰이지 않은 URL이 있으면, 그중에서도
-        PREFERRED_SOURCE_DOMAINS와 매칭되는 후보를 우선 채택 (없으면 첫 후보)
-      - 유효한 후보가 하나도 없으면(근거 없음, 또는 전부 이미 앞선 토픽이
-        선점한 URL) 그 토픽은 결과에서 완전히 제외한다 — 출처 없는 토픽은
-        화면에 아예 나오지 않아야 하기 때문.
+      - blocked 도메인 후보는 애초에 candidates에 포함시키지 않는다 — SNS/포럼/
+        거래소 자체 블로그/로펌 홈페이지 등은 근거로 쓰지 않는다.
+      - 후보 중 아직 다른 토픽에 쓰이지 않은 것이 있으면, tier1(영어권 1차 소스)을
+        먼저 채택. tier1이 없으면 tier2(미분류)를 채택하고 topic["source_tier"]에
+        "tier2"를 표시해서, 화면에서 "2차 출처"로 구분되게 한다.
+      - 유효한 후보가 하나도 없으면(근거 없음, blocked만 남음, 또는 전부 이미
+        앞선 토픽이 선점한 URL) 그 토픽은 결과에서 완전히 제외한다 — 출처 없는
+        토픽은 화면에 아예 나오지 않아야 하기 때문.
     병합으로 빠진 자리는 rank를 1..N으로 다시 채운다.
 
     chunks:   [{"uri": str, "title": str}, ...]  — title에는 기사 제목이 아니라
@@ -1436,12 +1583,10 @@ def attach_hot_topic_sources(
                 for idx in (support.get("chunk_indices") or []):
                     if 0 <= idx < len(chunks):
                         chunk = chunks[idx]
+                        if _domain_tier(chunk.get("title")) == "blocked":
+                            continue  # blocked 도메인은 후보로도 취급하지 않음
                         candidates.append((chunk.get("uri"), chunk.get("title")))
         return candidates
-
-    def _is_preferred(source_title) -> bool:
-        title_lower = (source_title or "").lower()
-        return any(domain in title_lower for domain in PREFERRED_SOURCE_DOMAINS)
 
     used_urls = set()
     result    = []
@@ -1450,18 +1595,23 @@ def attach_hot_topic_sources(
         candidates = _candidate_sources(topic)
         available  = [(uri, title) for uri, title in candidates if uri and uri not in used_urls]
 
-        assigned = None
+        assigned      = None
+        assigned_tier = None
         if available:
-            preferred = [c for c in available if _is_preferred(c[1])]
-            assigned  = preferred[0] if preferred else available[0]
+            tier1 = [c for c in available if _domain_tier(c[1]) == "tier1"]
+            if tier1:
+                assigned, assigned_tier = tier1[0], "tier1"
+            else:
+                assigned, assigned_tier = available[0], "tier2"
 
         if assigned:
             topic["source_url"], topic["source_title"] = assigned
+            topic["source_tier"] = assigned_tier
             used_urls.add(assigned[0])
             result.append(topic)
-        # else: 근거가 전혀 없거나(후보 0개), 후보는 있었지만 전부 이미
-        # 다른(앞선) 토픽이 쓴 URL이거나(중복 판단) — 어느 쪽이든 이 토픽은
-        # "출처 없음"으로 간주해 결과에서 제외한다.
+        # else: 근거가 전혀 없거나(후보 0개, blocked만 있었던 경우 포함), 후보는
+        # 있었지만 전부 이미 다른(앞선) 토픽이 쓴 URL이거나(중복 판단) — 어느
+        # 쪽이든 이 토픽은 "출처 없음"으로 간주해 결과에서 제외한다.
 
     for i, topic in enumerate(result, 1):
         topic["rank"] = i
@@ -1508,9 +1658,14 @@ def fetch_hot_topics(market_data: dict) -> list[dict]:
     1차 시도만으로 HOT_TOPICS_TARGET_COUNT(기본 10개)를 못 채우면 부족분을
     보충하기 위해 재검색한다 — Gemini google_search grounding은 호출마다
     인용 메타데이터를 얼마나 남길지가 비결정적이라, 완전히 없앨 수는 없지만
-    재시도로 빈도는 줄일 수 있다. 새로 얻은 토픽은 제목/URL 기준으로
-    중복 제거하며 병합하고, HOT_TOPICS_MAX_FETCH_ATTEMPTS번을 다 써도 목표에
-    못 미치면 억지로 채우지 않고 있는 개수 그대로(0개 포함) 반환한다.
+    재시도로 빈도는 줄일 수 있다. 새로 얻은 토픽은 제목/URL/기업(티커 또는
+    주인공 기업명) 기준으로 중복 제거하며 병합한다 — 같은 기업/티커가 여러
+    토픽의 주인공이면 상위 1개만 남긴다. HOT_TOPICS_MAX_FETCH_ATTEMPTS번을
+    다 써도 목표에 못 미치면 억지로 채우지 않고 있는 개수 그대로(0개 포함) 반환한다.
+
+    최종 확정된 목록에는 _flag_roundup_risk로 "종합기사(라운드업) 가능성"
+    경고 배지 대상 여부를 best-effort로 표시한다 (fail-open — 실패해도
+    이 함수의 반환값 자체는 항상 정상적으로 나온다).
     """
     from google.genai import types as genai_types
 
@@ -1518,9 +1673,10 @@ def fetch_hot_topics(market_data: dict) -> list[dict]:
     system = "You are a content planner for a Korean finance YouTube channel."
     tools  = [genai_types.Tool(google_search=genai_types.GoogleSearch())]
 
-    merged      = []
-    seen_urls   = set()
-    seen_titles = set()
+    merged         = []
+    seen_urls      = set()
+    seen_titles    = set()
+    seen_companies = set()
 
     for _ in range(HOT_TOPICS_MAX_FETCH_ATTEMPTS):
         if len(merged) >= HOT_TOPICS_TARGET_COUNT:
@@ -1533,16 +1689,24 @@ def fetch_hot_topics(market_data: dict) -> list[dict]:
         attached         = attach_hot_topic_sources(text, topics, chunks, supports)
 
         for topic in attached:
-            if topic["source_url"] in seen_urls or topic["title"] in seen_titles:
+            company_key = _company_key(topic["title"])
+            if (topic["source_url"] in seen_urls or topic["title"] in seen_titles
+                    or company_key in seen_companies):
                 continue
             seen_urls.add(topic["source_url"])
             seen_titles.add(topic["title"])
+            seen_companies.add(company_key)
             merged.append(topic)
             if len(merged) >= HOT_TOPICS_TARGET_COUNT:
                 break
 
     for i, topic in enumerate(merged, 1):
         topic["rank"] = i
+
+    try:
+        _flag_roundup_risk(merged)
+    except Exception:
+        pass  # 이 단계가 무슨 이유로든 실패해도 결과 자체는 그대로 반환한다
 
     return merged
 
@@ -1556,9 +1720,17 @@ def render_hot_topics_section(hot_topics: list[dict]) -> str:
     for t in hot_topics:
         fmt        = t.get("format", "숏츠")
         color      = "#e65100" if fmt == "카드뉴스" else "#1a56db"
-        source_url = t.get("source_url")
+        source_url  = t.get("source_url")
+        secondary_badge = (
+            '<span class="hot-topic-secondary-badge">2차 출처</span>'
+            if source_url and t.get("source_tier") == "tier2" else ""
+        )
+        roundup_badge = (
+            '<span class="hot-topic-roundup-badge">⚠️ 종합기사 가능성</span>'
+            if source_url and t.get("source_roundup_risk") else ""
+        )
         src_btn = (
-            f'<a class="hot-topic-src-btn" href="{source_url}" target="_blank" rel="noopener">🔗 출처</a>'
+            f'<a class="hot-topic-src-btn" href="{source_url}" target="_blank" rel="noopener">🔗 출처</a>{secondary_badge}{roundup_badge}'
             if source_url else ""
         )
         # 과거에 저장된 JSON에 마크다운 강조 기호(**, __)가 남아있을 수 있어 방어적으로 한 번 더 제거
@@ -2403,6 +2575,16 @@ def build_html_report(market_data: dict, brief_md: str, hot_topics: list | None 
     border-radius: 4px; text-decoration: none !important; white-space: nowrap;
   }}
   .hot-topic-src-btn:hover {{ background: #dbe4ff; }}
+  .hot-topic-secondary-badge {{
+    display: inline-block; margin-left: 4px; padding: 1px 7px;
+    background: #fef3c7; color: #92400e !important; font-size: 10.5px; font-weight: 700;
+    border-radius: 4px; white-space: nowrap;
+  }}
+  .hot-topic-roundup-badge {{
+    display: inline-block; margin-left: 4px; padding: 1px 7px;
+    background: #fee2e2; color: #991b1b !important; font-size: 10.5px; font-weight: 700;
+    border-radius: 4px; white-space: nowrap;
+  }}
 
   @media (max-width: 600px) {{
     .fg-layout {{ grid-template-columns: 1fr; }}
@@ -3170,6 +3352,16 @@ def generate_archive_index(out_dir: Path) -> None:
     text-decoration:none !important; white-space:nowrap;
   }}
   .hot-topic-src-btn:hover {{ background:#475569; }}
+  .hot-topic-secondary-badge {{
+    display:inline-block; margin-left:4px; padding:1px 7px;
+    background:#4b3a1a; color:#fbbf24 !important; font-size:.65rem; font-weight:700;
+    border-radius:4px; white-space:nowrap;
+  }}
+  .hot-topic-roundup-badge {{
+    display:inline-block; margin-left:4px; padding:1px 7px;
+    background:#4a1d1d; color:#fca5a5 !important; font-size:.65rem; font-weight:700;
+    border-radius:4px; white-space:nowrap;
+  }}
 </style>
 </head>
 <body>
