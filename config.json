@@ -25,6 +25,28 @@
 
   "corp_news_max_age_days": 3,
 
+    "x_topics": {
+    "enabled": true,
+    "model": "grok-4.3",
+    "topic_count": 8,
+    "lookback_hours": 12,
+    "min_topics": 5,
+    "fallback_hours": 24,
+    "use_handle_filter": true,
+    "handles": [
+      "FuturesnowNews",
+      "financialjuice",
+      "DeItaone",
+      "SemiAnalysis_",
+      "eWhispers",
+      "Reuters",
+      "SawyerMerritt",
+      "KobeissiLetter",
+      "StockMKTNewz",
+      "FirstSquawk"
+    ]
+  },
+
   "output": {
     "save_markdown": true,
     "save_html": true,
