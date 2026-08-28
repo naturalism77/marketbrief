@@ -1,23 +1,23 @@
 [
   {
     "rank": 1,
-    "title": "모더나(MRNA), RSV 백신 임상 3상 긍정적 결과에 주가 7% 급등",
+    "title": "**Moderna (MRNA) 개인 맞춤형 암 백신 임상 3상 성공 후 주가 급등세 지속**",
     "reason": "특정 종목이 주인공인 사건, 티커 연결이 쉬움",
     "format": "숏츠",
-    "source_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGj_J8dl79drc6qmeWTIKtn6CD87jTi7e-nTlLF-gIctrRHW64pNg33lLyuM3C7DHWZ82Z3uUOX9F3PZ9FaZTE1YvYQY0OFHPuF4issiaM4Fw52c4Ns64T9BbD2KoU8mQWQlaibowN-mJFvDyALEc6lHC5lUXzS03uES6tghr5LSzpopJCOjqkgrqUTT_fQ-Ys6YKtTRVWND6Ny1Q3DU63mGT2XzyyaDA6rFnm1fxR2V1k7Ym08BQynoWu0fCnNW0Qcoyv1hIQrlxkJpU-tF9xe74QFepo=",
-    "source_title": "bnnbloomberg.ca"
+    "source_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFi6G_BleaFicI0y4Avf5-Z8QFGd5oa252S8QYcthP3Tg7OGZpHx_C-uDoXaFv9t_welS7nbo3ChUMbEfwQM1-zJSQ13w7SEBdhk76cLRRpqcU2uR_DEVjvsCw5zxcnfMsmjSv6FkI0B7k_1cFpfMVsKoA-0XupYQJ-QXoRSVW0MogVtjdN3pPwbVhwv3lb_M3FDUMypPaER6qR4pmPZwO6t0xJRN5Ou87wlLmOCYi8r0i25om8s_CbeJVBDwDnIlvX4YdJSBSZXXvkrVoc3fhQaF2zUgcdXBnqVVwNqx4McpA8dqEhhVT4WRcBxmC28TRXBpjNR0PoVHD4Q8ToVAfO0nCm5ITG9yuxbPkVOoXzSDNetK93qH9QMsC_NTSIOvKB7HKOGy3zAwYE",
+    "source_title": "globenewswire.com"
   },
   {
     "rank": 2,
-    "title": "앤트로픽(Anthropic), 구글 주도 신규 투자 유치로 기업가치 500억 달러 돌파",
-    "reason": "비상장 AI 기업의 대규모 투자 유치, 특정 기업이 주인공",
+    "title": "**앤트로픽(Anthropic), 9월 말 2조 달러 가치 IPO 추진 임박 소식**",
+    "reason": "특정 종목이 주인공인 사건, 티커 연결이 쉬움",
     "format": "숏츠",
-    "source_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZdKpCs-fSkV7paathNTwjKx4MWOdAnph6Fmbiqx98VKXwaVQ5WMFcDFd1LpprobSQLo6lohFbVKn3B6xFVD86PdmpJCYUisZDCfFabat6G_8IyNxVsNTT_Pj7P1XD-O2tMhOZIU0Om7BSoA81fc45P4DiCPFP4mg5lbyJg8v6ejrUM6H2sj0x7uslBd8GlUbJMC9U_t922CPMxBtIGDc3zQFi0QI-cKWfSBLUphG9XSZy2g8h5N8RRvcdLA==",
-    "source_title": "morningstar.com"
+    "source_url": null,
+    "source_title": null
   },
   {
     "rank": 3,
-    "title": "테슬라(TSLA), 사이버트럭 생산 지연 발표에 주가 6% 하락",
+    "title": "**스페이스X(SpaceX), 루이지애나에 1천억 달러 규모 신규 스타베이스 건설 발표**",
     "reason": "특정 종목이 주인공인 사건, 티커 연결이 쉬움",
     "format": "숏츠",
     "source_url": null,
@@ -25,50 +25,58 @@
   },
   {
     "rank": 4,
-    "title": "잭슨홀 경제 심포지엄 개막, 연준 의장 등 주요 정책 인물 발언 예고",
-    "reason": "주요 매크로 이벤트, 통화정책 방향성 논의",
-    "format": "카드뉴스",
+    "title": "**엔비디아(NVDA), AI 스타트업 허깅페이스 129억 달러에 인수 보도 후 주가 8% 이상 급등**",
+    "reason": "특정 종목이 주인공인 사건, 티커 연결이 쉬움",
+    "format": "숏츠",
     "source_url": null,
     "source_title": null
   },
   {
     "rank": 5,
-    "title": "미국 재무부, 장기채 바이백 확대에도 40조 달러 국가 부채 우려 지속",
-    "reason": "통화/재정 정책 이슈, 광범위한 시황성 주제",
+    "title": "**잭슨홀 심포지엄 개막, 연준 인사들 인플레이션 우려 표명 및 워시 의장 연설 주목**",
+    "reason": "매크로 이슈, 범위가 넓은 시황성 주제",
     "format": "카드뉴스",
     "source_url": null,
     "source_title": null
   },
   {
     "rank": 6,
-    "title": "SEC, 암호화폐 투자 계약 관련 새로운 규제안 발표",
-    "reason": "암호화폐 시장 전반의 규제 동향, 광범위한 시황성 주제",
+    "title": "**美 SEC, 암호화폐 투자 계약에 대한 새로운 규제안 'Regulation Crypto Assets' 제안**",
+    "reason": "매크로/규제 이슈, 범위가 넓은 시황성 주제",
     "format": "카드뉴스",
     "source_url": null,
     "source_title": null
   },
   {
     "rank": 7,
-    "title": "팔란티어(PLTR), AI 국방 시스템 신규 계약 수주로 주가 9% 급등",
-    "reason": "특정 종목이 주인공인 사건, 티커 연결이 쉬움",
-    "format": "숏츠",
-    "source_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpWbjrEauDY3Krkt1kReTFb-IiPJlTaszPFYKm0OpxNHr2yxAuIYedtnFm0kWtHC-i7_twcUmM6QF44-JkOx_uIDxkkL5iuZ2ROmZEYCgAg8so9sOBFT0hr9e5rEo_M_kDlj2ywJk=",
-    "source_title": "youtube.com"
+    "title": "**SK하이닉스, 美 인디애나에 40억 달러 HBM 생산 공장 착공…AI 반도체 공급망 강화**",
+    "reason": "특정 섹터 및 기업 투자 이슈, 관련 기업 확장 설명 가능",
+    "format": "카드뉴스",
+    "source_url": null,
+    "source_title": null
   },
   {
     "rank": 8,
-    "title": "미 상원, 디지털 자산 규제 명확화 위한 초당적 법안 발의",
-    "reason": "암호화폐 관련 법안 동향, 섹터 전반의 이슈",
+    "title": "**美 7월 인플레이션 여전히 높아, 연준 9월 금리 인상 압박 가중**",
+    "reason": "매크로 이슈, 범위가 넓은 시황성 주제",
     "format": "카드뉴스",
-    "source_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQyZpDF24k1anNiJpz7WhluVYEV8Ul-3y2Nz4IFrZloEGlGH9QyaIooUw-zniSV9SLvpMl1r_h_KmiXA47nLPbtAQqevEjQP61XejE7E7bcrpEjLO2HmweZE6beNvB1JIuVUJ_Zqw=",
-    "source_title": "youtube.com"
+    "source_url": null,
+    "source_title": null
   },
   {
     "rank": 9,
-    "title": "SpaceX, 2027년 1분기 화성 탐사 시험 위한 스타십 발사 일정 발표",
-    "reason": "특정 비상장 기업의 주요 사업 발표, 기술 트렌드",
+    "title": "**세일즈포스(CRM), 앤트로픽 관련 호재로 주가 급등…조정 EPS 두 배 증가**",
+    "reason": "특정 종목이 주인공인 사건, 티커 연결이 쉬움",
     "format": "숏츠",
-    "source_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSVx83MF-xKJMoY58SwJ0KPLcG2xZgStj_fA8EVZDwPjl-YYb-wsndelyF4h-9ybFKMZzYUzF-gFcS0ooUZuDkzGGKphwz_NSp2wp1QM1td4QX26Eg6sNny-1v8hnKG9G3CyXsovo=",
-    "source_title": "youtube.com"
+    "source_url": null,
+    "source_title": null
+  },
+  {
+    "rank": 10,
+    "title": "**AI 인프라 기업 엑사스케일 랩스(XLAB), 나스닥 상장 및 거래 시작**",
+    "reason": "특정 종목이 주인공인 사건, 티커 연결이 쉬움",
+    "format": "숏츠",
+    "source_url": null,
+    "source_title": null
   }
 ]

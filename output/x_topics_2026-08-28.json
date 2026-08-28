@@ -1,58 +1,73 @@
 [
   {
     "rank": 1,
-    "title": "엔비디아 실적 후 주가 8% 상승",
+    "title": "엔비디아 기록적 실적 발표",
     "tickers": [
       "NVDA"
     ],
-    "summary": "엔비디아 주가가 실적 발표 후 8% 이상 상승하며 4000억 달러 이상 시가총액 증가.",
-    "why_trending": "AI 성장 가속 확인으로 다수 계정 동시 언급",
+    "summary": "엔비디아가 분기 매출 가이던스 1080억 달러를 제시하며 주가가 8% 이상 상승, 하루에 4000억 달러 이상 시총 추가.",
+    "why_trending": "트럼프 대통령 축하와 코베이시레터 등 다수 계정 동시 보도로 X에서 가장 많은 좋아요·리포스트 집중",
     "buzz_level": "high",
-    "sample_post_url": "https://x.com/KobeissiLetter/status/2092898937627660503",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2092988210238394867",
     "window": "12h",
     "link_verified": true
   },
   {
     "rank": 2,
-    "title": "베네수엘라 OPEC 탈퇴 논의",
-    "tickers": [],
-    "summary": "베네수엘라가 미국과 석유 지분 협상 중이며 OPEC 탈퇴 논의 중.",
-    "why_trending": "7045 좋아요 붙은 게시물로 OPEC 영향력 약화 화제",
+    "title": "엔비디아 주가 4350억 달러 시총 증가",
+    "tickers": [
+      "NVDA"
+    ],
+    "summary": "엔비디아 주가가 개장 후 8.5% 상승하며 4350억 달러 시총 증가, 역사상 3번째 큰 단일일 시총 상승 기록 경신 중.",
+    "why_trending": "스톡MKT뉴즈와 코베이시레터 등 계정들이 실시간 업데이트하며 2000회 이상 좋아요 집중",
     "buzz_level": "high",
-    "sample_post_url": "https://x.com/KobeissiLetter/status/2093120571382890908",
+    "sample_post_url": "https://x.com/StockMKTNewz/status/2093009203463897275",
     "window": "12h",
     "link_verified": true
   },
   {
     "rank": 3,
-    "title": "미 재무부 장기채 수익률 하락 전망",
+    "title": "연준 고울스비 인플레이션 발언",
     "tickers": [],
-    "summary": "미 재무부 관리, 인플레이션 둔화로 장기채 수익률 하락 예상하며 트럼프 행정부 장기채 수익률 인하 집중.",
-    "why_trending": "444 좋아요 붙은 게시물 다수 인용",
-    "buzz_level": "high",
-    "sample_post_url": "https://x.com/DeItaone/status/2093086681528144168",
+    "summary": "연준 고울스비 총재가 3개월 인플레이션은 심각하지 않으나 단기적으로 통제되지 않는 것이 가장 큰 우려라고 언급.",
+    "why_trending": "월터 블룸버그 계정이 다수 연준 발언을 연속 보도하며 300회 이상 리포스트",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/DeItaone/status/2092951384966537312",
     "window": "12h",
     "link_verified": true
   },
   {
     "rank": 4,
-    "title": "연준 워시 잭슨홀 연설 주목",
+    "title": "호르무즈 해협 긴장 완화로 유가 하락",
     "tickers": [],
-    "summary": "케빈 워시 연준 의장 잭슨홀 기조연설에서 인플레이션 대응 명확한 가이드라인 기대.",
-    "why_trending": "다수 계정에서 연준 정책 전망으로 동시 다룸",
+    "summary": "호르무즈 해협 리스크 프리미엄 완화로 브렌트유 3.9% 하락해 88.58달러 기록, 에너지 인플레이션 우려 감소.",
+    "why_trending": "월터 블룸버그와 퍼스트스쿼크 계정이 유가·해협 관련 뉴스 동시 보도하며 300회 이상 리포스트",
     "buzz_level": "medium",
-    "sample_post_url": "https://x.com/FirstSquawk/status/2093118709581991966",
+    "sample_post_url": "https://x.com/DeItaone/status/2092957251900227589",
     "window": "12h",
     "link_verified": true
   },
   {
     "rank": 5,
-    "title": "도쿄 8월 CPI 1.9% 상승",
+    "title": "베네수엘라 OPEC 탈퇴 논의",
     "tickers": [],
-    "summary": "도쿄 8월 CPI 전년비 1.9% 상승, 예상치와 일치하며 핵심 CPI 1.8%.",
-    "why_trending": "FinancialJuice 등 실시간 데이터 계정 연속 게시",
+    "summary": "베네수엘라가 미국과 유전 지분 양도 협상 중이며 OPEC 탈퇴를 논의 중이라는 블룸버그 보도.",
+    "why_trending": "코베이시레터 계정이 7000회 이상 좋아요 받은 게시물로 확산",
     "buzz_level": "medium",
-    "sample_post_url": "https://x.com/financialjuice/status/2093119035256840288",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2093120571382890908",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 6,
+    "title": "메타 EU 과징금 2.5억 유로 요청",
+    "tickers": [
+      "META"
+    ],
+    "summary": "폴란드가 EU에 메타에 2.5억 유로 과징금 부과를 요청하며 사기·허위광고 대응 촉구.",
+    "why_trending": "로이터 계정이 두 차례 보도하며 600회 이상 좋아요",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/Reuters/status/2092960843956679109",
     "window": "12h",
     "link_verified": true
   }
