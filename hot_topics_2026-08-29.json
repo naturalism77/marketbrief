@@ -1,0 +1,70 @@
+[
+  {
+    "rank": 1,
+    "title": "Moderna (MRNA) 주가 급등, 흑색종 백신 임상 3상 성공",
+    "reason": "특정 종목이 주인공인 사건, 티커 연결이 쉬움",
+    "format": "숏츠",
+    "source_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZ0rjuupMX165VWFuI8l8xwfTepyXOOFi2vRNSK3DZCQO_hI0mZM-rOQBWzn9wDJaBlUnC81VLGy5Rq7dETvHHFZrc2f-_zlBGbJ_CaCg8JLqABVZjlPCs0-G7cbpgo59wg6uC2E_iLw4AWrDn3xozk8MVhKsccGBhSSW9g5ZANWP1nyyIHWIurBXrx_o0slF5q23_j4eyrn7cmzUwZ7jIWxe9tg0=",
+    "source_title": "barchart.com",
+    "source_tier": "tier2"
+  },
+  {
+    "rank": 2,
+    "title": "연준 의장 워시, 잭슨홀 연설서 \"인플레이션 여전히 높아\" 금리 인상 시사",
+    "reason": "주요 정책 인물 발언, 통화 정책 이슈",
+    "format": "카드뉴스",
+    "source_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEAXRz6lLK2p3fwFXbdlPpKv8CsVHfuAjlxnkLfqaP2dwDlLZTE3lvXms_yOVj8OKhDD_pfQirKerEUIlccuVC1pWxKOsAADTmDHeZ8hZ8H5s2Uc5j7X-DA6IPj6PcnUAZes9osRtffi9JNLp6CKd_27ObJXxGw3iDkATACyGvWZyMM65r40G_qAA==",
+    "source_title": "ft.com",
+    "source_tier": "tier1",
+    "source_roundup_risk": true
+  },
+  {
+    "rank": 3,
+    "title": "페이팔(PYPL) 주가 11-13% 급락, 인수 논의 무산",
+    "reason": "특정 종목이 주인공인 사건, 티커 연결이 쉬움",
+    "format": "숏츠",
+    "source_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFM0KTL-JJp8BP1YBMhpOiELzd4JO5OI34Fq3zLucBed8GEc41LxaguS7X5APFyp4rDbY4HKxj6N5QFLlO3XVCGd9vCGgGwozsH6RDXv1ibGHYf7ezpjp8dj3qyT1MgSP5aEHbFMrGqtEvJUFbQKacYEJhNi5M_1_yt4COoaDyVZgW10oWvz5h-bw25bRy8nNCNzIZQC0mkNELLnX6gyOnGDjME1j1X-lhoCZulu4AUtx7wg-Ju0EC0VGZjdYi4a2PI-VtwyNlHlr4CGwEjoQXmyugfYjYfP9tuj5F6bbLzDz82mfgINNWVH5HiYSmxSPjW-kPq_dzazxDzH5k_sZYDmX1JRc-u2lmKHeJQoW1588tXqeeSUeNWzc2eS00NVAFDU_X87A==",
+    "source_title": "sundayguardianlive.com",
+    "source_tier": "tier2",
+    "source_roundup_risk": true
+  },
+  {
+    "rank": 4,
+    "title": "엘라스틱(ESTC) 주가 17.9% 급등, 회계연도 1분기 실적 호조",
+    "reason": "특정 종목이 주인공인 사건, 티커 연결이 쉬움",
+    "format": "숏츠",
+    "source_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFSrkDdG6sPSXv8jhu7QCjxfKs9u_5YMBy3rFwqm-JfbnQExd3BWhLVicVfPbtB11DCwopAn-kMMiEaWRUEGZmWADlCjPQo88l7aNkryM7-Y2_H-pu_El9-rtYMOokTjmrVHqSYNBymKEQRcn-LuoHEmhHqX9C3IM5C5-yYTMsVDYDpEkaeOwE1BK4xbrexpxdsWjkjWrI4rXg6pW0VB-jeacYZje40NbZ9HDC0R-a8dnxYrnOvdy51Eg==",
+    "source_title": "tradingview.com",
+    "source_tier": "tier2",
+    "source_roundup_risk": true
+  },
+  {
+    "rank": 5,
+    "title": "비트코인, 연준 금리 인상 가능성 시사에 7만 8천 달러 선으로 하락",
+    "reason": "매크로 정책이 암호화폐 시장에 미친 영향",
+    "format": "카드뉴스",
+    "source_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9FO8HbawgKFowsYXHlb6gNEVhAnn6hrpnbKvjQL2cbwxtqGeC4tvapZ8fLGleAZLjbMsJJR77eiKFStpUd9Tli46TM4VJnlyEa-MIKGdIvVXifbXqKYiFuksQ2gOtnVAL6zciJ9YS",
+    "source_title": "indiatimes.com",
+    "source_tier": "tier2",
+    "source_roundup_risk": true
+  },
+  {
+    "rank": 6,
+    "title": "미국 경제, AI 투자 가속화에 힘입어 성장 주도",
+    "reason": "AI/빅테크 트렌드, 산업 전반에 미치는 영향",
+    "format": "카드뉴스",
+    "source_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH9yx5Nsm_f9NOAggjoAB2luZkLWg8mLZxTUQmAvZ5JvylDgu_vGBVz0Btu7LuAosBZoEGNwUxyvvfwbGFb1LoVdR0YiYn-ACGzQz7qzAuIvI22A2WjjbMLgc4r3Vaq_8Tz906kSzNhoVXBcZP6m_Whcpc2e86EQGnPpmA01zD0pXZMfwApMgdLuj6l-rPdD4xh5D8DUkw=",
+    "source_title": "sc.com",
+    "source_tier": "tier2",
+    "source_roundup_risk": true
+  },
+  {
+    "rank": 7,
+    "title": "AI 불확실성 증폭, 소프트웨어 주식 변동성 확대",
+    "reason": "AI 트렌드가 섹터에 미치는 영향",
+    "format": "카드뉴스",
+    "source_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-LIYBL9ZgvLiVNco-bt9ABHsIAqtEN40vsKP8G6EmF2ANSXr0Otrp2zHaloRgHSNknl3qFwgyz3m4e4hKqv4X0Lc908TUm8z_-TtgV9t3154i27cSW5YWJHVJlCZRcRskjhP72Bm40dCqvHqWeUnfeJ4vHWe79JJuIZZLstsdj6wytqV901ofVLXoKe1qS_y2PaOmL1MwaWcx4aql-P8kBxyxjgeXeactD057JAnczX7eh53yas_cYGd_8M-6KGJO4piF_UBIwGAWtcH6ZphgChvwnfP6WRI7uvIvWJ3JrshQ2WepDvY=",
+    "source_title": "economictimes.com",
+    "source_tier": "tier2"
+  }
+]
