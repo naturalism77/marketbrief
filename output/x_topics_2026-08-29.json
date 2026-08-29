@@ -1,0 +1,72 @@
+[
+  {
+    "rank": 1,
+    "title": "엔비디아 AI 칩 대규모 자금 조달",
+    "tickers": [
+      "NVDA"
+    ],
+    "summary": "Blue Owl이 엔비디아 칩 구매를 위한 24억 달러 부채 거래 주도. Lambda가 엔비디아 GPU 임대를 위해 10억 달러 민간 부채 조달.",
+    "why_trending": "FinancialJuice와 First Squawk 등 다수 계정이 동일 사안 동시 보도하며 조회수 3만 이상 기록",
+    "buzz_level": "high",
+    "sample_post_url": "",
+    "window": "12h",
+    "link_verified": false
+  },
+  {
+    "rank": 2,
+    "title": "Fed 의장 Warsh 인플레이션 발언",
+    "tickers": [],
+    "summary": "Warsh가 가격 안정성 수치가 더 우려스럽다고 밝힘. Fed의 주요 초점을 가격에 둬야 한다고 강조.",
+    "why_trending": "StockMKTNewz 게시물이 654 좋아요, 21 리포스트 기록하며 다수 계정 인용",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/StockMKTNewz/status/2093340730844442767",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 3,
+    "title": "엔/달러 160선 돌파",
+    "tickers": [],
+    "summary": "엔화가 7월 31일 이후 처음으로 달러당 160엔을 넘어 160.02까지 상승.",
+    "why_trending": "First Squawk와 Deltaone 등 계정이 20~240 좋아요로 동시 보도",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2093366011906945194",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 4,
+    "title": "30년물 국채 수익률 5.21% 접근",
+    "tickers": [],
+    "summary": "30년물 국채 수익률이 세션 고점 5.21%에 근접하며 회복.",
+    "why_trending": "First Squawk가 31 좋아요로 보도하며 시장 참가자 주목",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/FirstSquawk/status/2093375401724932238",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 5,
+    "title": "아마존 주가 4.2% 상승",
+    "tickers": [
+      "AMZN"
+    ],
+    "summary": "아마존 주가가 4.2% 상승하며 매그니피센트 세븐 중 상승 주도.",
+    "why_trending": "First Squawk가 15 좋아요로 실시간 시장 동향 보도",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/FirstSquawk/status/2093355573135987042",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 6,
+    "title": "달러 강세, 미국 경제 힘 반영",
+    "tickers": [],
+    "summary": "IMF Georgieva가 미국 달러 강세는 미국 경제 강세라고 밝힘.",
+    "why_trending": "FinancialJuice가 20 좋아요로 보도하며 다수 계정 공유",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/financialjuice/status/2093439843497881825",
+    "window": "12h",
+    "link_verified": true
+  }
+]
