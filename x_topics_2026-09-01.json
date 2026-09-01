@@ -1,0 +1,72 @@
+[
+  {
+    "rank": 1,
+    "title": "NVDA, MediaTek에 35억 달러 투자",
+    "tickers": [
+      "NVDA"
+    ],
+    "summary": "Nvidia가 MediaTek에 35억 달러 컨버터블 본드 투자 발표. AI 인프라, 로컬 AI 컴퓨팅, 자동차 분야 협력 확대.",
+    "why_trending": "Walter Bloomberg, StockMKTNewz 등 다수 계정에서 400회 이상 좋아요로 확산",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2094404518523912242",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 2,
+    "title": "소매투자자, NVDA 2억5천만 달러 매수",
+    "tickers": [
+      "NVDA"
+    ],
+    "summary": "수요일 소매투자자 NVDA 주식 2.5억 달러 매수, 5월 이후 3번째 대규모. 15거래일 연속 매수 중 총 25억 달러.",
+    "why_trending": "KobeissiLetter 게시물 846 좋아요, AI 트레이드 중심 종목으로 언급",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2094450335381168493",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 3,
+    "title": "미 10년물 국채수익률 4.75% 돌파",
+    "tickers": [],
+    "summary": "10년물 수익률 4.756%까지 상승, 2025년 1월 이후 최고치. 유가 급등과 Fed 매파 발언 영향.",
+    "why_trending": "DeItaone 576 좋아요, First Squawk 등 반복 인용",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2094406552551563468",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 4,
+    "title": "금값 1% 하락, 4431달러 마감",
+    "tickers": [],
+    "summary": "금 현물 1% 떨어진 4431.10달러, 8월 누적 +9.4%. 중동 긴장과 Fed 매파 기대가 압력.",
+    "why_trending": "DeItaone 235 좋아요, Fidelity 분석과 함께 9% 추가 상승 전망 논의",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2094491576240156771",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 5,
+    "title": "9월 Fed 금리인상 확률 54%",
+    "tickers": [],
+    "summary": "Warsh 의장 매파 발언 후 9월 25bp 인상 확률 54%로 상승. 8월 고용지표가 관건.",
+    "why_trending": "DeItaone 423 좋아요, BofA 분석과 함께 다수 계정 확산",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2094405339416269089",
+    "window": "12h",
+    "link_verified": true
+  },
+  {
+    "rank": 6,
+    "title": "MS, 브렌트유 4Q 전망 100달러 상향",
+    "tickers": [],
+    "summary": "Morgan Stanley 4Q 브렌트 75→100달러, WTI 76→96달러로 대폭 상향. 이란 갈등 영향.",
+    "why_trending": "DeItaone 517 좋아요, WSJ 은행 평균 전망과 비교 논의",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/DeItaone/status/2094410287403118640",
+    "window": "12h",
+    "link_verified": true
+  }
+]
