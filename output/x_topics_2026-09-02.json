@@ -1,0 +1,97 @@
+[
+  {
+    "rank": 1,
+    "title": "엔비디아, 미디어텍에 35억 달러 투자",
+    "tickers": [
+      "NVDA",
+      "MTK"
+    ],
+    "summary": "엔비디아가 미디어텍 전환사채에 35억 달러 투자. AI 인프라·로컬 AI·자동차 3개 분야 협력 확대 발표.",
+    "why_trending": "다수 계정이 엔비디아 AI 생태계 투자 규모를 공유하며 확산",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/StockMKTNewz/status/2094402780999901485",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 2,
+    "title": "앤스로픽, 람다와 350억 달러 클라우드 계약",
+    "tickers": [
+      "NVDA"
+    ],
+    "summary": "앤스로픽이 람다와 350억 달러 클라우드 계약 체결. 엔비디아가 데이터센터 임대주 역할.",
+    "why_trending": "엔비디아 연계 AI 인프라 딜로 다수 계정 동시 언급",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/StockMKTNewz/status/2094568791762215155",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 3,
+    "title": "엔비디아 AI 생태계 총 700억 달러 투자",
+    "tickers": [
+      "NVDA"
+    ],
+    "summary": "엔비디아가 AI 랩·공공주식·인프라에 700억 달러 이상 투입. 공개 보유자산만 550억 달러 규모.",
+    "why_trending": "엔비디아 투자 지도 공유 게시물이 다수 리포스트",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/StockMKTNewz/status/2094443642425315837",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 4,
+    "title": "9월 Fed 금리 인상 확률 55%",
+    "tickers": [],
+    "summary": "케빈 워시 연준 위원 금리 0.25% 인상 가능성 55%로 상향. 9월 FOMC 전망 반영.",
+    "why_trending": "연준 인사 발언으로 hawkish 기대 확산",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/StockMKTNewz/status/2094567351962255556",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 5,
+    "title": "금 가격 1% 하락, 온스당 4431.10달러",
+    "tickers": [],
+    "summary": "금 선물 1% 하락해 4431.10달러 마감. 중동 군사 행동과 Fed hawkish 기대 영향.",
+    "why_trending": "월간 상승에도 일일 하락으로 다수 계정 동시 보도",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/DeItaone/status/2094491576240156771",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 6,
+    "title": "미국 정유사 RIN 크레딧 17.6억 개 면제",
+    "tickers": [],
+    "summary": "트럼프 행정부 2025년 정유사에 17.6억 개 RIN 크레딧 면제. 2017년 이후 최대 규모.",
+    "why_trending": "에너지·바이오연료 정책 변경으로 에너지 섹터 계정 집중",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/FirstSquawk/status/2094566303440978380",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 7,
+    "title": "베센트 재무장관, 핵심 인플레이션 안정적",
+    "tickers": [],
+    "summary": "스콧 베센트 재무장관 핵심 인플레이션 매우 안정적이라고 발언.",
+    "why_trending": "G20 회담 관련 발언으로 매크로 계정 동시 인용",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/DeItaone/status/2094435282779005293",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 8,
+    "title": "호르무즈 해협 사우디 유조선 정지",
+    "tickers": [],
+    "summary": "이란 매체, 사우디 유조선 세다르호 호르무즈 해협 남쪽 통로에서 정지 보도.",
+    "why_trending": "중동 에너지 공급망 이슈로 다수 실시간 계정 동시 공유",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/DeItaone/status/2094533019679777282",
+    "window": "24h",
+    "link_verified": true
+  }
+]
