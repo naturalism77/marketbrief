@@ -1,0 +1,1162 @@
+{
+  "date": "2026-09-03",
+  "close_date": "2026-09-02",
+  "update_time": "07:52 KST",
+  "etf_fetch_time": "2026-09-03 07:52 KST",
+  "indices": {
+    "SP500": {
+      "close": "7,666.60",
+      "change_pct": "+0.46%",
+      "change_1w": "-0.14%",
+      "change_1m": "+0.87%",
+      "change_ytd": "+11.78%",
+      "change_1y": "+18.89%"
+    },
+    "NASDAQ": {
+      "close": "26,217.83",
+      "change_pct": "+0.45%",
+      "change_1w": "+0.25%",
+      "change_1m": "+1.17%",
+      "change_ytd": "+12.83%",
+      "change_1y": "+21.96%"
+    },
+    "DOW": {
+      "close": "53,061.95",
+      "change_pct": "+0.56%",
+      "change_1w": "-0.96%",
+      "change_1m": "-0.22%",
+      "change_ytd": "+9.67%",
+      "change_1y": "+17.21%"
+    },
+    "VIX": {
+      "close": "15.20",
+      "change_pct": "-6.98%",
+      "change_1w": "-1.62%",
+      "change_1m": "-4.16%",
+      "change_ytd": "+4.76%",
+      "change_1y": "-11.47%"
+    }
+  },
+  "sector_heatmap": {
+    "top_gainers": [
+      "Materials +1.69%",
+      "Communication +1.39%",
+      "Financials +0.80%"
+    ],
+    "top_losers": [
+      "Industrials +0.03%",
+      "Technology -0.02%",
+      "Real Estate -0.70%"
+    ]
+  },
+  "yields": {
+    "2Y": "4.55% (-0.01bp)",
+    "10Y": "4.80% (+0.00bp)",
+    "30Y": "5.27% (-0.00bp)"
+  },
+  "macro": {
+    "DXY": "99.58 (-0.09%)",
+    "Gold": "4431.40 $/oz (+1.92%)",
+    "Oil": "90.78 $/bbl (+0.62%)"
+  },
+  "fear_greed": {
+    "score": 33,
+    "rating": "Fear"
+  },
+  "sparkline_sp500": [
+    7652.86,
+    7677.28,
+    7675.7,
+    7730.99,
+    7686.14,
+    7631.47,
+    7666.6
+  ],
+  "commodities": [
+    {
+      "name": "금",
+      "flag": "🥇",
+      "d1": "+1.92%",
+      "w1": "-3.63%",
+      "m1": "+8.20%",
+      "ytd": "+2.71%",
+      "y1": "+24.85%"
+    },
+    {
+      "name": "은",
+      "flag": "🥈",
+      "d1": "+2.12%",
+      "w1": "-2.94%",
+      "m1": "+9.88%",
+      "ytd": "-6.47%",
+      "y1": "+60.67%"
+    },
+    {
+      "name": "구리",
+      "flag": "🇺🇸",
+      "d1": "+1.54%",
+      "w1": "+0.19%",
+      "m1": "-0.17%",
+      "ytd": "+17.15%",
+      "y1": "+44.59%"
+    },
+    {
+      "name": "백금",
+      "flag": "⬜",
+      "d1": "+0.43%",
+      "w1": "-3.63%",
+      "m1": "+1.24%",
+      "ytd": "-16.78%",
+      "y1": "+25.84%"
+    },
+    {
+      "name": "브렌트유",
+      "flag": "🇬🇧",
+      "d1": "+0.75%",
+      "w1": "+8.56%",
+      "m1": "+20.16%",
+      "ytd": "+56.97%",
+      "y1": "+37.92%"
+    },
+    {
+      "name": "WTI유",
+      "flag": "🇺🇸",
+      "d1": "+0.62%",
+      "w1": "+10.40%",
+      "m1": "+19.81%",
+      "ytd": "+58.37%",
+      "y1": "+38.41%"
+    },
+    {
+      "name": "천연가스",
+      "flag": "🇺🇸",
+      "d1": "+3.62%",
+      "w1": "+5.88%",
+      "m1": "+12.19%",
+      "ytd": "-16.83%",
+      "y1": "+0.00%"
+    },
+    {
+      "name": "난방유",
+      "flag": "🇺🇸",
+      "d1": "-0.33%",
+      "w1": "+9.43%",
+      "m1": "+23.64%",
+      "ytd": "+120.41%",
+      "y1": "+96.34%"
+    },
+    {
+      "name": "커피 C",
+      "flag": "🇺🇸",
+      "d1": "-13.12%",
+      "w1": "-16.85%",
+      "m1": "-8.25%",
+      "ytd": "-16.78%",
+      "y1": "-22.20%"
+    },
+    {
+      "name": "옥수수",
+      "flag": "🇺🇸",
+      "d1": "+4.03%",
+      "w1": "+5.54%",
+      "m1": "+22.67%",
+      "ytd": "+24.00%",
+      "y1": "+34.62%"
+    },
+    {
+      "name": "소맥",
+      "flag": "🇺🇸",
+      "d1": "+1.41%",
+      "w1": "+6.06%",
+      "m1": "+21.34%",
+      "ytd": "+52.96%",
+      "y1": "+51.02%"
+    },
+    {
+      "name": "대두",
+      "flag": "🇺🇸",
+      "d1": "+0.15%",
+      "w1": "+4.35%",
+      "m1": "+13.31%",
+      "ytd": "+27.12%",
+      "y1": "+27.59%"
+    }
+  ],
+  "underlying_stocks": {
+    "ARM": {
+      "price": "234.86",
+      "change": "-",
+      "volume": "2,429,595"
+    },
+    "AMD": {
+      "price": "457.06",
+      "change": "-",
+      "volume": "11,917,710"
+    },
+    "HOOD": {
+      "price": "106.99",
+      "change": "-",
+      "volume": "16,755,511"
+    },
+    "UNH": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "AAL": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "ASML": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "BA": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "COIN": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "PLTR": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "CRM": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "ADBE": {
+      "price": "279.79",
+      "change": "-",
+      "volume": "3,856,582"
+    },
+    "PYPL": {
+      "price": "54.67",
+      "change": "-",
+      "volume": "15,049,564"
+    },
+    "TSLA": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "PANW": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "XYZ": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "RTX": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "TSM": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "AVGO": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "CRCL": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    },
+    "NVDA": {
+      "price": "-",
+      "change": "-",
+      "volume": "-"
+    }
+  },
+  "key_issues": [
+    {
+      "title": "Broadcom’s stock falls despite upbeat earnings, extending a frustrating stretch for investors",
+      "url": "https://www.marketwatch.com/story/broadcoms-stock-falls-despite-upbeat-earnings-extending-a-frustrating-stretch-for-investors-81de3f53?mod=mw_rss_topstories"
+    },
+    {
+      "title": "Nvidia’s stock is climbing as investors get more confidence in an expanding base of AI customers",
+      "url": "https://www.marketwatch.com/story/nvidias-stock-is-climbing-as-investors-get-more-confidence-in-an-expanding-base-of-ai-customers-a6e297f1?mod=mw_rss_topstories"
+    },
+    {
+      "title": "‘I currently give him $1,000 a month’: My grandson has severe mental illness. How do I protect him after I’m gone?",
+      "url": "https://www.marketwatch.com/story/im-desperately-trying-to-plan-ahead-im-leaving-everything-to-my-grandson-who-has-severe-mental-illness-how-can-i-protect-him-d8df2646?mod=mw_rss_topstories"
+    },
+    {
+      "title": "Palantir’s stock is slumping. Why bond yields and Google may be to blame.",
+      "url": "https://www.marketwatch.com/story/why-palantirs-stock-is-suffering-its-worst-slump-since-february-7fb3b289?mod=mw_rss_topstories"
+    },
+    {
+      "title": "How Oracle’s ‘extremely controversial’ stock could more than double from here",
+      "url": "https://www.marketwatch.com/story/how-oracles-extremely-controversial-stock-could-more-than-double-from-here-7bb20331?mod=mw_rss_topstories"
+    }
+  ],
+  "leverage_etf_top20": [
+    {
+      "ticker": "NVDG",
+      "name": "2x Long NVDA Daily ETF",
+      "volume": "403,286",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "20.38",
+      "rank": 1
+    },
+    {
+      "ticker": "TSLG",
+      "name": "2x Long TSLA Daily ETF",
+      "volume": "52,470,068",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "4.65",
+      "rank": 2
+    },
+    {
+      "ticker": "ARMG",
+      "name": "2x Long ARM Daily ETF",
+      "volume": "312,552",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "14.99",
+      "rank": 3
+    },
+    {
+      "ticker": "ASMG",
+      "name": "2x Long ASML Daily ETF",
+      "volume": "18,673",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "43.94",
+      "rank": 4
+    },
+    {
+      "ticker": "TSMG",
+      "name": "2x Long TSM Daily ETF",
+      "volume": "35,483",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "36.63",
+      "rank": 5
+    },
+    {
+      "ticker": "AMDG",
+      "name": "2x Long AMD Daily ETF",
+      "volume": "22,356",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "77.55",
+      "rank": 6
+    },
+    {
+      "ticker": "COIG",
+      "name": "2x Long COIN Daily ETF",
+      "volume": "113,703",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "5.28",
+      "rank": 7
+    },
+    {
+      "ticker": "HOOG",
+      "name": "2x Long HOOD Daily ETF",
+      "volume": "237,282",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "30.71",
+      "rank": 8
+    },
+    {
+      "ticker": "PANG",
+      "name": "2x Long PANW Daily ETF",
+      "volume": "222,031",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "27.17",
+      "rank": 9
+    },
+    {
+      "ticker": "ADBG",
+      "name": "2x Long ADBE Daily ETF",
+      "volume": "1,590,300",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "5.21",
+      "rank": 10
+    },
+    {
+      "ticker": "PYPG",
+      "name": "2x Long PYPL Daily ETF",
+      "volume": "939,252",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "7.57",
+      "rank": 11
+    },
+    {
+      "ticker": "XYZG",
+      "name": "2x Long XYZ Daily ETF",
+      "volume": "5,853",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "18.27",
+      "rank": 12
+    },
+    {
+      "ticker": "CRMG",
+      "name": "2x Long CRM Daily ETF",
+      "volume": "1,522,288",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "10.05",
+      "rank": 13
+    },
+    {
+      "ticker": "PLTG",
+      "name": "2x Long PLTR Daily ETF",
+      "volume": "245,795",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "16.75",
+      "rank": 14
+    },
+    {
+      "ticker": "AVGG",
+      "name": "2x Long AVGO Daily ETF",
+      "volume": "1,249,367",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "24.50",
+      "rank": 15
+    },
+    {
+      "ticker": "RTXG",
+      "name": "2x Long RTX Daily ETF",
+      "volume": "8,658",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "24.51",
+      "rank": 16
+    },
+    {
+      "ticker": "BOEG",
+      "name": "2x Long BA Daily ETF",
+      "volume": "29,075",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "12.01",
+      "rank": 17
+    },
+    {
+      "ticker": "AALG",
+      "name": "2x Long AAL Daily ETF",
+      "volume": "34,973",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "10.12",
+      "rank": 18
+    },
+    {
+      "ticker": "UNHG",
+      "name": "2x Long UNH Daily ETF",
+      "volume": "335,964",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "20.36",
+      "rank": 19
+    },
+    {
+      "ticker": "CRCG",
+      "name": "2x Long CRCL Daily ETF",
+      "volume": "1,808,562",
+      "return_1d": "",
+      "leverage": "2x",
+      "price": "14.92",
+      "rank": 20
+    }
+  ],
+  "geo_issues": [
+    {
+      "title": "사우디아라비아, \"이란의 사우디 유조선 공격으로 필리핀 선원 2명 사망\"",
+      "url": "https://www.bbc.co.uk/news/articles/cx2zxgg4mx9o?at_medium=RSS&at_campaign=rss"
+    },
+    {
+      "title": "스페인, 정부의 세우타 이민자 위기 대처에 대한 항의 시위",
+      "url": "https://www.bbc.co.uk/news/articles/c1mvn2yp9n2o?at_medium=RSS&at_campaign=rss"
+    },
+    {
+      "title": "EU와 NATO, 독일에서의 '새로운 긴장 고조' 이후 러시아에 대한 압박 강화 다짐",
+      "url": "https://www.bbc.co.uk/news/articles/ce9e810pg7ko?at_medium=RSS&at_campaign=rss"
+    },
+    {
+      "title": "로젠버그: 푸틴의 영국에 대한 은밀한 위협, 러시아의 대서방 공세 일환",
+      "url": "https://www.bbc.co.uk/news/articles/c62j50n131mo?at_medium=RSS&at_campaign=rss"
+    },
+    {
+      "title": "린제이 클랜시 사건, 배심원단 여전히 만장일치 결정 도달 못 해",
+      "url": "https://www.bbc.co.uk/news/videos/cy8z32v7130o?at_medium=RSS&at_campaign=rss"
+    },
+    {
+      "title": "유명 언론인 살인 교사 혐의, 몰타 재벌 무죄 선고",
+      "url": "https://www.bbc.co.uk/news/articles/c5ye295pxgxo?at_medium=RSS&at_campaign=rss"
+    }
+  ],
+  "corp_issues": [
+    {
+      "ticker": "GOOG",
+      "title": "Nscale, Anthropic 수주 후 계약 매출 1,030억 달러로 두 배 증가 - 보도",
+      "url": "https://finance.yahoo.com/technology/ai/articles/nscale-doubles-contracted-revenue-103-222526129.html",
+      "date": "2026-09-02 18:25",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "AAL",
+      "title": "American Airlines, 부유층 승객 유치 위해 과감한 행보",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/american-airlines-makes-bold-move-220631244.html",
+      "date": "2026-09-02 18:06",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "AVGO",
+      "title": "AVGO 주가, 브로드컴의 부진한 4분기 전망에 강한 3분기 칩 판매 실적 가려지며 시간 외 4% 하락",
+      "url": "https://finance.yahoo.com/m/b4a881cd-67b8-393c-ba27-11328e19e327/avgo-stock-dips-4%25.html",
+      "date": "2026-09-02 17:45",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "NU",
+      "title": "Nu Holdings, 2026년 12월 8일 투자자의 날 개최 발표",
+      "url": "https://www.businesswire.com/news/home/20260902257631/en/",
+      "date": "2026-09-02 17:34",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "PANW",
+      "title": "시스코 주식에 숨겨진 진짜 위험",
+      "url": "https://finance.yahoo.com/m/07a62de5-0ab7-3a25-82bf-5a42c8ac552d/the-real-risk-inside-cisco.html",
+      "date": "2026-09-02 17:20",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "AMD",
+      "title": "마블 주식 성장의 진짜 대가",
+      "url": "https://finance.yahoo.com/m/138537bc-6a4e-3996-8ac1-da5b9baa2a2e/the-real-price-of-marvell.html",
+      "date": "2026-09-02 17:03",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "UNH",
+      "title": "UnitedHealth, 사전 승인 30% 폐지 예정 소식에 상승",
+      "url": "https://finance.yahoo.com/healthcare/articles/unitedhealth-rises-30-prior-approvals-210204379.html",
+      "date": "2026-09-02 17:02",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "TSLA",
+      "title": "모건 스탠리, 사이버캡 출시 부진 시 테슬라 주가 급락 경고",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/morgan-stanley-warns-tesla-stock-204925429.html",
+      "date": "2026-09-02 16:49",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "COIN",
+      "title": "코인베이스, 골드만삭스 커뮤나코피아 + 기술 콘퍼런스 참가 예정",
+      "url": "https://finviz.com/news/388376/coinbase-to-participate-in-the-goldman-sachs-communacopia-technology-conference",
+      "date": "2026-09-02 16:44",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "AMD",
+      "title": "AMD, 코스트코, 아스트라제네카 주요 주식 보고서",
+      "url": "https://finviz.com/news/388405/top-stock-reports-for-amd-costco-astrazeneca",
+      "date": "2026-09-02 16:36",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "PLTR",
+      "title": "팔란티어 주가, 1억 9,200만 달러 규모 육군 계약에도 불구하고 하락",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/palantir-shares-sink-despite-192-203219324.html",
+      "date": "2026-09-02 16:32",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "HOOD",
+      "title": "로빈후드 마켓, 2026년 9월 9일 골드만삭스 커뮤나코피아 + 기술 콘퍼런스에서 발표 예정",
+      "url": "https://finviz.com/news/388266/robinhood-markets-inc-to-present-at-the-goldman-sachs-communacopia-technology-conference-on-september-9-2026",
+      "date": "2026-09-02 16:05",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "MP",
+      "title": "MP Materials, 제프리스 2026 글로벌 산업 콘퍼런스 참가 예정",
+      "url": "https://finviz.com/news/388300/mp-materials-to-participate-in-jefferies-2026-global-industrials-conference",
+      "date": "2026-09-02 16:05",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "NET",
+      "title": "클라우드플레어, 클라우드플레어 샌드박스에서 커서 클라우드 에이전트를 통해 AI 코딩 에이전트 지원 확대",
+      "url": "https://finviz.com/news/388313/cloudflare-expands-support-for-ai-coding-agents-with-cursor-cloud-agents-on-cloudflare-sandboxes",
+      "date": "2026-09-02 16:00",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "AVGO",
+      "title": "브로드컴 실적 발표 앞두고 칩 주식들 일부 낙관론 보여",
+      "url": "https://www.marketwatch.com/livecoverage/stock-market-today-dow-s-p-500-nasdaq-oil-prices-bond-yields-adp-jobs-data-broadcom-results/card/chip-stocks-showing-some-optimism-ahead-of-broadcom-s-earnings-COVBXQ7I0hTUDgId6xHt?mod=mw_FV",
+      "date": "2026-09-02 15:39",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "BA",
+      "title": "보잉, 광범위한 안전 규정 위반으로 FAA에 310만 달러 벌금 지불",
+      "url": "https://finance.yahoo.com/news/boeing-paid-3-1-million-191937515.html",
+      "date": "2026-09-02 15:19",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "MSFT",
+      "title": "마이크로소프트 주식, 클라우드 전환에서 승리하고 있는가 아니면 단지 AI 붐 덕분인가?",
+      "url": "https://finance.yahoo.com/m/6b9b77ae-f7a9-3530-9ba5-33db74411ead/is-microsoft-stock-winning.html",
+      "date": "2026-09-02 15:14",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "NBIS",
+      "title": "숏 스퀴즈 잠재력 있는 주목할 만한 15개 주식",
+      "url": "https://finviz.com/news/388220/15-stocks-to-watch-with-short-squeeze-potential",
+      "date": "2026-09-02 14:45",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "ADBE",
+      "title": "어도비 주식의 가능성은 얼마나 넓은가?",
+      "url": "https://finance.yahoo.com/m/0e4c4fe6-4bce-307a-a11b-15503fd072fe/how-wide-is-the-range-of.html",
+      "date": "2026-09-02 13:42",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "CRCL",
+      "title": "월스트리트 기업들, 스테이블코인 출시에 전념",
+      "url": "https://finance.yahoo.com/video/wall-street-firms-stablecoin-launch-173000092.html",
+      "date": "2026-09-02 13:30",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "XYZ",
+      "title": "스코샤뱅크, \"블록스 캐시 앱 성장세 강력하지만 신용 기반 비중 증가, 스퀘어는 여전히 두 번째 성장 동력 부재\"",
+      "url": "https://finance.yahoo.com/m/7952f125-7ab0-37f5-9c1f-104964b9fb47/block%E2%80%99s-cash-app-growth-is.html",
+      "date": "2026-09-02 11:25",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "TER",
+      "title": "테라다인, 2026년 골드만삭스 커뮤나코피아 + 기술 콘퍼런스에서 발표 예정",
+      "url": "https://www.businesswire.com/news/home/20260902788811/en/",
+      "date": "2026-09-02 09:35",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "SPOT",
+      "title": "스포티파이 공동 최고경영자, 2026년 골드만삭스 커뮤나코피아 + 기술 콘퍼런스에서 발표 예정",
+      "url": "https://www.businesswire.com/news/home/20260902311840/en/",
+      "date": "2026-09-02 09:00",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "PYPL",
+      "title": "AI, 로맨스 스캠을 가속화하고 은퇴 자금을 고갈시키다",
+      "url": "https://www.barrons.com/articles/ai-powered-scams-retirees-savings-elder-fraud-6f440c54?mod=bar_FV",
+      "date": "2026-09-02 08:10",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "NVDA",
+      "title": "마이클 버리의 AI 숏 베팅, 팔란티어, 엔비디아, 마이크론 급등에 크게 손실",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/michael-burry-ai-short-bets-120839277.html",
+      "date": "2026-09-02 08:08",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "CIFR",
+      "title": "웰링턴의 지분 증가에도 불구하고 CIFR 주가가 하락하는 이유는?",
+      "url": "https://finance.yahoo.com/m/2e9f5fbb-feab-394a-80eb-51bae351acb4/why-is-cifr-stock-falling.html",
+      "date": "2026-09-02 07:23",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "BMNR",
+      "title": "비트마인, 65주 연속 매수 주간에 더 많은 ETH 확보",
+      "url": "https://finance.yahoo.com/m/b42fcf75-96f0-31b6-b851-d4a793d5dcd6/bitmine-scooped-even-more-eth.html",
+      "date": "2026-09-01 11:31",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "FUTU",
+      "title": "무무, 뉴욕시에서 대규모 OOH 캠페인 시작해 새로운 \"무무 엔진\" 강조",
+      "url": "https://finviz.com/news/387615/moomoo-launches-massive-ooh-campaign-in-nyc-to-highlight-new-moomoo-engine",
+      "date": "2026-09-01 11:23",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "NEM",
+      "title": "뉴몬트 주가, 금값 하락으로 2.6% 하락",
+      "url": "https://finviz.com/news/387571/newmont-shares-fall-26-as-gold-prices-retreat",
+      "date": "2026-09-01 09:35",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "OKTA",
+      "title": "옥타 주가, AI 에이전트 성장으로 200달러 목표 주가 상향 조정",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/okta-stock-gets-stunning-200-122041928.html",
+      "date": "2026-09-01 08:20",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "RTX",
+      "title": "RTX 회장 겸 CEO, 모건 스탠리 제14회 연례 라구나 콘퍼런스에서 발표 예정",
+      "url": "https://finviz.com/news/387331/rtx-chairman-and-ceo-to-present-at-the-morgan-stanley-14th-annual-laguna-conference",
+      "date": "2026-09-01 08:00",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "BULL",
+      "title": "단독: 영국 주식시장, 무의미해질 위기 직면, 위불 영국 CEO 발언",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/exclusive-u-k-stock-market-111257604.html",
+      "date": "2026-09-01 07:12",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "ARM",
+      "title": "월요일 ARM 주식에 무슨 일이?",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/whats-going-arm-stock-monday-025751598.html",
+      "date": "2026-08-31 22:57",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "LULU",
+      "title": "LULU: 할인된 가격에 현금 봇물",
+      "url": "https://finance.yahoo.com/m/018b79bf-4798-3751-bde2-43a5f01732ce/lulu%3A-a-cash-gusher-at-a.html",
+      "date": "2026-08-31 22:21",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "GEMI",
+      "title": "중재인, 어닝 렌딩 붕괴에 대해 제미니에 과실 없다고 판결",
+      "url": "https://finance.yahoo.com/m/86dbdedc-6b3d-3319-b441-38cb9337da38/arbitrator-rules-gemini-not.html",
+      "date": "2026-08-31 10:22",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "ASML",
+      "title": "ASML, 현재 자사주 매입 프로그램에 따른 거래 내역 보고",
+      "url": "https://finviz.com/news/386847/asml-reports-transactions-under-its-current-share-buyback-program",
+      "date": "2026-08-31 08:00",
+      "source": "FinViz"
+    },
+    {
+      "ticker": "BLSH",
+      "title": "가장 작은 비트코인 보유 기업, 8월에 전략보다 더 큰 성과 보여... GME는 관망",
+      "url": "https://finance.yahoo.com/m/20c0289d-4f6e-3960-b6e2-04900d64bca1/the-smallest-bitcoin-treasury.html",
+      "date": "2026-08-31 06:51",
+      "source": "FinViz"
+    }
+  ],
+  "econ_calendar": [
+    {
+      "date": "-",
+      "time": "-",
+      "event": "French Government Budget Balance",
+      "forecast": " ",
+      "previous": "-106.8B"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "Spanish Unemployment Change",
+      "forecast": "15.4K",
+      "previous": "19.5K"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "Italian PPI",
+      "forecast": " ",
+      "previous": "0.0%"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "Italian PPI",
+      "forecast": " ",
+      "previous": "5.8%"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "IPC-Fipe Inflation Index",
+      "forecast": " ",
+      "previous": "-0.03%"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "MBA 30-Year Mortgage Rate",
+      "forecast": " ",
+      "previous": "6.78%"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "MBA Mortgage Applications",
+      "forecast": " ",
+      "previous": "-1.0%"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "MBA Purchase Index",
+      "forecast": " ",
+      "previous": "154.4"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "Mortgage Market Index",
+      "forecast": " ",
+      "previous": "245.3"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "Mortgage Refinance Index",
+      "forecast": " ",
+      "previous": "740.8"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "Industrial Production",
+      "forecast": " ",
+      "previous": "1.7%"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "Industrial Production",
+      "forecast": " ",
+      "previous": "-1.6%"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "ADP Nonfarm Employment Change",
+      "forecast": "47K",
+      "previous": "46K"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "S&P Global Manufacturing PMI",
+      "forecast": " ",
+      "previous": "51.4"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "German Buba Vice President Buch Speaks",
+      "forecast": " ",
+      "previous": "&nbsp;"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "BoC Rate Statement",
+      "forecast": " ",
+      "previous": "&nbsp;"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "BoC Interest Rate Decision",
+      "forecast": "2.25%",
+      "previous": "2.25%"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "All Car Sales",
+      "forecast": " ",
+      "previous": "2.70M"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "All Truck Sales",
+      "forecast": " ",
+      "previous": "13.62M"
+    },
+    {
+      "date": "-",
+      "time": "-",
+      "event": "Durables Excluding Defense",
+      "forecast": " ",
+      "previous": "1.3%"
+    }
+  ],
+  "earn_calendar": [
+    {
+      "date": "2026-09-03",
+      "company": "Ciena Corporation",
+      "ticker": "CIEN",
+      "eps_est": "$1.46",
+      "rev_est": "$1.64B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Toro Company (The)",
+      "ticker": "TTC",
+      "eps_est": "$1.30",
+      "rev_est": "$1.19B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "VinFast Auto Ltd.",
+      "ticker": "VFS",
+      "eps_est": "$-0.26",
+      "rev_est": "$30213.95B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "The Campbell's Company",
+      "ticker": "CPB",
+      "eps_est": "$0.40",
+      "rev_est": "$2.14B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Victorias Secret & Co.",
+      "ticker": "VSXY",
+      "eps_est": "$0.78",
+      "rev_est": "$1.62B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "BRP Inc.",
+      "ticker": "DOO",
+      "eps_est": "$-0.46",
+      "rev_est": "$2.01B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Brady Corporation",
+      "ticker": "BRC",
+      "eps_est": "$1.47",
+      "rev_est": "$0.43B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Ermenegildo Zegna N.V.",
+      "ticker": "ZGN",
+      "eps_est": "$0.00",
+      "rev_est": "$0.49B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Kenon Holdings Ltd.",
+      "ticker": "KEN",
+      "eps_est": "-",
+      "rev_est": "-",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "John Wiley & Sons, Inc.",
+      "ticker": "WLY",
+      "eps_est": "$0.40",
+      "rev_est": "$0.38B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "John Wiley & Sons, Inc.",
+      "ticker": "WLYB",
+      "eps_est": "$0.00",
+      "rev_est": "$0.38B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Hub Group, Inc.",
+      "ticker": "HUBG",
+      "eps_est": "$0.52",
+      "rev_est": "$0.94B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Polestar Automotive Holding UK Limited",
+      "ticker": "PSNY",
+      "eps_est": "$-2.19",
+      "rev_est": "$0.88B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Hello Group Inc. ",
+      "ticker": "MOMO",
+      "eps_est": "$1.62",
+      "rev_est": "$2.47B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "VersaBank",
+      "ticker": "VBNK",
+      "eps_est": "$0.34",
+      "rev_est": "$0.04B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Genesco Inc.",
+      "ticker": "GCO",
+      "eps_est": "$-1.34",
+      "rev_est": "$0.53B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Lands' End, Inc.",
+      "ticker": "LE",
+      "eps_est": "$0.10",
+      "rev_est": "$0.30B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Endava plc",
+      "ticker": "DAVA",
+      "eps_est": "$0.05",
+      "rev_est": "$0.18B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Duluth Holdings Inc.",
+      "ticker": "DLTH",
+      "eps_est": "$-0.05",
+      "rev_est": "$0.12B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Yiren Digital Ltd.",
+      "ticker": "YRD",
+      "eps_est": "$0.38",
+      "rev_est": "$0.24B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Amber International Holding Limited",
+      "ticker": "AMBR",
+      "eps_est": "$0.03",
+      "rev_est": "$0.01B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "America's Car-Mart, Inc.",
+      "ticker": "CRMT",
+      "eps_est": "$-0.77",
+      "rev_est": "$0.23B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Solarmax Technology Inc.",
+      "ticker": "SMXT",
+      "eps_est": "-",
+      "rev_est": "-",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Alarum Technologies Ltd.",
+      "ticker": "ALAR",
+      "eps_est": "$0.00",
+      "rev_est": "$0.01B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Reborn Coffee, Inc.",
+      "ticker": "REBN",
+      "eps_est": "-",
+      "rev_est": "-",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Black Titan Corp",
+      "ticker": "BTTC",
+      "eps_est": "$-7.00",
+      "rev_est": "$0.00B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Galmed Pharmaceuticals Ltd.",
+      "ticker": "GLMD",
+      "eps_est": "$-3.12",
+      "rev_est": "$0.00B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "IP Strategy Holdings, Inc.",
+      "ticker": "IPST",
+      "eps_est": "$1.00",
+      "rev_est": "$0.00B",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "IT Tech Packaging, Inc.",
+      "ticker": "ITP",
+      "eps_est": "-",
+      "rev_est": "-",
+      "time": "개장 전"
+    },
+    {
+      "date": "2026-09-03",
+      "company": "Synergy CHC Corp.",
+      "ticker": "SNYR",
+      "eps_est": "$-0.01",
+      "rev_est": "$0.01B",
+      "time": "개장 전"
+    }
+  ]
+}
