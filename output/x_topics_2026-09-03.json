@@ -1,0 +1,83 @@
+[
+  {
+    "rank": 1,
+    "title": "델 AI 실적에 주가 9% 급등",
+    "tickers": [
+      "DELL"
+    ],
+    "summary": "델 주가가 AI 서버 수요로 예상 상회 실적 발표 후 +9% 상승. 10Y 국채수익률 4.80% 돌파.",
+    "why_trending": "KobeissiLetter 등 다수 계정에서 AI 인프라 실적 호재로 공유",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2094880975826096305",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 2,
+    "title": "Fed Barr 인플레이션 시 금리인상 경고",
+    "tickers": [],
+    "summary": "Fed Barr \"인플레이션 완화 안 되면 금리인상 필요\" 발언. 9월·12월 25bp 인상 전망도.",
+    "why_trending": "DeItaone, StockMKTNewz 등 다수 계정 실시간 인용",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2094775761517391908",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 3,
+    "title": "10Y 국채수익률 4.80% 19개월래 최고",
+    "tickers": [],
+    "summary": "10Y 국채수익률 4.80% 상회, 30Y는 5.286% 기록. 모기지 금리 7% 위협.",
+    "why_trending": "KobeissiLetter 게시물 3300좋아요 이상, 다수 리포스트",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2094862688182517823",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 4,
+    "title": "유가 $90 돌파, 호르무즈 공급 우려",
+    "tickers": [],
+    "summary": "미국 원유 선물 $90.22, 브렌트 $93~95 근접. 이란 공격으로 호르무즈 공급 차질 우려.",
+    "why_trending": "DeItaone, KobeissiLetter 등에서 5% 이상 상승 동시 보도",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2094855347383021812",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 5,
+    "title": "금 선물 1.4% 하락, $4418.50",
+    "tickers": [],
+    "summary": "금 선물 3거래일 연속 하락, $4418.50 기록. 유가 상승으로 인플레이션·금리인상 우려.",
+    "why_trending": "DeItaone 게시물 300좋아요 이상, 다수 계정 인용",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/DeItaone/status/2094817652623417793",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 6,
+    "title": "애플 아이폰 출시 앞 PT $303 상향",
+    "tickers": [
+      "AAPL"
+    ],
+    "summary": "Rosenblatt, 애플 PT $303으로 상향. 9월 9일 신제품 출시 기대.",
+    "why_trending": "DeItaone 실시간 헤드라인, 공급망·프리미엄 제품 논의",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/DeItaone/status/2094743224191471770",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 7,
+    "title": "정유주 지수 12개월 +108% 신고가",
+    "tickers": [],
+    "summary": "S&P 500 정유·마케팅 지수 12개월 +108%, 사상 최고치 근접. 4월 이후 +175%.",
+    "why_trending": "KobeissiLetter 1500좋아요, 유가 상승 수혜로 다수 공유",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2094926585572872395",
+    "window": "24h",
+    "link_verified": true
+  }
+]
