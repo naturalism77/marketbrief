@@ -1,0 +1,98 @@
+[
+  {
+    "rank": 1,
+    "title": "스노플레이크 +22% 급등",
+    "tickers": [
+      "SNOW"
+    ],
+    "summary": "스노플레이크가 AI 수요로 예상 상회 실적 발표 후 주가가 22% 이상 상승했다.",
+    "why_trending": "다수 계정이 AI 실적 호재로 공유하며 3천 likes 이상 반응",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2095250303192818051",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 2,
+    "title": "엔비디아 CEO G20 AI 인프라 촉구",
+    "tickers": [
+      "NVDA"
+    ],
+    "summary": "젠슨 황 CEO가 G20 국가에 AI 인프라 구축을 촉구하며 뒤처지지 말라고 경고했다.",
+    "why_trending": "StockMKTNewz 등 다수 계정이 인용하며 300 likes 이상",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/StockMKTNewz/status/2095152899093389441",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 3,
+    "title": "9월 Fed 금리인상 확률 70%",
+    "tickers": [],
+    "summary": "시장에서 9월 Fed 25bp 금리인상 확률이 70%로 상승했다.",
+    "why_trending": "DeItaone 등 계정들이 Kalshi 데이터 인용하며 400 likes 이상",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2095133520754581653",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 4,
+    "title": "Fed 윌리엄스 AI로 국채수익률 상승",
+    "tickers": [],
+    "summary": "뉴욕연은 윌리엄스 총재가 AI·데이터센터 투자로 장기 국채수익률이 상승한다고 밝혔다.",
+    "why_trending": "FirstSquawk·DeItaone 등 다수 계정이 실시간 인용",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2095133660114460740",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 5,
+    "title": "미 재무부 장기채 매입 확대",
+    "tickers": [],
+    "summary": "미 재무부가 유동성 낮은 장기채 매입을 확대해 가격 균형을 회복하겠다고 밝혔다.",
+    "why_trending": "FirstSquawk·FinancialJuice 계정들이 Bessent 발언 공유",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/FirstSquawk/status/2095208586574197063",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 6,
+    "title": "금 3주 최저치 하락",
+    "tickers": [
+      "GOLD"
+    ],
+    "summary": "강달러와 인플레이션 우려로 금 가격이 3주 최저치를 기록했다.",
+    "why_trending": "Reuters 보도 후 다수 계정 공유",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/DeItaone/status/2095094679125512404",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 7,
+    "title": "트럼프 원유 가격 하락 촉구",
+    "tickers": [],
+    "summary": "트럼프가 석유회사에 가격 담합을 지적하며 원유 가격 하락을 요구했다.",
+    "why_trending": "FinancialJuice·FirstSquawk 등 실시간 보도 확산",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/FirstSquawk/status/2095215202820039076",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 8,
+    "title": "마이크로소프트 보고서 세그먼트 변경",
+    "tickers": [
+      "MSFT"
+    ],
+    "summary": "마이크로소프트가 2027회계연도부터 Agents and Infrastructure, Devices and Consumer 두 세그먼트로 보고서를 변경한다.",
+    "why_trending": "StockMKTNewz가 SEC filing 인용하며 확산",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/StockMKTNewz/status/2095249439321399761",
+    "window": "24h",
+    "link_verified": true
+  }
+]
