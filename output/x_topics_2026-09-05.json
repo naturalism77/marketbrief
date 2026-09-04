@@ -1,0 +1,83 @@
+[
+  {
+    "rank": 1,
+    "title": "엔비디아, 허깅페이스 119억달러 인수",
+    "tickers": [
+      "NVDA"
+    ],
+    "summary": "엔비디아가 허깅페이스 인수에 합의, 119억달러 규모. 2027년 상반기 완료 예정, 규제 승인 필요.",
+    "why_trending": "다수 계정에서 NVDA CEO 발언과 인수 조건을 동시에 공유하며 400회 이상 리포스트",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2095483824566059055",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 2,
+    "title": "Fed 월러, 9월 금리 동결 기울어",
+    "tickers": [],
+    "summary": "월러 연준 총재, 8월 CPI 확인 시 9월 금리 유지 선호. 8월 물가 상승 시 인상 검토 가능.",
+    "why_trending": "DeItaone·FirstSquawk 등 5개 이상 계정에서 400~800회 좋아요 동시 게시",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/DeItaone/status/2095494093346386078",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 3,
+    "title": "금 선물 4500달러 돌파",
+    "tickers": [],
+    "summary": "금 선물 4500달러 상회, 하루 1조달러 시총 증가. 인플레이션 기대 상승 영향.",
+    "why_trending": "KobeissiLetter 게시물 5400회 이상 좋아요, 다수 계정 동시 인용",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2095495863820816790",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 4,
+    "title": "브렌트유 97달러 근접",
+    "tickers": [],
+    "summary": "이란 전쟁 190일째, 브렌트유 97달러 돌파. 인플레이션 재상승 우려 확산.",
+    "why_trending": "KobeissiLetter·FirstSquawk 등에서 4000회 이상 좋아요, 유가 차트 공유 집중",
+    "buzz_level": "high",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2095460359934996946",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 5,
+    "title": "스노우플레이크, 실적 후 20% 급등",
+    "tickers": [
+      "SNOW"
+    ],
+    "summary": "스노우플레이크 주가 20% 이상 상승 개장. 전일 실적 발표 영향.",
+    "why_trending": "StockMKTNewz 등에서 150회 이상 좋아요, 실적 반응 집중 공유",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/StockMKTNewz/status/2095506487988645951",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 6,
+    "title": "HSBC, 국채 수익률 전망 상향",
+    "tickers": [],
+    "summary": "HSBC, 2년물 4.20%, 10년물 4.65%로 2026년 말 전망 상향. Fed 매파 전환 반영.",
+    "why_trending": "DeItaone 게시물 260회 이상 좋아요, 수익률 전망 변경 뉴스 확산",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/DeItaone/status/2095475997646745607",
+    "window": "24h",
+    "link_verified": true
+  },
+  {
+    "rank": 7,
+    "title": "디젤 정제 마진 사상 최고",
+    "tickers": [],
+    "summary": "미국 디젤 정제 마진 배럴당 106달러 기록. 재고 최저 수준, 공급 부족 심화.",
+    "why_trending": "KobeissiLetter 2800회 이상 좋아요, 에너지 공급 차트 동시 공유",
+    "buzz_level": "medium",
+    "sample_post_url": "https://x.com/KobeissiLetter/status/2095612631034048687",
+    "window": "24h",
+    "link_verified": true
+  }
+]
